@@ -1,0 +1,109 @@
+\documentclass[a4paper, 12pt]{ctexart}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{tabularx}
+
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+
+% 自定义颜色
+\definecolor{taigreen}{RGB}{132, 204, 22} % 类似 Taistea logo 的绿色
+\definecolor{lightgray}{RGB}{245, 245, 245}
+
+% 标题格式定制
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{taigreen}}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+
+\title{
+    \vspace{-2cm}
+    \begin{center}
+        \includegraphics[width=6cm]{/home/ubuntu/taistea/frontend/public/logo.png}
+    \end{center}
+    \vspace{1cm}
+    \Huge \textbf{杭州太氏科技有限公司} \\
+    \vspace{0.5cm}
+    \Huge \textbf{企业财税合规与报税操作指南}
+}
+\author{
+    \Large \textbf{太氏科技有限公司} \\
+    \normalsize (内部财税管理规范)
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{税务登记与纳税人身份}
+公司成立后，必须在规定时间内完成税务登记并建立账本。
+\subsection{税务实名认证与发票核定}
+\begin{itemize}
+    \item \textbf{实名采集：} 法定代表人（太子瑞）及财务负责人必须下载“浙江税务”APP完成实名认证。
+    \item \textbf{税务报到：} 在领取营业执照后30日内，需登录浙江省电子税务局进行新办企业套餐操作，核定税种和发票票种。
+    \item \textbf{纳税人身份：} 公司成立初期，默认为\textbf{增值税小规模纳税人}。建议在年营业额未达到500万之前，保持小规模纳税人身份，以享受更多的税收减免政策。
+\end{itemize}
+
+\section{核心税种与申报周期}
+企业涉及的主要税种分为月报、季报和年报。对于小规模纳税人，通常按\textbf{季度}申报。
+
+\subsection{主要税种及税率}
+\begin{itemize}
+    \item \textbf{增值税（按季申报）：} 针对销售商品（Tais Tea, Fizzwand）及提供服务（网站制作）。小规模纳税人适用 \textbf{1\% 或 3\%} 的征收率（具体视当年国家优惠政策而定）。
+    \item \textbf{附加税费（随增值税申报）：} 包括城市维护建设税、教育费附加等，通常为增值税应纳税额的12\%左右。
+    \item \textbf{企业所得税（按季预缴，年度汇算清缴）：} 针对公司的净利润征收。基础税率为25\%，符合“小型微利企业”条件的，可享受大幅减免（如实际税负率仅为5\%左右）。
+    \item \textbf{个人所得税（按月申报）：} 公司支付给员工（包含法定代表人给自己发工资）的薪金，需由公司代扣代缴。即使未发工资，也需进行“零申报”。
+\end{itemize}
+
+\section{日常财务发票与流水管理}
+发票是国家税务监管（金税四期）的核心抓手。
+
+\subsection{收入管理（销项发票）}
+\begin{itemize}
+    \item \textbf{电商无票收入：} 通过微信、支付宝、淘宝等第三方平台直接进入公司对公账户的货款，即使客户未索要发票，也\textbf{必须}在申报时作为“未开票收入”如实填报。严禁隐瞒对公账户流水。
+    \item \textbf{对公开票：} 若客户（B端企业）要求开票，可通过电子税务局开具“数电发票”（全面数字化的电子发票）。
+\end{itemize}
+
+\subsection{支出管理（进项发票）}
+\begin{itemize}
+    \item \textbf{成本抵扣：} 为降低账面利润，从而少缴企业所得税，公司的所有真实开支（代工厂加工费、服务器租赁费、推广费、快递费、办公用品等），\textbf{务必向供应商索要发票}，且发票抬头必须为“杭州太氏科技有限公司”，并填写正确的企业税号。
+    \item \textbf{严禁买票：} 严禁为了抵减利润而向第三方购买虚假发票，这是严重的虚开增值税发票刑事犯罪。
+\end{itemize}
+
+\section{报税实操流程与电子税务局指南}
+
+\begin{tcolorbox}[colback=lightgray, colframe=taigreen, title=常规季度报税时间节点]
+通常每个季度的第一个月（1月、4月、7月、10月）的\textbf{1日至15日}为申报期。
+\end{tcolorbox}
+
+\subsection{自行申报流程（基础参考）}
+如公司初期选择自行申报（不建议非专业人士操作核心账目），需在PC端登录\textbf{国家税务总局浙江省电子税务局}：
+\begin{enumerate}
+    \item \textbf{登录：} 使用法定代表人或财务负责人的浙江税务APP扫码登录，或输入企业统一社会信用代码及密码。
+    \item \textbf{我要办税 $\rightarrow$ 税费申报及缴纳}
+    \item \textbf{增值税申报：} 填写本季度的总销售额（含已开票和未开票）。若季度销售额未超过30万（月均10万），系统会自动减免增值税。
+    \item \textbf{企业所得税申报：} 根据资产负债表和利润表，填报本季度的营业收入、营业成本、利润总额。系统会计算出应缴所得税额。
+    \item \textbf{印花税及附加税申报：} 提交增值税后，系统会自动带出附加税申报表，核对后提交。
+    \item \textbf{税款缴纳：} 申报成功后，若有应缴税款，通过已签订的三方协议（对公账户扣款）一键缴税。
+\end{enumerate}
+
+\section{零申报与税务异常防范}
+\begin{itemize}
+    \item \textbf{关于零申报：} 若公司在某个季度没有任何业务收入，也未发生任何费用，必须按时进入系统进行“零申报”。\textbf{千万不可因为没业务就不管不问}，逾期未申报会被处以罚款，且企业会被列入“税务非正常户”。
+    \item \textbf{连续零申报风险：} 若企业连续6个月以上零申报，税务局可能会将其列为重点监控对象，甚至强制注销税务登记。
+    \item \textbf{专业建议（强推）：} 鉴于报税涉及专业的会计做账（凭证制作、资产负债表/利润表编制），强烈建议公司在产生实际流水后，以约 \textbf{200-300元/月} 的成本，聘请专业的代账公司处理每月的记账与每季度的报税工作，以确保税务100\%合规，将精力集中于业务开拓。
+\end{itemize}
+
+\end{document}

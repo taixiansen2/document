@@ -1,0 +1,138 @@
+\documentclass[a4paper, 12pt]{ctexart}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{tabularx}
+
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+
+% 自定义颜色
+\definecolor{taigreen}{RGB}{132, 204, 22} % 类似 Taistea logo 的绿色
+\definecolor{lightgray}{RGB}{245, 245, 245}
+
+% 标题格式定制
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{taigreen}}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+
+\title{
+    \vspace{-2cm}
+    \begin{center}
+        \includegraphics[width=6cm]{/home/ubuntu/taistea/frontend/public/logo.png}
+    \end{center}
+    \vspace{1cm}
+    \Huge \textbf{浙江大学学生在杭创业} \\
+    \vspace{0.5cm}
+    \Huge \textbf{核心政策与补贴指南}
+}
+\author{
+    \Large \textbf{太氏科技有限公司} \\
+    \normalsize (内部参考资料)
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{核心前提与资质要求}
+在杭州市，针对大学生的创业政策极度丰厚，但审核标准非常严格。要享受以下各项专属于“大学生”的政策红利，企业必须满足以下**硬性前置条件**：
+
+\begin{tcolorbox}[colback=lightgray, colframe=taigreen, title=企业资质硬性要求]
+\begin{enumerate}
+    \item \textbf{法定代表人要求}：企业的\textbf{法定代表人}必须是符合条件的大学生（在校生或毕业5年内的高校毕业生）。
+    \item \textbf{持股比例要求}：该法定代表人（大学生本人）在公司的持股比例必须\textbf{不低于30\%}，且通常要求是第一大股东。
+    \item \textbf{实地经营}：企业需在杭州市内注册，并具有真实的办公场地和实际运营的业务。
+\end{enumerate}
+\textit{注：如果法定代表人由非大学生（如家长）担任，即使大学生是大股东，也无法享受大学生专属创业补贴。}
+\end{tcolorbox}
+
+\section{无偿创业资助（直接资金拨款）}
+这是杭州市对大学生创业最直接的资金支持，资金为政府无偿赠予，无需偿还。
+
+\subsection{杭州市大学生创业项目无偿资助}
+\begin{itemize}
+    \item \textbf{补贴金额}：通常分为六个等级：\textbf{2万元、5万元、8万元、10万元、15万元、20万元}。特别优秀的重点项目最高可达50万元。
+    \item \textbf{申请方式}：每年通常有定期申报。需要提交商业计划书（BP）并参加专家评审答辩。
+    \item \textbf{太氏科技申报策略}：建议以\textbf{“SaaS智能建站平台与新材料流体处理硬件（Fizzwand）”}为核心切入点，突出项目的科技属性、创新性和市场潜力。
+    \item \textbf{政策依据}：《杭州市大学生创业项目无偿资助实施办法》
+    \item \textbf{官方网站}：\href{https://hrss.hangzhou.gov.cn/}{杭州市人力资源和社会保障局网} 或 浙江政务服务网搜索“大学生创业项目无偿资助”。
+\end{itemize}
+
+\subsection{国家级/省级创新创业大赛奖励}
+作为浙江大学学生，可依托学校平台参加中国“互联网+”大学生创新创业大赛、“创青春”等赛事。
+\begin{itemize}
+    \item \textbf{获奖奖励}：获得国家级或省级金奖、银奖的项目，落地杭州不仅能免于评审直接获得高额无偿资助（如直接认定10万或20万），还能获得所在区县的最高1:1资金配套。
+    \item \textbf{官方入口}：\href{https://cy.ncss.cn/}{全国大学生创业服务网（互联网+大赛官网）}，校内报名请留意浙江大学创新创业学院通知。
+\end{itemize}
+
+\section{场地与租金补贴（降低硬成本）}
+解决初创企业最大的固定开支：办公场地租金。
+
+\subsection{大学生创业园/孵化器免租或房租补贴}
+\begin{itemize}
+    \item \textbf{入驻大创园}：西湖区、余杭区等均有大量政府主导或合作的大学生创业园。符合条件入驻，通常可享受\textbf{第一年免租金，第二、第三年租金减半}的优惠，或提供免费的集中办公工位。
+    \item \textbf{社会场地租金补贴}：如果在园区外自行租赁写字楼，企业成立三年内，可申请最高\textbf{10万元/年}的房租补贴（通常按实际缴纳租金的一定比例核算，最长补贴3年）。
+    \item \textbf{政策依据}：《杭州市大学生创业场地租金补贴实施办法》
+    \item \textbf{申请指引}：联系拟落地的区人力社保局人才中心，或在“亲清在线”平台申请。
+\end{itemize}
+
+\section{创业杠杆与金融支持（低息/免息贷款）}
+
+\subsection{大学生创业担保贷款}
+在企业需要资金周转（如批量生产Fizzwand模具、规模化采购Tais Tea库存）时，这是成本最低的融资渠道。
+\begin{itemize}
+    \item \textbf{贷款额度}：个人创业者最高可申请 \textbf{50万元} 的创业担保贷款。如果合伙创业，最高额度可达300万元。
+    \item \textbf{贴息政策}：在规定的贷款利率范围内，由政府给予\textbf{全额或部分贴息}，相当于获得了几近“免息”的创业资金。
+    \item \textbf{政策依据}：《杭州市创业担保贷款管理办法》
+    \item \textbf{申请指引}：可通过杭州市指定的合作银行（如杭州银行）直接咨询办理，或在浙江政务服务网搜索“创业担保贷款”。
+\end{itemize}
+
+\section{就业与社保补贴}
+
+\subsection{一次性创业补贴}
+\begin{itemize}
+    \item \textbf{补贴标准}：法定代表人（大学生）在杭州市初次创办企业，并担任法定代表人，企业正常经营6个月以上且缴纳社保的，可申请 \textbf{5000元} 的一次性创业补贴。
+    \item \textbf{政策依据}：《杭州市关于做好当前和今后一段时期就业创业工作的实施意见》
+    \item \textbf{申请网站}：浙江政务服务网搜索“一次性创业补贴申报”。
+\end{itemize}
+
+\subsection{创业带动就业/社保补贴}
+\begin{itemize}
+    \item 如果公司发展壮大，开始招募其他高校毕业生，并为其缴纳社保，企业可以享受为期最长3年的社会保险费补贴。
+    \item \textbf{政策依据}：《杭州市小微企业新招用高校毕业生社保补贴政策》
+\end{itemize}
+
+\section{科技型企业普惠政策（不限法人身份）}
+除了大学生专属补贴外，“太氏科技”由于名称及业务特性，未来还可以申报科技类企业的普惠补贴。
+\begin{itemize}
+    \item \textbf{研发费用加计扣除}：在开发建站系统、研发Fizzwand过程中产生的费用，可按100\%在企业所得税前加计扣除。\textbf{政策依据}：国家税务总局相关公告；\textbf{办理渠道}：浙江省电子税务局。
+    \item \textbf{科技型中小企业评价}：获得数件软著或专利后可申报。多区对首次认定的企业有 \textbf{1万-3万元} 奖励。\textbf{官方网站}：\href{https://fuwu.most.gov.cn/}{科学技术部政务服务平台}。
+    \item \textbf{高新技术企业（长期目标）}：成长到一定规模后申报，可获 \textbf{几十万至上百万元} 一次性奖励，且企业所得税率降至15\%。\textbf{官方网站}：\href{http://www.innocom.gov.cn/}{高新技术企业认定管理工作网}。
+\end{itemize}
+
+\section{行动建议（Next Steps）}
+\begin{enumerate}
+    \item \textbf{确立法人身份}：确保“杭州太氏科技有限公司”的法定代表人登记为您本人，这是开启所有大学生补贴通道的钥匙。
+    \item \textbf{打磨商业计划书（BP）}：将现有的“建站业务”、“Tais Tea供应链”、“Fizzwand新材料”整合为一个具有技术壁垒和商业前景的高维BP故事。
+    \item \textbf{对接校内资源}：尽快联络浙江大学创新创业学院或就业指导中心，了解近期是否有入驻校内/校友孵化器的名额，这通常比在社会上申请更为便捷且扶持力度更大。
+\end{enumerate}
+
+\vspace{2cm}
+\begin{center}
+\textit{注：各项补贴的具体金额、申报时间及细则，请以当年杭州市及各区（如西湖区、余杭区）人力社保局、科技局发布的最新红头文件为准。}
+\end{center}
+
+\end{document}

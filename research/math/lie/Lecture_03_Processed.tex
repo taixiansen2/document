@@ -1,0 +1,203 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{CJKutf8}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{example}[theorem]{例}
+\newtheorem{remark}[theorem]{注}
+
+\begin{document}
+\begin{CJK*}{UTF8}{gbsn}
+
+\title{Lecture 03 - 李群的拓扑性质与 Haar 测度}
+\author{AI 整理}
+\date{}
+\maketitle
+
+\section*{专业术语解释}
+\begin{itemize}
+    \item \textbf{Topological group (拓扑群)}: 既是拓扑空间又是群，且满足群乘法和求逆运算连续的代数结构。
+    \item \textbf{Locally compact group (局部紧群)}: 作为拓扑空间是局部紧的豪斯多夫（Hausdorff）拓扑群。
+    \item \textbf{Identity component (单位连通分支)}: 拓扑群中包含单位元的连通分支，通常记为 $G_0$。
+    \item \textbf{Haar measure (Haar 测度)}: 局部紧群上存在的非零且在左乘（或右乘）作用下不变的正测度。
+    \item \textbf{Modular function (模函数)}: 描述左 Haar 测度在右平移下变化情况的连续特征标，记为 $\delta_G$。
+    \item \textbf{Unimodular (幺模的)}: 模函数恒等于 $1$ 的群，此时左 Haar 测度和右 Haar 测度重合。
+    \item \textbf{Lie group (李群)}: 既是光滑流形（通常假设为第二可数且 Hausdorff 的），又是群，且其乘法与求逆运算都是光滑映射的代数结构。
+    \item \textbf{Lie subgroup (李子群)}: 包含一个李群 $H$ 及其到李群 $G$ 的单射浸入（且是抽象群同态）的数据对。
+    \item \textbf{Left-invariant vector field (左不变向量场)}: 在流形上的向量场，满足在群的左平移下保持不变。所有左不变向量场构成了该李群的李代数。
+    \item \textbf{Homogeneous space (齐性空间)}: 李群 $G$ 模去其闭子群 $H$ 得到的商空间 $G/H$，并赋予了自然的光滑流形结构。
+    \item \textbf{Principal bundle (主丛)}: 纤维丛的一种，例如 $H \to G \to G/H$ 构成一个光滑的主 $H$-丛。
+\end{itemize}
+
+\section{拓扑群的基础}
+
+\begin{definition}
+拓扑群 $G$ 是一个拓扑空间同时也是一个群，且映射 $G \times G \to G, (x, y) \mapsto xy^{-1}$ 是连续的。
+\end{definition}
+
+\begin{example}
+$\mathbb{R}^n, \mathbb{C}^n$ 在标准加法下是拓扑群；$GL_n(\mathbb{R}), GL_n(\mathbb{C})$ 在矩阵乘法下作为子空间拓扑是拓扑群。
+\end{example}
+
+\begin{definition}
+拓扑群同态是连续的抽象群同态。如果它也是双射并且有连续的逆，则称为同构。
+\end{definition}
+
+\begin{theorem}
+设 $G, H$ 是可分局部紧拓扑群，若 $f: G \to H$ 是双射同态，则 $f$ 是同构。
+\end{theorem}
+
+\begin{lemma}
+设 $G$ 是拓扑群，$H$ 是子群（开子群）。若 $H$ 是开子群，则它必定也是闭子群。
+\end{lemma}
+
+\begin{lemma}
+对于单位元 $e$ 的任意开邻域 $U$，存在 $e$ 的开邻域 $W$ 使得 $W \cdot W^{-1} \subseteq U$。这表明始终存在包含在 $U$ 内的闭且对称的 $e$ 的邻域。
+\end{lemma}
+
+\begin{theorem}
+(1) 商映射 $\pi: G \to G/H$ 是连续且开的映射。\\
+(2) 若子群 $H$ 是闭的，则 $G/H$ 是正则的从而也是 Hausdorff 的。
+\end{theorem}
+
+\begin{definition}
+定义 $G_0$ 为 $G$ 中包含单位元的连通分支，称为 $G$ 的单位连通分支。
+\end{definition}
+
+\begin{lemma}
+设 $U$ 是 $e$ 的连通开邻域。则 $G_0 = \bigcup_{n=1}^\infty U^n$。因此，$G_0$ 在 $G$ 中既是开的也是闭的。
+\end{lemma}
+
+\begin{theorem}
+$G_0$ 是 $G$ 的闭正规子群。因此，$\pi_0(G) \simeq G/G_0$ 继承了群结构。
+\end{theorem}
+
+\section{Haar 测度与模函数}
+
+\begin{definition}
+局部紧群 $G$ 上的测度 $\mu$ 称为左（右）不变的，如果对所有 $x, g \in G$，有 $d\mu(gx) = d\mu(x)$（$d\mu(xg) = d\mu(x)$）。
+\end{definition}
+
+\begin{theorem}
+在局部紧群上，存在不恒为零的左（右）不变正测度，称为左（右）Haar 测度，且在一个常数因子内唯一。
+\end{theorem}
+
+\begin{example}
+$GL_n(\mathbb{R})$ 的左/右 Haar 测度是 $dg = \frac{1}{|\det g|^n} \prod dg_{ij}$。
+\end{example}
+
+\begin{proposition}
+$G$ 的左 Haar 测度是有限的（即全空间积分有限）当且仅当 $G$ 是紧的。
+\end{proposition}
+
+\begin{definition}
+设 $dl_g$ 是左 Haar 测度。定义模函数 $\delta_G(y)$ 使得 $dl(xy) = \delta_G(y)^{-1} dl_x$。
+\end{definition}
+
+\begin{proposition}
+模函数 $\delta_G$ 是取值于 $\mathbb{R}^\times_+$ 的连续特征标。
+\end{proposition}
+
+\begin{corollary}
+(1) $dl(x^{-1}) = \delta_G(x)dl_x$ 是右 Haar 测度。\\
+(2) 若 $G$ 紧或交换，则 $\delta_G = 1$（称为幺模群），左、右 Haar 测度重合。
+\end{corollary}
+
+\section{李群，同态与光滑性}
+
+\begin{definition}
+李群 $G$ 是光滑流形（第二可数、Hausdorff）以及群，其群乘法与求逆映射都是光滑的。
+\end{definition}
+
+\begin{definition}
+李子群包含一个李群 $H$ 以及一个单射浸入同态 $\varphi: H \hookrightarrow G$。若 $\varphi(H)$ 在 $G$ 中是闭集，则称为闭子群。
+\end{definition}
+
+\begin{theorem}
+如果 $H$ 是 $G$ 的抽象子群且作为子集在 $G$ 中闭，则赋予相对拓扑后 $H$ 是李子群。
+\end{theorem}
+
+\begin{example}
+$SL_n(F), Sp_{2n}(F), O_n(\mathbb{C}), SO(p,q), U(p,q)$ 均为 $GL_m$ 中的闭子集，因此都是闭李子群。
+\end{example}
+
+\begin{theorem}[Gleason-Montgomery-Zippin-Yamabe]
+每个第二可数的局部欧氏拓扑群可以被赋予唯一的光滑结构使其成为李群。
+\end{theorem}
+
+\section{李群的李代数及对应定理}
+
+\begin{definition}
+定义流形上的光滑向量场，并且装备由 $[X, Y]_p(f) = X_p(Yf) - Y_p(Xf)$ 给出的李括号。
+李群 $G$ 上的左不变向量场（满足 $dL_g X = X$）构成的空间由于在李括号下封闭，成为一个有限维李代数，被定义为 $G$ 的李代数 $\mathfrak{g}$。
+\end{definition}
+
+\begin{example}
+$GL_n(\mathbb{R})$ 的李代数由左不变向量场诱导，同构于具有标准换位子括号 $[A, B] = AB - BA$ 的矩阵李代数 $\mathfrak{gl}_n(\mathbb{R})$。
+\end{example}
+
+\begin{proposition}
+李群同态 $\varphi: G \to H$ 的微分 $d\varphi: \mathfrak{g} \to \mathfrak{h}$ 是李代数同态。如果 $G$ 是连通的，则 $\varphi$ 由 $d\varphi$ 唯一确定。
+\end{proposition}
+
+\begin{theorem}
+连通（不一定闭）的李子群与李代数 $\mathfrak{g}$ 的李子代数存在一一对应。
+\end{theorem}
+
+\section{$U(n), O(n), Sp(2n)$ 的紧致性}
+
+\begin{definition}
+利用四元数代数 $\mathbb{H}$，紧辛群定义为 $Sp(2n) := \{g \in GL_n(\mathbb{H}) \mid g \cdot g^t = I_n\}$。
+\end{definition}
+
+\begin{lemma}
+群 $O(n), U(n), Sp(2n)$ 在矩阵空间中是闭且有界的，因此是紧致的。
+\end{lemma}
+
+\begin{lemma}
+存在同构使得 $Sp(2n) \simeq U(2n) \cap Sp_{2n}(\mathbb{C})$。
+\end{lemma}
+
+\section{经典紧群的齐性空间、$\pi_0$ 与 $\pi_1$}
+
+\begin{proposition}
+作为光滑流形 $SU(2) \simeq S^3$。特别地，$\pi_0(SU(2))=0, \pi_1(SU(2))=0$。紧辛群 $Sp(2) \simeq SU(2)$ 也是单连通的。
+\end{proposition}
+
+\begin{theorem}
+设 $\pi: G \to G/H$ 是自然投影（$H$ 为闭子群），则 $G/H$ 允许唯一的光滑流形结构使其成为齐性空间。而且 $H \to G \to G/H$ 构成光滑主丛。
+\end{theorem}
+
+\begin{theorem}
+假设 $G/H$ 连通，则主丛满足同伦群的长正合序列：
+$$ \dots \to \pi_n(H) \to \pi_n(G) \to \pi_n(G/H) \to \pi_{n-1}(H) \to \dots \to \pi_0(H) \to \pi_0(G) \to 0 $$
+\end{theorem}
+
+\begin{corollary}
+如果 $H$ 连通且 $G/H$ 连通，则 $G$ 连通。
+\end{corollary}
+
+\begin{theorem}
+利用球面作用的主丛及长正合序列，可得：\\
+(1) 对于 $n \ge 2$，$SU(n)$ 是连通且单连通的。\\
+(2) 对于 $n \ge 2$，$SO(n)$ 连通。且 $\pi_1(SO(2)) \simeq \mathbb{Z}$；当 $n \ge 3$ 时，$\pi_1(SO(n)) \simeq \mathbb{Z}/2\mathbb{Z}$。\\
+(3) 对于 $n \ge 1$，$Sp(2n)$ 是连通且单连通的。
+\end{theorem}
+\textbf{重要证明摘录 (SU(n) 单连通性的证明)}:
+考虑 $SU(n)$ 在列向量空间 $\mathbb{C}^n$ 上的自然作用。由于保持内积，诱导了其在单位球面 $S^{2n-1}$ 上的传递作用。此作用的稳定子群同构于 $SU(n-1)$。从而得到主丛：$SU(n-1) \to SU(n) \to S^{2n-1}$。
+利用同伦群长正合序列：$\pi_2(S^{2n-1}) \to \pi_1(SU(n-1)) \to \pi_1(SU(n)) \to \pi_1(S^{2n-1})$。
+因为当维数足够大时球面的低阶同伦群为零（具体地，对于 $n \ge 2$ 有 $\pi_2(S^{2n-1}) = 0, \pi_1(S^{2n-1}) = 0$），所以 $\pi_1(SU(n-1)) \simeq \pi_1(SU(n))$。利用 $\pi_1(SU(2)) = \pi_1(S^3) = 0$ 归纳即得一切 $SU(n)$ 均单连通。
+
+\begin{theorem}
+如果两个单连通李群有同构的李代数，则这两个李群自身同构。更普遍地，若 $G$ 单连通，则任何从 $\mathfrak{g}$ 到 $\mathfrak{h}$ 的李代数同态都可提升为从 $G$ 到 $H$ 的李群同态。
+\end{theorem}
+
+\end{CJK*}
+\end{document}

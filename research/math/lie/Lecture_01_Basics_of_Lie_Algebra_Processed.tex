@@ -1,0 +1,195 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{CJKutf8}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{example}[theorem]{例}
+
+\begin{document}
+\begin{CJK*}{UTF8}{gbsn}
+
+\title{Lecture 01 - 李代数基础，可解与幂零李代数}
+\author{AI 整理}
+\date{}
+\maketitle
+
+\section*{专业术语解释}
+\begin{itemize}
+    \item \textbf{Lie algebra (李代数)}: 域 $F$ 上的向量空间，配备了满足双线性、斜对称性及雅可比恒等式的乘法运算（李括号）。
+    \item \textbf{Lie subalgebra (李子代数)}: 李代数中在李括号运算下封闭的向量子空间。
+    \item \textbf{Ideal (理想)}: 满足 $[\mathfrak{g}, \mathfrak{h}] \subseteq \mathfrak{h}$ 的李代数子空间 $\mathfrak{h}$。
+    \item \textbf{Lie algebra homomorphism/isomorphism (李代数同态/同构)}: 保持李括号运算的线性映射/双射。
+    \item \textbf{Commutator series (换位子列)}: 由 $\mathfrak{g}_0 = \mathfrak{g}$，$\mathfrak{g}_{j+1} = [\mathfrak{g}_j, \mathfrak{g}_j]$ 递推定义的递降理想列。
+    \item \textbf{Solvable (可解)}: 换位子列最终趋于零的李代数。
+    \item \textbf{Lower central series (下中心列)}: 由 $\mathfrak{g}_0 = \mathfrak{g}$，$\mathfrak{g}_{j+1} = [\mathfrak{g}, \mathfrak{g}_j]$ 递推定义的递降理想列。
+    \item \textbf{Nilpotent (幂零)}: 下中心列最终趋于零的李代数。
+    \item \textbf{Centralizer (中心化子)}: 李代数中与给定子集所有元素可交换的元素构成的子代数。
+    \item \textbf{Center (中心)}: 与整个李代数中所有元素可交换的元素构成的理想，记作 $\mathfrak{z}_{\mathfrak{g}}$ 或 $Z(\mathfrak{g})$。
+    \item \textbf{Normalizer (正规化子)}: 使得李括号运算结果落在给定子代数中的元素构成的子代数。
+    \item \textbf{Commutator/Derived subalgebra (导代数/换位子代数)}: $[\mathfrak{g}, \mathfrak{g}]$，即由所有形如 $[X, Y]$ 的元素张成的理想。
+    \item \textbf{Derivation (导子)}: 满足莱布尼茨法则（$D[X,Y] = [DX,Y] + [X,DY]$）的线性自同态。
+    \item \textbf{Representation/Module (表示/模)}: 从李代数到向量空间的自同态代数 $\mathrm{End}(V)$ 的李代数同态。
+    \item \textbf{Adjoint representation (伴随表示)}: 映射 $\mathrm{ad}: \mathfrak{g} \to \mathrm{End}(\mathfrak{g})$，定义为 $\mathrm{ad}(X)(Y) = [X, Y]$。
+    \item \textbf{Complexification/Realification (复化/实化)}: 通过张量积进行标量扩张将实代数化为复代数，或通过限制标量将复代数化为实代数。
+    \item \textbf{Nilpotent representation (幂零表示)}: 对任意 $X \in \mathfrak{g}$，算子 $\pi(X)$ 都是幂零算子的表示。
+    \item \textbf{Radical (根)}: 李代数中唯一的最大可解理想，记作 $\mathrm{rad}(\mathfrak{g})$。
+    \item \textbf{Nilpotent radical / nilradical (幂零根)}: 李代数中唯一的最大幂零理想，记作 $\mathrm{nilrad}(\mathfrak{g})$。
+\end{itemize}
+
+\section{李代数，同态与域扩张}
+
+\begin{definition}
+域 $F$ 上的李代数 $\mathfrak{g}$ 是一个 $F$-向量空间，配备了一个双线性且斜对称的乘法运算 $[X, Y]$，满足雅可比恒等式：
+$$[[X, Y], Z] + [[Y, Z], X] + [[Z, X], Y] = 0.$$
+\end{definition}
+
+\begin{definition}
+如果 $\mathfrak{g}$ 的子集 $\mathfrak{h}$ 在 $\mathfrak{g}$ 的李括号下自身构成李代数，则称 $\mathfrak{h}$ 为李子代数。若满足 $[\mathfrak{g}, \mathfrak{h}] \subseteq \mathfrak{h}$，则称 $\mathfrak{h}$ 为理想。当 $\mathfrak{h}$ 是理想时，商空间 $\mathfrak{g}/\mathfrak{h}$ 自然成为一个李代数，其括号运算定义为 $[\overline{X}, \overline{Y}] := \overline{[X, Y]}$。
+\end{definition}
+
+\begin{example}
+矩阵空间 $\mathfrak{gl}_n(F)$ 赋予括号运算 $[X, Y] := XY - YX$ 成为一个李代数。其子空间 $\mathfrak{sl}_n(F) := \{X \in \mathfrak{gl}_n(F) \mid \mathrm{Tr}(X) = 0\}$ 也是李代数。
+\end{example}
+
+\begin{example}
+设 $J_n$ 为 $n \times n$ 的反对角单位阵。辛李代数 $\mathfrak{sp}_{2n}(F)$ 和正交李代数 $\mathfrak{so}_{2n}(F)$ 及 $\mathfrak{so}_{2n+1}(F)$ 分别作为 $\mathfrak{gl}_m(F)$ 的子代数可以通过保持相应的反对称或对称双线性型来定义。
+\end{example}
+
+\begin{example}
+紧酉李代数 $\mathfrak{u}(n) := \{X \in \mathfrak{gl}_n(\mathbb{C}) \mid X + X^t = 0\}$ 以及紧正交李代数 $\mathfrak{o}(n) = \mathfrak{so}(n)$。
+\end{example}
+
+\begin{proposition}
+(1) 理想的有限交、有限和、李括号仍然是理想。\\
+(2) 对任意子集 $\mathfrak{c} \subseteq \mathfrak{g}$，中心化子 $\mathfrak{z}_{\mathfrak{g}}(\mathfrak{c}) := \{Z \in \mathfrak{g} \mid [Z, X] = 0, \forall X \in \mathfrak{c}\}$ 是子代数。特别地，中心 $\mathfrak{z}_{\mathfrak{g}}$ 是理想。\\
+(3) 对子代数 $\mathfrak{h}$，正规化子 $\mathfrak{n}_{\mathfrak{g}}(\mathfrak{h}) := \{Z \in \mathfrak{g} \mid [Z, X] \in \mathfrak{h}, \forall X \in \mathfrak{h}\}$ 是子代数。\\
+(4) 导代数 $[\mathfrak{g}, \mathfrak{g}]$ 是理想。\\
+(5) 李代数同态的核是理想。\\
+(6) 导子空间 $\mathrm{Der}_F(\mathfrak{g})$ 构成李代数。
+\end{proposition}
+
+\begin{definition}
+李代数同态是保持李括号运算的线性映射。同构是双射的同态。
+\end{definition}
+
+\begin{example}
+设 $V$ 为向量空间，关联代数 $\mathrm{End}_F(V)$ 通过 $[A, B] = AB - BA$ 成为李代数。李代数的表示即同态 $\pi: \mathfrak{g} \to \mathrm{End}_F(V)$。特别地，由 $X \mapsto \mathrm{ad}(X) = [X, \cdot]$ 给出的映射是伴随表示。
+\end{example}
+
+\begin{theorem}
+(1) 满同态 $\varphi: \mathfrak{g} \to \mathfrak{h}$ 诱导同构 $\mathfrak{g}/\ker \varphi \simeq \mathfrak{h}$。\\
+(2) 若 $\mathfrak{a}, \mathfrak{b}$ 为理想，则 $(\mathfrak{a}+\mathfrak{b})/\mathfrak{a} \simeq \mathfrak{b}/(\mathfrak{a}\cap\mathfrak{b})$。
+\end{theorem}
+
+\begin{definition}
+对于域扩张 $K/F$，可通过 $\mathfrak{g}_K := \mathfrak{g} \otimes_F K$ 进行复化或标量扩张；反之，可进行标量限制（如实化）。
+\end{definition}
+
+\begin{proposition}
+对 $K/F$ 域扩张及理想 $\mathfrak{h}$，有 $[\mathfrak{g}_K, \mathfrak{h}_K] = [\mathfrak{g}, \mathfrak{h}]_K$。
+\end{proposition}
+
+\begin{example}
+$\mathfrak{sl}_2(\mathbb{R})$ 和 $\mathfrak{su}(2)$ 的复化均为 $\mathfrak{sl}_2(\mathbb{C})$。另外存在实李代数同构 $\mathfrak{so}(2,1) \simeq \mathfrak{sl}_2(\mathbb{R})$ 和 $\mathfrak{su}(2) \simeq \mathfrak{so}(3)$。
+\end{example}
+
+\section{可解与幂零李代数}
+
+\begin{definition}
+定义 $\mathfrak{g}_0 = \mathfrak{g}$，$\mathfrak{g}_{j+1} = [\mathfrak{g}_j, \mathfrak{g}_j]$。称 $\mathfrak{g} = \mathfrak{g}_0 \supseteq \mathfrak{g}_1 \supseteq \cdots$ 为换位子列。若其最终终止于 $0$，称 $\mathfrak{g}$ 是可解的。
+\end{definition}
+
+\begin{definition}
+定义 $\mathfrak{g}^0 = \mathfrak{g}$，$\mathfrak{g}^{j+1} = [\mathfrak{g}, \mathfrak{g}^j]$。称 $\mathfrak{g} = \mathfrak{g}^0 \supseteq \mathfrak{g}^1 \supseteq \cdots$ 为下中心列。若其最终终止于 $0$，称 $\mathfrak{g}$ 是幂零的。
+\end{definition}
+
+\begin{example}
+$\mathfrak{gl}_4(F)$ 中的严格上三角矩阵构成的极大幂零子代数 $\mathfrak{n}$ 是幂零的；包含全体上三角矩阵的标准 Borel 子代数 $\mathfrak{b}$ 是可解的。
+\end{example}
+
+\begin{example}
+(2n+1) 维 Heisenberg 李代数 $\mathfrak{h}_n$ 是一个两步幂零李代数，满足 $[\mathfrak{h}_n, \mathfrak{h}_n] = \mathfrak{z}_n \simeq \mathbb{R}$。
+\end{example}
+
+\begin{lemma}
+(1) 幂零李代数必可解。\\
+(2) 对任意 $\mathfrak{g}$，商空间 $\mathfrak{g}_j/\mathfrak{g}_{j+1}$ 是交换的。
+\end{lemma}
+
+\begin{proposition}
+(1) 可解/幂零李代数的子代数或同态像仍可解/幂零。\\
+(2) 对于正合序列 $0 \to \mathfrak{a} \to \mathfrak{g} \to \mathfrak{g}/\mathfrak{a} \to 0$，$\mathfrak{g}$ 可解当且仅当 $\mathfrak{a}$ 和 $\mathfrak{g}/\mathfrak{a}$ 均可解。特别地，$\mathfrak{g}$ 可解当且仅当 $[\mathfrak{g},\mathfrak{g}]$ 可解。\\
+(3) 若 $\mathfrak{g}$ 幂零，则 $\mathfrak{a}$ 和 $\mathfrak{g}/\mathfrak{a}$ 均幂零。\\
+(4) $\mathfrak{g}$ 可解(幂零)当且仅当域扩张 $\mathfrak{g}_K$ 可解(幂零)。
+\end{proposition}
+
+\begin{lemma}
+存在正合序列 $0 \to \mathfrak{z}_{\mathfrak{g}} \to \mathfrak{g} \to \mathrm{ad}(\mathfrak{g}) \to 0$。因此 $\mathfrak{g}$ 可解(幂零)当且仅当 $\mathrm{ad}(\mathfrak{g})$ 可解(幂零)。
+\end{lemma}
+
+\begin{proposition}
+$n$ 维李代数 $\mathfrak{g}$ 可解当且仅当它拥有一个初等序列（即余维数为1的递降理想序列）。
+\end{proposition}
+
+\section{Engel 定理}
+
+\begin{definition}
+有限维表示 $(\pi, V)$ 被称为幂零表示，若对任意 $X \in \mathfrak{g}$，$\pi(X)$ 均为幂零算子。
+\end{definition}
+
+\begin{theorem}[Engel 定理]
+设 $(\pi, V)$ 是 $\mathfrak{g}$ 的有限维幂零表示，则：\\
+(1) $V^{\mathfrak{g}} := \{v \in V \mid \pi(X)v = 0, \forall X \in \mathfrak{g}\}$ 非零。\\
+(2) 存在 $V$ 的一组基，使得 $\pi(\mathfrak{g})$ 包含于严格上三角矩阵构成的极大幂零子代数中。
+\end{theorem}
+\textbf{重要证明摘录 (关于定理1当 $\mathfrak{g}$ 为幂零时的证明)}:
+对 $\mathfrak{g}$ 的维数进行归纳。因为 $\mathfrak{g}$ 幂零，故 $[\mathfrak{g}, \mathfrak{g}] \neq \mathfrak{g}$。取一个包含 $[\mathfrak{g}, \mathfrak{g}]$ 的余维数为 $1$ 的子空间 $\mathfrak{h}$。由于 $[\mathfrak{h}, \mathfrak{g}] \subseteq [\mathfrak{g}, \mathfrak{g}] \subseteq \mathfrak{h}$，故 $\mathfrak{h}$ 是理想，且幂零。由归纳假设，$V^{\mathfrak{h}} \neq 0$。
+取 $X_0 \in \mathfrak{g}$ 使得 $\mathfrak{g} = F \cdot X_0 + \mathfrak{h}$。对任意 $v \in V^{\mathfrak{h}}$ 及 $H \in \mathfrak{h}$，由于 $\pi(H)\pi(X_0)v = \pi(X_0)\pi(H)v + \pi([H, X_0])v = 0$，知 $V^{\mathfrak{h}}$ 在 $\pi(X_0)$ 作用下稳定。由于 $\pi(X_0)$ 在 $V^{\mathfrak{h}}$ 上幂零作用，必定存在非零的 $v \in V^{\mathfrak{h}}$ 被 $\pi(X_0)$ 零化。故 $v \in V^{\mathfrak{g}}$。
+
+\begin{corollary}[伴随表示的 Engel 定理]
+李代数 $\mathfrak{g}$ 是幂零的当且仅当对任意 $X \in \mathfrak{g}$，$\mathrm{ad}(X)$ 都是幂零算子。
+\end{corollary}
+
+\section{Lie 定理}
+
+\begin{theorem}[Lie 定理]
+设 $(\pi, V)$ 是有限维可解李代数 $\mathfrak{g}$ 的有限维非零表示。若 $\pi(\mathfrak{g})$ 的所有特征值均在基础域 $F$ 中，则存在一个对所有 $\pi(X)$ ($X \in \mathfrak{g}$) 的公共特征向量。
+\end{theorem}
+
+\begin{corollary}
+在上述假设下，存在 $V$ 的一组基，使得 $\pi$ 实际上是从 $\mathfrak{g}$ 到 $\mathrm{End}_F(V)$ 标准上 Borel 子代数（全体上三角矩阵）的李代数同态。
+\end{corollary}
+\textbf{重要证明摘录}:
+对 $\dim V$ 归纳。当 $\dim V = 1$ 时显然成立。当 $\dim V = n$ 时，由 Lie 定理，存在 $\pi(\mathfrak{g})$ 的公共特征向量 $e_n$。商空间 $W := V/(F \cdot e_n)$ 的维数小于 $n$。归纳假设意味着可以选出一组基使得 $\mathfrak{g}$ 在 $W$ 上的作用为上三角的。拉回至 $V$ 即可完成证明。
+
+\section{根与幂零根}
+
+\begin{proposition}
+两个可解理想的和依然是可解理想。因此存在唯一的最大可解理想，称为 $\mathfrak{g}$ 的根（Radical），记为 $\mathrm{rad}(\mathfrak{g})$。
+\end{proposition}
+
+\begin{proposition}
+(1) 对于可解李代数 $\mathfrak{g}$，$[\mathfrak{g}, \mathfrak{g}]$ 是幂零的。\\
+(2) 对于可解李代数 $\mathfrak{g}$，存在唯一的最大幂零理想 $\mathfrak{n}$，称为 $\mathfrak{g}$ 的幂零根（Nilradical 或 nilrad）。
+\end{proposition}
+\textbf{重要证明摘录}:
+(1) 取代数闭包 $K = \overline{F}$，对 $V = \mathfrak{g}_K, \pi = \mathrm{ad}$ 应用 Lie 定理，可得 $\mathrm{ad}_{\mathfrak{g}_K}$ 在某组基下为上三角矩阵。这表明 $\mathrm{ad}_{[\mathfrak{g}_K, \mathfrak{g}_K]}$ 是严格上三角的从而幂零，即 $[\mathfrak{g}_K, \mathfrak{g}_K]$ 幂零，故 $[\mathfrak{g}, \mathfrak{g}]$ 幂零。\\
+(2) 类似地取 $K = \overline{F}$，令 $\mathfrak{n} := \{X \in \mathfrak{g} \mid \mathrm{ad}_X \text{ 是幂零的}\}$。由于 $\mathrm{ad}_{\mathfrak{g}}$ 为上三角，这显然是一个理想，且满足极大性条件。
+
+\begin{lemma}
+对于可解李代数 $\mathfrak{g}$，商 $\mathfrak{g}/\mathrm{nilrad}(\mathfrak{g})$ 是交换的。
+\end{lemma}
+
+\begin{example}
+存在包含海森堡李代数结构的特殊三维李代数表示，且其换位子代数恰同构于实海森堡李代数 $\mathfrak{h}_1$。
+\end{example}
+
+\end{CJK*}
+\end{document}

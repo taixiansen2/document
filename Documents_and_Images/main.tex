@@ -1,0 +1,39 @@
+% Compile inside the current directory with:
+%   xelatex main
+%   bibtex main
+%   xelatex main
+%   xelatex main
+
+\documentclass[12pt]{ctexart}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{hyperref}
+
+\title{PropAMM 文献示例}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{说明}
+
+这个文件是一个最小可编译示例，用来演示如何在 \LaTeX{} 中使用
+\path{propamm_formal_10.bib} 里的参考文献。
+
+\section{示例引用}
+
+经典的 DEX 与 MEV 研究可以参考 \cite{daian2020flashboys}，
+关于链上 DEX 高频交易和 sandwich attack 的研究可以参考 \cite{zhou2021highfrequency}。
+
+\section{完整参考文献列表}
+
+如果你暂时不想在正文里逐条插入引用，但希望先把 \texttt{.bib} 里的全部条目打印出来，可以使用下面这一句：
+
+\nocite{*}
+
+\bibliographystyle{plain}
+\bibliography{../propamm_formal_10}
+
+\end{document}

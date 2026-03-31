@@ -1,0 +1,167 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{CJKutf8}
+
+\begin{document}
+\begin{CJK*}{UTF8}{gbsn}
+
+\section*{Problem 1}
+
+\subsection*{1. 题目的中文}
+考虑由行列式映射给出的李群短正合序列：
+$$ 1 \to SU(n) \to U(n) \to U(1) \to 1 $$
+(a) 使用同伦群的长正合序列计算 $\pi_0(U(n))$ 和 $\pi_1(U(n))$。\\
+(b) $U(n)$ 是 $SU(n)$ 和 $U(1)$ 的直积吗？请解释你的答案。
+
+\subsection*{2. 中文的详细解答}
+\textbf{(a)} 对于纤维丛 $SU(n) \to U(n) \to U(1)$，我们有如下的同伦群长正合序列：
+$$ \dots \to \pi_1(SU(n)) \to \pi_1(U(n)) \to \pi_1(U(1)) \to \pi_0(SU(n)) \to \pi_0(U(n)) \to \pi_0(U(1)) $$
+已知当 $n \ge 1$ 时，$SU(n)$ 和 $U(1)$ 都是连通的，因此 $\pi_0(SU(n)) = 0$ 且 $\pi_0(U(1)) = 0$。代入正合序列，我们得到 $\pi_0(U(n)) = 0$，这说明 $U(n)$ 也是连通的。
+
+另外，我们知道对于 $n \ge 1$有 $\pi_1(SU(n)) = 0$，且 $\pi_1(U(1)) \cong \mathbb{Z}$。截取正合序列的相关部分：
+$$ 0 \to \pi_1(U(n)) \to \mathbb{Z} \to 0 $$
+由正合性可知，中间的群必定同构于 $\mathbb{Z}$，因此 $\pi_1(U(n)) \cong \mathbb{Z}$。
+
+\textbf{(b)} 不是直积。\\
+如果作为李群 $U(n) \cong SU(n) \times U(1)$，那么它们的中心（Center）也应当同构。\\
+我们知道，$U(n)$ 的中心由所有与任何酉矩阵可交换的矩阵组成，即数量矩阵 $e^{i\theta}I_n$，因此 $Z(U(n)) \cong U(1)$，它是连通的。\\
+然而，$SU(n) \times U(1)$ 的中心是 $Z(SU(n)) \times Z(U(1))$。其中 $Z(SU(n))$ 是使得 $e^{in\theta} = 1$ 的纯量矩阵构成的群，同构于 $\mathbb{Z}_n$（循环群）。\\
+因此 $Z(SU(n) \times U(1)) \cong \mathbb{Z}_n \times U(1)$。\\
+当 $n \ge 2$ 时，$\mathbb{Z}_n \times U(1)$ 有 $n$ 个连通分支，而 $U(1)$ 只有一个连通分支。由于中心不同构，两者不可能作为李群同构。\\
+所以 $U(n)$ 不是 $SU(n)$ 和 $U(1)$ 的直积。（实际上，它是它们的中心积，即 $(SU(n) \times U(1)) / \mathbb{Z}_n$）。
+
+\subsection*{3. 英文的解答（简略而必要）}
+\textbf{(a)} By the long exact sequence of the fibration $SU(n) \to U(n) \to U(1)$:
+$$ \pi_1(SU(n)) \to \pi_1(U(n)) \to \pi_1(U(1)) \to \pi_0(SU(n)) \to \pi_0(U(n)) \to \pi_0(U(1)) $$
+Since $\pi_0(SU(n)) = \pi_0(U(1)) = 0$, we have $\pi_0(U(n)) = 0$.
+Given $\pi_1(SU(n)) = 0$ and $\pi_1(U(1)) = \mathbb{Z}$, we get $0 \to \pi_1(U(n)) \to \mathbb{Z} \to 0$, hence $\pi_1(U(n)) \cong \mathbb{Z}$.
+
+\textbf{(b)} No. The center of $U(n)$ is $U(1)$, which is connected. If $U(n) \cong SU(n) \times U(1)$, its center would be $Z(SU(n)) \times U(1) \cong \mathbb{Z}_n \times U(1)$, which has $n$ connected components (for $n \ge 2$). Therefore, they are not isomorphic as Lie groups.
+
+\vspace{1em}
+
+\section*{Problem 2}
+
+\subsection*{1. 题目的中文}
+考虑由行列式映射给出的李群正合序列：
+$$ 1 \to SO(n) \to O(n) \to \mathbb{Z}/2\mathbb{Z} \to 1 $$
+（这里滥用一下术语，将有限群视为“0”维的李群）。\\
+(a) 当 $n$ 为奇数时，证明作为李群，$O(n)$ 是 $SO(n)$ 和 $\mathbb{Z}/2\mathbb{Z}$ 的直积。\\
+(b) 当 $n$ 为偶数时，证明作为李群，$O(n)$ \textbf{不是} $SO(n)$ 和 $\mathbb{Z}/2\mathbb{Z}$ 的直积。（事实上，这是一个半直积，这将在后续课程中解释。）
+
+\subsection*{2. 中文的详细解答}
+\textbf{(a)} 当 $n$ 为奇数时，考虑映射 $s: \mathbb{Z}/2\mathbb{Z} \to O(n)$，将其非平凡元映射为负单位阵 $-I_n$。\\
+因为 $n$ 是奇数，所以 $\det(-I_n) = (-1)^n = -1$。这意味着 $-I_n \in O(n) \setminus SO(n)$。\\
+同时，$-I_n$ 位于 $O(n)$ 的中心，因此它与 $SO(n)$ 中的所有元素可交换。\\
+我们可以构造一个映射 $\phi: SO(n) \times \mathbb{Z}/2\mathbb{Z} \to O(n)$，定义为 $(A, \epsilon) \mapsto \epsilon A$（这里把 $\mathbb{Z}/2\mathbb{Z}$ 视作 $\{1, -I_n\}$，$\epsilon \in \{I_n, -I_n\}$）。\\
+由于 $-I_n$ 属于中心且其平方为 $I_n$，$\phi$ 显然是一个群同态。又因为行列式映射给出了直和分解（每一个 $O(n)$ 中的矩阵都可以唯一写成 $SO(n)$ 元素与 $\epsilon$ 的乘积），$\phi$ 也是双射。\\
+作为一个光滑流形上的光滑同态，它是李群同构。因此 $O(n)$ 是 $SO(n)$ 和 $\mathbb{Z}/2\mathbb{Z}$ 的直积。
+
+\textbf{(b)} 当 $n$ 为偶数时，$\det(-I_n) = (-1)^n = 1$，所以 $-I_n \in SO(n)$。\\
+假设存在直积分解 $O(n) \cong SO(n) \times \mathbb{Z}/2\mathbb{Z}$。\\
+那么 $O(n)$ 的中心 $Z(O(n))$ 应该同构于 $Z(SO(n)) \times \mathbb{Z}/2\mathbb{Z}$。\\
+我们知道 $Z(O(n)) = \{\pm I_n\} \cong \mathbb{Z}/2\mathbb{Z}$，即 $O(n)$ 的中心只有 2 个元素。\\
+然而由于 $n$ 为偶数，$-I_n \in SO(n)$，且显然 $-I_n$ 在 $SO(n)$ 的中心里，因此 $Z(SO(n))$ 至少包含 $\{\pm I_n\}$。\\
+那么 $Z(SO(n) \times \mathbb{Z}/2\mathbb{Z})$ 至少包含 $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}$，即至少有 4 个元素。\\
+这与 $Z(O(n))$ 只有 2 个元素矛盾。因此它们不可能是同构的李群。
+
+\subsection*{3. 英文的解答（简略而必要）}
+\textbf{(a)} For $n$ odd, $-I_n \in O(n)$ has $\det(-I_n) = -1$ and lies in the center of $O(n)$. The map $SO(n) \times \{I_n, -I_n\} \to O(n)$ given by $(A, \epsilon) \mapsto \epsilon A$ is a well-defined bijective Lie group homomorphism, proving the direct product structure.
+
+\textbf{(b)} For $n$ even, suppose $O(n) \cong SO(n) \times \mathbb{Z}/2\mathbb{Z}$. Then $Z(O(n)) \cong Z(SO(n)) \times \mathbb{Z}/2\mathbb{Z}$. However, $\det(-I_n) = 1$, so $-I_n \in SO(n)$. Thus $Z(SO(n))$ contains at least $\{\pm I_n\}$, making $|Z(SO(n) \times \mathbb{Z}/2\mathbb{Z})| \ge 4$. But $Z(O(n)) = \{\pm I_n\}$ has exactly 2 elements, yielding a contradiction. Thus $O(n)$ is not a direct product.
+
+\vspace{1em}
+
+\section*{Problem 3}
+
+\subsection*{1. 题目的中文}
+设 $G = SL_2(\mathbb{R})$，$K = SO(2)$。\\
+(a) 对于任意 $g \in G$，证明存在唯一的对角线元素全为正的对角矩阵 $a$，上三角幂单（对角线为1）矩阵 $n$ 以及 $k \in K$，使得 $g = nak$。\\
+（提示：这完全就是线性代数中的 Gram-Schmidt 正交化过程。）\\
+(b) 基于 (a)，$G$ 的基本群是什么？\\
+(c) 对于 $SL_n(\mathbb{R})$ 你能说些什么？（只需尝试将结论推广到 $SL_n(\mathbb{R})$ 即可，无需证明。）
+
+\subsection*{2. 中文的详细解答}
+\textbf{(a)} 任取 $g \in SL_2(\mathbb{R})$。将 $g$ 进行 QR 分解，等价于对 $g$ 的列向量进行 Gram-Schmidt 正交化（注意这里是对列操作并写成 $g = R Q$ 的形式）。\\
+任何可逆矩阵 $g$ 都可以唯一分解为 $g = R Q$，其中 $Q$ 是正交矩阵（$Q \in O(2)$），$R$ 是可逆的上三角矩阵。\\
+我们可以通过在 $R$ 的列和 $Q$ 的行之间吸收一个对角线为 $\pm 1$ 的对角矩阵，来强制要求 $R$ 的对角线元素严格为正。这种调整后，$R$ 和 $Q$ 仍然是唯一的。\\
+由于 $1 = \det(g) = \det(R)\det(Q)$，且 $R$ 的对角线元素为正，所以 $\det(R) > 0$。因此必有 $\det(Q) > 0$，这要求 $Q \in SO(2)$，即 $k = Q \in K$。\\
+设 $R = \begin{pmatrix} r_1 & r_2 \\ 0 & r_3 \end{pmatrix}$，其中 $r_1, r_3 > 0$。\\
+我们可以将 $R$ 分解为 $R = n a$，其中：
+$$ a = \begin{pmatrix} r_1 & 0 \\ 0 & r_3 \end{pmatrix}, \quad n = R a^{-1} = \begin{pmatrix} 1 & r_2/r_3 \\ 0 & 1 \end{pmatrix} $$
+这里 $a$ 是对角线元素全为正的对角矩阵（因为 $\det(R)=1$，所以 $\det(a)=1$），$n$ 是上三角幂单矩阵。\\
+因此存在唯一的分解 $g = R k = n a k$。这就是 Iwasawa 分解。
+
+\textbf{(b)} 由 (a) 的分解 $g = nak$，映射 $N \times A \times K \to G$ 定义为 $(n, a, k) \mapsto nak$ 是一个微分同胚。\\
+空间 $N$ 同构于 $\mathbb{R}$（只有一个自由参数），空间 $A$ 同构于 $\mathbb{R}_{>0} \cong \mathbb{R}$（对角线元素为 $y, 1/y$，要求 $y>0$）。\\
+因此，$N$ 和 $A$ 都是可缩的（Contractible）。\\
+所以 $G \simeq N \times A \times K \simeq \mathbb{R} \times \mathbb{R} \times SO(2) \simeq SO(2)$，即 $G$ 形变收缩到 $SO(2)$。\\
+由于 $SO(2)$ 同胚于圆周 $S^1$，其基本群为 $\mathbb{Z}$。\\
+因此，$G = SL_2(\mathbb{R})$ 的基本群是 $\pi_1(G) \cong \pi_1(S^1) = \mathbb{Z}$。
+
+\textbf{(c)} 对于 $SL_n(\mathbb{R})$，类似的 Iwasawa 分解同样成立：$SL_n(\mathbb{R}) \cong N \times A \times K$（微分同胚），其中 $N$ 是上三角幂单矩阵群（同胚于 $\mathbb{R}^{n(n-1)/2}$），$A$ 是正对角线且行列式为 1 的矩阵群（同胚于 $\mathbb{R}^{n-1}$），$K = SO(n)$。\\
+因为 $N$ 和 $A$ 都是可缩的，所以 $SL_n(\mathbb{R})$ 形变收缩到极大的紧子群 $SO(n)$。\\
+因此它们的基本群相同，即 $\pi_1(SL_n(\mathbb{R})) \cong \pi_1(SO(n))$。\\
+当 $n \ge 3$ 时，$\pi_1(SO(n)) = \mathbb{Z}/2\mathbb{Z}$，所以 $\pi_1(SL_n(\mathbb{R})) \cong \mathbb{Z}/2\mathbb{Z}$。
+
+\subsection*{3. 英文的解答（简略而必要）}
+\textbf{(a)} By QR decomposition (Gram-Schmidt process), any $g \in SL_2(\mathbb{R})$ can be uniquely written as $g = R k$, where $k \in O(2)$ and $R$ is upper triangular. Forcing $R$'s diagonal to be strictly positive makes $k \in SO(2)$ since $\det(g)=1$. Factoring out the diagonal part of $R$ as $a$, we get $R = n a$ where $n$ is unipotent upper triangular. Thus $g = nak$ is unique.
+
+\textbf{(b)} The decomposition gives a diffeomorphism $G \cong N \times A \times K$. Since $N \cong \mathbb{R}$ and $A \cong \mathbb{R}_{>0} \cong \mathbb{R}$ are contractible, $G$ is homotopy equivalent to $K = SO(2) \cong S^1$. Therefore, $\pi_1(SL_2(\mathbb{R})) \cong \pi_1(S^1) = \mathbb{Z}$.
+
+\textbf{(c)} Generalizing to $SL_n(\mathbb{R})$, we similarly have $SL_n(\mathbb{R}) \simeq SO(n)$ by Iwasawa decomposition. Therefore, $\pi_1(SL_n(\mathbb{R})) \cong \pi_1(SO(n))$, which evaluates to $\mathbb{Z}/2\mathbb{Z}$ for $n \ge 3$.
+
+\vspace{1em}
+
+\section*{Problem 4}
+
+\subsection*{1. 题目的中文}
+回忆 $H$ 是课上讲解的哈密顿四元数。\\
+(a) 定义 $Tr: H \to \mathbb{R}, z \mapsto z + \bar{z}$。证明对于所有的 $x, y \in H$，有 $Tr(xy) = Tr(yx)$。\\
+(b) 对于任意 $q \in H^\times$，定义 $R(q): H \to H, x \mapsto qxq^{-1}$。令 $M := \{x \in H \mid Tr(x) = 0, |x| = 1\}$。\\
+证明 $M$ 同胚于二维球面 $S^2$，且 $R(q)$ 是 $M \simeq S^2$ 上的等距同构（配备从 $\mathbb{R}^3$ 诱导的度量）。\\
+(c) 从 (b) 推导出拓扑群 $H^\times / \mathbb{R}^\times$ 单射进入 $SO(3)$。\\
+（如果在下一节课中稍微多了解一些知识，很容易证明作为李群 $H^\times / \mathbb{R}^\times \simeq SO(3)$。这意味着 $\mathbb{R}^3$ 中的旋转数据可以通过一个纯四元数存储在计算机中。对于工程师来说，与下周将要讲解的指数映射相比，这在计算上是高效的。指数映射在计算上效率不高。）
+
+\subsection*{2. 中文的详细解答}
+\textbf{(a)} 设 $x = x_0 + x_1 i + x_2 j + x_3 k$，其共轭为 $\bar{x} = x_0 - x_1 i - x_2 j - x_3 k$。\\
+由定义，$Tr(x) = x + \bar{x} = 2x_0 = 2\text{Re}(x)$。\\
+为了方便，将 $x, y$ 写为标量部分和向量（纯四元数）部分：$x = x_0 + \vec{x}$，$y = y_0 + \vec{y}$。\\
+根据四元数乘法法则：$xy = (x_0 y_0 - \vec{x} \cdot \vec{y}) + (x_0 \vec{y} + y_0 \vec{x} + \vec{x} \times \vec{y})$。\\
+因此 $Tr(xy) = 2\text{Re}(xy) = 2(x_0 y_0 - \vec{x} \cdot \vec{y})$。\\
+因为向量点乘满足交换律，即 $\vec{x} \cdot \vec{y} = \vec{y} \cdot \vec{x}$，所以：\\
+$Tr(yx) = 2(y_0 x_0 - \vec{y} \cdot \vec{x}) = 2(x_0 y_0 - \vec{x} \cdot \vec{y}) = Tr(xy)$。得证。
+
+\textbf{(b)} 首先，$Tr(x) = 0$ 意味着 $2\text{Re}(x) = 0$，所以 $x$ 是纯四元数（即 $x = x_1 i + x_2 j + x_3 k$）。这使得纯四元数空间自然地等距同构于 $\mathbb{R}^3$。\\
+$|x| = 1$ 即 $x_1^2 + x_2^2 + x_3^2 = 1$。因此 $M$ 就是 $\mathbb{R}^3$ 中的单位球面，自然同胚于 $S^2$。\\
+对于映射 $R(q)x = qxq^{-1}$：\\
+1. $Tr(R(q)x) = Tr(q x q^{-1}) = Tr((qx)q^{-1}) = Tr(q^{-1}(qx)) = Tr(x) = 0$。（利用了 (a) 中证明的迹的循环性质）\\
+2. $|R(q)x| = |qxq^{-1}| = |q| |x| |q^{-1}| = |q| |x| |q|^{-1} = |x| = 1$。\\
+所以 $R(q)$ 确实把 $M$ 映射到了 $M$ 自身。\\
+由于四元数范数诱导的距离是 $d(x, y) = |x - y|$，我们考察两点之间的距离：
+$$ d(R(q)x, R(q)y) = |qxq^{-1} - qyq^{-1}| = |q(x - y)q^{-1}| = |q| |x-y| |q|^{-1} = |x-y| = d(x, y) $$
+因此 $R(q)$ 保持距离不变，是 $M \simeq S^2$ 上的等距同构。
+
+\textbf{(c)} 由 (b) 可知，每个 $q \in H^\times$ 都诱导了 $M \cong S^2 \subset \mathbb{R}^3$ 上的一个正交变换 $R(q)$（它是一个保持原点不变的线性等距同构）。这定义了一个群同态 $\phi: H^\times \to O(3)$。\\
+由于 $H^\times \cong \mathbb{R}_{>0} \times S^3$ 在拓扑上是连通的，连通群在连续同态下的像也必须是连通的。$O(3)$ 中包含单位元的连通分支是特殊正交群 $SO(3)$，所以像完全落在 $SO(3)$ 中。即 $\phi: H^\times \to SO(3)$。\\
+现在我们来计算 $\phi$ 的核 $\ker(\phi)$。$q \in \ker(\phi)$ 当且仅当对于所有的 $x \in M$，有 $qxq^{-1} = x$，即 $qx = xq$。\\
+因为这对于所有纯四元数都成立，而且 $q$ 显然与实数交换，所以 $q$ 必须与所有的四元数交换。\\
+四元数代数的中心仅为实数，因此 $q$ 必须是一个非零实数，即 $q \in \mathbb{R}^\times$。反之，任何非零实数显然也属于核。\\
+因此 $\ker(\phi) = \mathbb{R}^\times$。\\
+根据群的同态基本定理，像群 $\text{Im}(\phi) \cong H^\times / \ker(\phi) = H^\times / \mathbb{R}^\times$。\\
+既然像包含于 $SO(3)$ 中，那么拓扑群 $H^\times / \mathbb{R}^\times$ 单射进入 $SO(3)$。
+
+\subsection*{3. 英文的解答（简略而必要）}
+\textbf{(a)} For $x = x_0 + \vec{x}$ and $y = y_0 + \vec{y}$, $Tr(x) = 2x_0$. Then $xy = (x_0y_0 - \vec{x}\cdot\vec{y}) + \text{vector part}$. $Tr(xy) = 2(x_0y_0 - \vec{x}\cdot\vec{y})$, which is symmetric with respect to $x$ and $y$. Thus $Tr(xy) = Tr(yx)$.
+
+\textbf{(b)} $Tr(x) = 0 \implies \text{Re}(x) = 0$, so $x$ is a pure quaternion ($\mathbb{R}^3$). $|x|=1$ implies it is the unit sphere $S^2$ in $\mathbb{R}^3$.
+$Tr(qxq^{-1}) = Tr(q^{-1}qx) = Tr(x) = 0$, and $|qxq^{-1}| = |x| = 1$, so $R(q)$ preserves $M$.
+The distance is $d(R(q)x, R(q)y) = |q(x-y)q^{-1}| = |x-y|$, so $R(q)$ is an isometry on $M$.
+
+\textbf{(c)} The map $\phi: H^\times \to Isom(\mathbb{R}^3) \cong O(3)$ defined by $q \mapsto R(q)$ is a continuous homomorphism. Since $H^\times$ is connected, its image lies in $SO(3)$. The kernel consists of $q \in H^\times$ commuting with all pure quaternions, meaning $q$ is in the center of $H$. The center of $H$ is $\mathbb{R}$, so $\ker(\phi) = \mathbb{R}^\times$. By the first isomorphism theorem, $H^\times / \mathbb{R}^\times \hookrightarrow SO(3)$ is an injective map.
+
+\end{CJK*}
+\end{document}

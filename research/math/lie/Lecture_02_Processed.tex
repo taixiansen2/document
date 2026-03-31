@@ -1,0 +1,170 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{CJKutf8}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{example}[theorem]{例}
+\newtheorem{remark}[theorem]{注}
+
+\begin{document}
+\begin{CJK*}{UTF8}{gbsn}
+
+\title{Lecture 02 - 半单李代数、约化李代数与 Killing 形式}
+\author{AI 整理}
+\date{}
+\maketitle
+
+\section*{专业术语解释}
+\begin{itemize}
+    \item \textbf{Trace Form (迹形式)}: 作用在矩阵李代数上的对称双线性形式，定义为 $B(X, Y) = \mathrm{Tr}(XY)$。
+    \item \textbf{Killing Form (Killing 形式)}: 李代数上的对称双线性形式，通过伴随表示定义为 $B(X, Y) = \mathrm{Tr}(\mathrm{ad}(X) \circ \mathrm{ad}(Y))$。
+    \item \textbf{Simple Lie algebra (单李代数)}: 非交换的，且没有非平凡真理想的李代数。
+    \item \textbf{Semisimple Lie algebra (半单李代数)}: 根（最大可解理想）为平凡理想（即零）的李代数。
+    \item \textbf{Radical (根)}: 李代数中唯一的最大可解理想，记作 $\mathrm{rad}(\mathfrak{g})$。
+    \item \textbf{Reductive Lie algebra (约化李代数)}: 满足商代数 $\mathfrak{g}/\mathfrak{z}_{\mathfrak{g}}$ 为半单李代数的李代数（其中 $\mathfrak{z}_{\mathfrak{g}}$ 为中心）。另一种等价定义是：若 $\mathfrak{a}$ 是理想，则必定存在另一理想 $\mathfrak{b}$ 使得 $\mathfrak{g} = \mathfrak{a} \oplus \mathfrak{b}$。
+    \item \textbf{Non-degenerate (非退化)}: 对于双线性形式，如果对所有的 $Y$ 都有 $B(X,Y)=0$，则必有 $X=0$。
+    \item \textbf{Completely reducible (完全可约)}: 对于李代数的表示 $V$，如果对任意不变子空间 $W$，都存在不变子空间 $U$ 使得 $V = W \oplus U$。
+\end{itemize}
+
+\section{Cartan 迹形式判别法}
+
+\begin{example}
+考虑 $\mathfrak{gl}_n(F)$ 中由所有上三角矩阵构成的标准 Borel 子代数 $\mathfrak{b}$。令 $\mathfrak{n} := [\mathfrak{b}, \mathfrak{b}]$，则 $\mathfrak{n}$ 是由严格上三角矩阵构成的理想。显然，对于任意 $X \in \mathfrak{b}$ 和 $Y \in \mathfrak{n}$，有 $\mathrm{Tr}(XY) = 0$。
+\end{example}
+
+\begin{theorem}[Cartan 迹形式可解性判别法]
+设 $\mathfrak{g}$ 是 $\mathfrak{gl}_n(F)$ 的李子代数。则 $\mathfrak{g}$ 是可解的当且仅当对所有 $X \in \mathfrak{g}$, $Y \in [\mathfrak{g}, \mathfrak{g}]$，有 $\mathrm{Tr}(XY) = 0$。
+\end{theorem}
+
+\begin{definition}
+如果一个李代数是非交换的并且没有非平凡的真理想，我们称其为\textbf{单的 (simple)}。如果一个李代数具有平凡的根（即 $\mathrm{rad}(\mathfrak{g})=0$），我们称其为\textbf{半单的 (semisimple)}。
+\end{definition}
+
+\begin{lemma}
+李代数 $\mathfrak{g}$ 是单的当且仅当 $\mathfrak{g}$ 非交换，且 $\mathfrak{g}$ 上的伴随表示是不可约的。
+\end{lemma}
+
+\begin{corollary}
+设 $\mathfrak{g}$ 是 $\mathfrak{gl}_n(F)$ 的子代数。如果 $\mathfrak{g}$ 是半单的，则迹形式在 $\mathfrak{g}$ 上是非退化的。
+\end{corollary}
+\textbf{重要证明摘录}:
+定义迹形式的根为 $\mathfrak{h} := \{X \in \mathfrak{g} \mid \mathrm{Tr}(XY) = 0, \forall Y \in \mathfrak{g}\}$。容易验证 $\mathfrak{h}$ 是 $\mathfrak{g}$ 的理想。对所有 $X \in \mathfrak{h}$, $Y \in [\mathfrak{h}, \mathfrak{h}] \subseteq \mathfrak{g}$，有 $\mathrm{Tr}(XY) = 0$。由迹形式判别法，$\mathfrak{h}$ 是可解的，从而包含在 $\mathrm{rad}(\mathfrak{g})$ 中。由于 $\mathfrak{g}$ 半单，$\mathrm{rad}(\mathfrak{g})=0$，故 $\mathfrak{h}=0$，即迹形式非退化。
+
+\begin{example}
+上述推论的逆命题不成立。例如，对角矩阵构成的交换子代数 $\mathfrak{a}$ 是可解的（非半单），但其迹形式非退化。再例如，$\mathfrak{gl}_n(F)$ 有非平凡中心（纯量矩阵）因而非半单，但迹形式依然非退化。
+\end{example}
+
+\section{Cartan Killing 形式判别法及其推论}
+
+\begin{definition}
+对于有限维李代数 $\mathfrak{g}$，定义其 Killing 形式为
+$$ B(X, Y) := \mathrm{Tr}(\mathrm{ad}(X) \circ \mathrm{ad}(Y)), \quad \forall X, Y \in \mathfrak{g}. $$
+\end{definition}
+
+\begin{proposition}
+对于有限维幂零李代数 $\mathfrak{g}$，其 Killing 形式必定恒等于零。
+\end{proposition}
+
+\begin{example}
+Heisenberg 李代数 $\mathfrak{h}_n$ 的 Killing 形式恒等于零。
+\end{example}
+
+\begin{theorem}[Cartan Killing 形式可解性判别法]
+有限维李代数 $\mathfrak{g}$ 是可解的当且仅当 Killing 形式在 $\mathfrak{g} \times [\mathfrak{g}, \mathfrak{g}]$ 上恒等于零。
+\end{theorem}
+\textbf{重要证明摘录}:
+应用伴随表示 $\mathrm{ad}: \mathfrak{g} \to \mathfrak{gl}(\mathfrak{g})$。Killing 形式在 $\mathfrak{g} \times [\mathfrak{g}, \mathfrak{g}]$ 上为零，等价于 $\mathrm{ad}(\mathfrak{g})$ 作为 $\mathfrak{gl}(\mathfrak{g})$ 的子代数是可解的（利用定理 1.2），这又等价于 $\mathfrak{g}$ 可解（上一讲的引理）。
+
+\begin{theorem}[Cartan Killing 形式半单性判别法]
+有限维李代数 $\mathfrak{g}$ 是半单的当且仅当它的 Killing 形式是非退化的。
+\end{theorem}
+\textbf{重要证明摘录}:
+如果 $\mathfrak{g}$ 半单，则中心为 $0$，$\mathrm{ad}(\mathfrak{g}) \simeq \mathfrak{g}$ 也是半单的，作为 $\mathfrak{gl}(\mathfrak{g})$ 的子代数，其迹形式（即 Killing 形式）非退化。
+反之，若 Killing 形式非退化，假设 $\mathrm{rad}(\mathfrak{g}) \neq 0$，则存在非零交换理想 $\mathfrak{a}$。将 $\mathfrak{g}$ 分解为 $\mathfrak{a} \oplus \mathfrak{b}$。在此基下，对任意 $X \in \mathfrak{a}$ 和 $Y \in \mathfrak{g}$，$\mathrm{ad}(X)$ 严格上三角且 $\mathrm{ad}(Y)$ 上三角，导致 $\mathrm{Tr}(\mathrm{ad}(X)\mathrm{ad}(Y)) = 0$，产生矛盾。
+
+\begin{example}
+$\mathfrak{sl}_2(\mathbb{R})$ 在标准基 $\{h, e, f\}$ 下的 Killing 形式矩阵为对角线上有 $8$ 和副对角线上有 $4$ 的矩阵，是非退化的，符号差为 $(2,1)$。因此 $\mathfrak{sl}_2(\mathbb{R})$ 是半单的。
+\end{example}
+
+\begin{example}
+$\mathfrak{so}(3)$ 的 Killing 形式矩阵为 $\mathrm{diag}(-2,-2,-2)$，是负定的，因此也是半单的。负定性反映了 $\mathfrak{so}(3)$ 对应于紧致李群。
+\end{example}
+
+\section{关于 Killing 形式与半单李代数的补充}
+
+\begin{lemma}
+Killing 形式 $B$ 是不变的，即对任意 $H, X, Y \in \mathfrak{g}$，有 $B(\mathrm{ad}(H)X, Y) + B(X, \mathrm{ad}(H)Y) = 0$。
+\end{lemma}
+
+\begin{lemma}
+设 $\mathfrak{h}$ 是 $\mathfrak{g}$ 的理想，则 $\mathfrak{h}$ 的 Killing 形式 $B_{\mathfrak{h}}$ 是 $B$ 在 $\mathfrak{h} \times \mathfrak{h}$ 上的限制。
+\end{lemma}
+
+\begin{lemma}
+对于半单李代数 $\mathfrak{g}$，理想 $\mathfrak{a}$ 的正交补 $\mathfrak{a}^\perp$（关于 Killing 形式）依然是理想，并且 $\mathfrak{g} = \mathfrak{a} \oplus \mathfrak{a}^\perp$。
+\end{lemma}
+
+\begin{lemma}
+对于单李代数 $\mathfrak{g}$，有 $[\mathfrak{g}, \mathfrak{g}] = \mathfrak{g}$。
+\end{lemma}
+
+\begin{theorem}
+$\mathfrak{g}$ 是半单的当且仅当它可以分解为单李代数的直和，即 $\mathfrak{g} = \bigoplus_j \mathfrak{g}_j$。如果是这样，$\mathfrak{g}$ 的任意理想都必定是其中若干个 $\mathfrak{g}_j$ 的直和。
+\end{theorem}
+
+\begin{corollary}
+如果 $\mathfrak{g}$ 是半单的，那么 $[\mathfrak{g}, \mathfrak{g}] = \mathfrak{g}$。
+\end{corollary}
+
+\begin{lemma}
+设 $K/F$ 是代数扩张。令 $B_K$ 为 $\mathfrak{g}_K$ 的 Killing 形式，则 $B_K|_{\mathfrak{g}\times\mathfrak{g}} = B$。结果是，$\mathfrak{g}_K$ 是半单的当且仅当 $\mathfrak{g}$ 是半单的。
+\end{lemma}
+
+\begin{lemma}
+设 $\mathfrak{g}$ 为复李代数，令 $B_{\mathbb{R}}$ 为将其视为实李代数时的 Killing 形式。则有 $B_{\mathbb{R}} = 2\mathrm{Re}(B)$。
+\end{lemma}
+
+\begin{proposition}
+设 $\mathfrak{g}$ 为复李代数。则 $\mathfrak{g}$ 作为复李代数是半单的当且仅当它作为实李代数是半单的。
+\end{proposition}
+
+\section{Weyl 完全可约性定理}
+
+\begin{theorem}[Weyl 定理]
+特征为零的域 $F$ 上的半单李代数的有限维表示是完全可约的。
+\end{theorem}
+
+\section{约化李代数}
+
+\begin{definition}
+李代数 $\mathfrak{g}$ 称为约化的（reductive），如果对 $\mathfrak{g}$ 中的每个理想 $\mathfrak{a}$，存在理想 $\mathfrak{b}$ 使得 $\mathfrak{g} = \mathfrak{a} \oplus \mathfrak{b}$。
+\end{definition}
+
+\begin{definition}
+表示 $V$ 称为完全可约的，如果对任意不变子空间 $W$，存在不变子空间 $U$ 使得 $V = W \oplus U$。
+\end{definition}
+
+\begin{proposition}
+如果 $\mathfrak{g}$ 是约化的，则 $\mathfrak{g} = \mathfrak{z}_{\mathfrak{g}} \oplus [\mathfrak{g}, \mathfrak{g}]$，其中 $\mathfrak{z}_{\mathfrak{g}}$ 是中心且 $[\mathfrak{g}, \mathfrak{g}]$ 是半单的。
+\end{proposition}
+
+\begin{proposition}
+设 $\mathfrak{g}$ 是 $\mathfrak{gl}_n(\mathbb{R})$ 或 $\mathfrak{gl}_n(\mathbb{C})$ 的实子代数。如果 $\mathfrak{g}$ 在共轭转置下是封闭的，则 $\mathfrak{g}$ 是约化的。
+\end{proposition}
+
+\begin{example}
+$\mathfrak{gl}_n(F)$, $\mathfrak{sl}_n(F)$, $\mathfrak{sp}_{2n}(F)$ 均为约化李代数。所有 $\mathfrak{so}(p,q), \mathfrak{su}(p,q), \mathfrak{u}(p,q)$ 均为约化李代数。所有 $\mathfrak{so}_n(\mathbb{C})$ 均为约化李代数。
+\end{example}
+
+\section{Cartan 迹形式判别法的证明}
+（注：讲义包含了一个依赖于泛包络代数过滤思想和 Jordan-H\"older 定理的较长证明，主要用于说明当代数闭包上李代数作用的特征值被控制时迹为零如何强制使得所有半单成分为一维从而推导出可解性。由于属于技术细节，此处不作详细摘录。）
+
+\end{CJK*}
+\end{document}
