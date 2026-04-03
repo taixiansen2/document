@@ -1,0 +1,101 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{定理}
+\newtheorem{lemma}{引理}
+\newtheorem{example}{例子}
+
+\title{支持向量机 (Support Vector Machines) 讲义笔记}
+\author{AI 处理}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{核心专业术语}
+\begin{itemize}
+    \item \textbf{Support Vector Machine (SVM, 支持向量机)}: 一种通过寻找最大间隔超平面来进行分类的机器学习算法。
+    \item \textbf{Separating Hyperplane (分离超平面)}: 将不同类别的数据点分开的线性边界。
+    \item \textbf{Margin (间隔)}: 数据点到分离超平面的距离。SVM的目标是最大化最小间隔。
+    \item \textbf{Slack Variables (松弛变量, $\xi_i$)}: 在线性不可分情况下，允许部分数据点违反间隔要求的变量，用于衡量误分类或越界程度。
+    \item \textbf{Lagrange Multiplier (拉格朗日乘子)}: 在约束优化问题中，用于将约束条件整合到目标函数中的变量。
+    \item \textbf{Primal / Dual Problem (主问题 / 对偶问题)}: 优化问题的一种转换。SVM通常通过求解对偶问题来简化计算，并引入核技巧。
+    \item \textbf{Support Vectors (支持向量)}: 决定分离超平面的关键数据点，它们对应的拉格朗日乘子大于零。
+    \item \textbf{Kernel Trick (核技巧)}: 通过隐式的特征映射，计算高维空间中向量的内积，从而在不显式增加计算复杂度的情况下实现非线性分类。
+    \item \textbf{Hinge Loss (铰链损失)}: SVM所使用的损失函数，$L(y, f(x)) = \max(0, 1 - yf(x))$。
+    \item \textbf{Representer Theorem (表示定理)}: 指出带有正则化项的经验风险最小化问题的解可以表示为训练样本在核函数下的线性组合。
+\end{itemize}
+
+\section{线性可分情况下的支持向量机}
+考虑训练数据 $D_n = \{x_i, y_i\}_{i=1}^n$，其中 $x_i \in \mathbb{R}^p$，$y_i \in \{-1, 1\}$。分类规则为 $C(x) = \text{sign}\{f(x)\}$。
+
+\subsection{最大间隔分类器}
+线性可分情况下，寻找超平面 $f(x) = \beta_0 + x^T\beta = 0$。点 $x$ 到超平面的有向距离为 $\frac{f(x)}{\|\beta\|}$。
+最大间隔分类器的目标是最大化所有点到超平面的最小距离：
+\begin{align*}
+\max_{\beta, \beta_0, \|\beta\|=1} & \quad M \\
+\text{s.t.} & \quad y_i(x_i^T\beta + \beta_0) \ge M, \quad i=1,\ldots,n
+\end{align*}
+去掉 $\|\beta\|=1$ 的约束，令 $M = \frac{1}{\|\beta\|}$，原问题等价于：
+\begin{align*}
+\min_{\beta, \beta_0} & \quad \frac{1}{2}\|\beta\|^2 \\
+\text{s.t.} & \quad y_i(x_i^T\beta + \beta_0) \ge 1, \quad i=1,\ldots,n
+\end{align*}
+
+\subsection{对偶问题}
+上述优化的拉格朗日函数为：
+$$ L(\beta, \beta_0, \alpha) = \frac{1}{2}\|\beta\|^2 - \sum_{i=1}^n \alpha_i [y_i(x_i^T\beta + \beta_0) - 1] $$
+通过对 $\beta$ 和 $\beta_0$ 求导并令其为0，得到 $\beta = \sum_{i=1}^n \alpha_i y_i x_i$ 以及 $\sum_{i=1}^n \alpha_i y_i = 0$。
+代入拉格朗日函数，得到对偶问题：
+\begin{align*}
+\max_{\alpha} & \quad \sum_{i=1}^n \alpha_i - \frac{1}{2}\sum_{i,j=1}^n y_i y_j \alpha_i \alpha_j x_i^T x_j \\
+\text{s.t.} & \quad \alpha_i \ge 0, \quad \sum_{i=1}^n \alpha_i y_i = 0
+\end{align*}
+
+\section{线性不可分情况下的支持向量机}
+引入松弛变量 $\xi_i \ge 0$ 允许某些点在错误的一侧。优化问题变为：
+\begin{align*}
+\min_{\beta, \beta_0, \xi} & \quad \frac{1}{2}\|\beta\|^2 + C \sum_{i=1}^n \xi_i \\
+\text{s.t.} & \quad y_i(x_i^T\beta + \beta_0) \ge 1 - \xi_i \\
+& \quad \xi_i \ge 0
+\end{align*}
+其中 $C$ 是调节间隔和误差的惩罚参数。其对偶问题为：
+\begin{align*}
+\max_{\alpha} & \quad \sum_{i=1}^n \alpha_i - \frac{1}{2}\sum_{i,j=1}^n y_i y_j \alpha_i \alpha_j x_i^T x_j \\
+\text{s.t.} & \quad 0 \le \alpha_i \le C, \quad \sum_{i=1}^n \alpha_i y_i = 0
+\end{align*}
+
+\section{非线性 SVM 与核技巧}
+\begin{theorem}[核技巧 (Kernel Trick)]
+在对偶问题中，由于数据仅以内积 $x_i^T x_j$ 的形式出现，可通过隐式的基函数展开 $\Phi(x)$ 将数据映射到高维空间，即 $f(x) = \langle \Phi(x), \beta \rangle$。
+此时，无需显式计算 $\Phi(x)$，只需计算核函数：
+$$ K(x, z) = \langle \Phi(x), \Phi(z) \rangle $$
+这极大降低了计算复杂度。
+\end{theorem}
+
+\begin{example}[核函数示例]
+常见的核函数包括：
+\begin{itemize}
+    \item $d$ 次多项式核：$K(x, z) = (1 + x^Tz)^d$
+    \item 径向基 (RBF) 核：$K(x, z) = \exp(-\|x - z\|^2/c)$
+\end{itemize}
+\end{example}
+
+\begin{theorem}[Mercer's Theorem]
+核矩阵 $K$ 是半正定的，当且仅当函数 $K(x_i, x_j)$ 等价于某个特征空间的内积 $\langle \Phi(x_i), \Phi(x_j) \rangle$。
+\end{theorem}
+
+\section{SVM 作为惩罚方法}
+SVM 可以被重写为“损失 + 惩罚”的形式：
+$$ \min_{f} \sum_{i=1}^n [1 - y_if(x_i)]_+ + \lambda \|f\|^2 $$
+其中 $[1 - yf(x)]_+ = \max(0, 1 - yf(x))$ 称为 Hinge Loss（铰链损失），且 $\lambda = 1/(2C)$。
+
+\begin{theorem}[表示定理 (Representer Theorem)]
+在再生核希尔伯特空间 $\mathcal{H}_K$ 中，上述带有惩罚的经验风险最小化问题的最优解形式为：
+$$ \hat{f}(x) = \alpha_0 + \sum_{i=1}^n \alpha_i K(x, x_i) $$
+\end{theorem}
+
+\end{document}

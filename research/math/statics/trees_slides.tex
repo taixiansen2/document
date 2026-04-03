@@ -1,0 +1,84 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{定理}
+\newtheorem{lemma}{引理}
+\newtheorem{example}{例子}
+
+\title{树与随机森林 (Tree and Random Forest) 讲义笔记}
+\author{AI 处理}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{核心专业术语}
+\begin{itemize}
+    \item \textbf{Classification and Regression Trees (CART, 分类与回归树)}: 一种非参数方法，通过递归地将特征空间划分为超矩形子集，并在每个子集上进行预测的树模型算法。
+    \item \textbf{Recursive Partitioning (递归划分)}: 树模型的核心机制，通过贪心策略不断寻找最优分裂规则将数据集划分为更小的纯子集。
+    \item \textbf{Gini Index (基尼系数)}: CART 中用于衡量分类问题中节点不纯度的指标，$Gini(T) = 1 - \sum_{k=1}^K \hat{p}_k^2$。
+    \item \textbf{Shannon Entropy (香农熵)}: ID3/C4.5 算法中用于衡量节点不纯度的指标。
+    \item \textbf{Cost-Complexity Pruning (代价复杂度剪枝)}: 通过在经验风险最小化目标中引入树大小（终端节点数）的惩罚项 $\alpha |T|$，寻找最优子树以防止过拟合的正则化方法。
+    \item \textbf{Bagging (Bootstrap Aggregating, 装袋法)}: 通过对训练集进行重抽样产生多个自助样本，在每个样本上独立拟合模型并进行平均或多数投票，以降低高方差模型（如树模型）方差的集成方法。
+    \item \textbf{Random Forests (随机森林)}: Bagging 的扩展，不仅使用自助重抽样，还在每个节点的拆分过程中仅随机考虑特征的子集（如 $mtry$ 个特征），从而进一步降低单棵树之间的相关性。
+    \item \textbf{Out-of-Bag (OOB) Data (袋外数据)}: 在自助重抽样过程中未被抽中进入某个 Bootstrap 样本的数据，常用于评估随机森林的预测误差和变量重要性。
+    \item \textbf{Variable Importance (变量重要性)}: 随机森林中衡量单个特征对预测准确性贡献的指标，通过比较置换该特征在 OOB 数据上的预测误差增加量来计算。
+    \item \textbf{Adaptive Kernel (自适应核)}: 随机森林的一种现代理论视角，认为随机森林实质上是具有数据自适应带宽的 N-W 核估计量。
+\end{itemize}
+
+\section{分类与回归树 (CART)}
+树模型通过在特征空间上执行形如 $1\{X^{(j)} \le c\}$ 的二元拆分，将空间递归地划分为多个终端节点，并在每个终端节点上进行局部预测。
+
+\subsection{节点不纯度 (Impurity)}
+在分类树中，寻找最佳拆分的标准是最大化节点拆分前后的不纯度下降量。常见的不纯度度量包括：
+\begin{itemize}
+    \item \textbf{基尼系数 (Gini index)}: $Gini(T) = \sum_{k=1}^K \hat{p}_k(1 - \hat{p}_k) = 1 - \sum_{k=1}^K \hat{p}_k^2$
+    \item \textbf{香农熵 (Shannon Entropy)}: $Entropy(T) = - \sum_{k=1}^K \hat{p}_k \log(\hat{p}_k)$
+    \item \textbf{误分类误差 (Misclassification Error)}: $Error(T) = 1 - \max_{k} \hat{p}_k$
+\end{itemize}
+对于回归树，不纯度度量通常使用节点内样本的方差 $Var(T) = \frac{1}{N_T} \sum_{i \in T} (y_i - \bar{y}_T)^2$。
+
+\subsection{代价复杂度剪枝 (Cost-Complexity Pruning)}
+为了防止树过度生长导致过拟合，CART 采用代价复杂度剪枝。对于给定的最大树 $T_{\max}$，寻找子树 $T \preceq T_{\max}$ 使得代价复杂度准则最小：
+$$ C_\alpha(T) = \sum_{t \in T} N_t \cdot \text{Impurity}(t) + \alpha |T| = C(T) + \alpha|T| $$
+其中 $|T|$ 为终端节点数，$\alpha$ 为调节树复杂度的惩罚参数，通常通过交叉验证选择。
+
+\section{Bagging 与随机森林 (Random Forests)}
+
+\subsection{Bagging (Bootstrap Aggregating)}
+Bagging 通过生成 $B$ 个 Bootstrap 样本并在每个样本上拟合一棵 CART 树，然后将它们的预测结果平均（回归）或多数投票（分类），以显著降低单棵树的预测方差。
+\begin{theorem}[Bagging 集成]
+$$ \hat{f}_{bag}(x) = \frac{1}{B} \sum_{b=1}^B \hat{f}_b(x) $$
+\end{theorem}
+然而，Bagging 中各棵树高度相关，限制了方差的进一步降低。
+
+\subsection{随机森林}
+随机森林在 Bagging 的基础上引入了特征的随机选择（Random Subspace Method）。
+\textbf{关键调参参数}：
+\begin{itemize}
+    \item \textbf{mtry}: 每次拆分节点时随机候选的特征数量（通常分类为 $\sqrt{p}$，回归为 $p/3$）。
+    \item \textbf{nmin (nodesize)}: 终端节点的最小样本数，不进行剪枝。
+    \item \textbf{ntree}: 树的总数，通常设置得足够大。
+\end{itemize}
+
+\subsection{变量重要性 (Variable Importance)}
+利用未被抽中的 OOB（Out-of-Bag）数据评估变量重要性：
+对于每棵树 $m$ 和特征 $j$，计算置换 OOB 样本中特征 $j$ 的值前后的预测误差增加量：
+$$ VI_{mj} = \frac{\sum_{i \in L_m^o} [y_i - \hat{f}(x_i^{(-j)}, \tilde{x}_i^{(j)})]^2}{\sum_{i \in L_m^o} [y_i - \hat{f}(x_i)]^2} - 1 $$
+如果特征 $j$ 对模型很重要，其值的随机置换将导致 OOB 误差显著增加。
+
+\section{随机森林的现代理论观点}
+
+\begin{theorem}[随机森林核 (Random Forest Kernel)]
+随机森林可以被视为一种自适应的 N-W 核估计量。每棵树 $m$ 诱导出一个指示核 $A_m(x_i, x_0) = \mathbf{1}\{x_i \in A, x_0 \in A\}$。
+随机森林的预测具有如下局部加权核形式：
+$$ \hat{f}(x_0) = \frac{\sum_{i=1}^n \left( \sum_{m=1}^{ntree} A_m(x_i, x_0) \right) y_i}{\sum_{i=1}^n \left( \sum_{m=1}^{ntree} A_m(x_i, x_0) \right)} $$
+\end{theorem}
+该核函数的“带宽”是数据自适应的：在强信号特征上更容易分裂，使得该方向上的局部邻域更小，从而在处理高维稀疏数据时具有优势。
+
+随机森林的理论性质（如一致性和方差分析）由于其同时具有自适应拆分和随机抽样，往往借助不完全 U-统计量 (Incomplete U-statistics) 进行分析证明。
+
+\end{document}

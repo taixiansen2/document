@@ -1,0 +1,74 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{定理}
+\newtheorem{lemma}{引理}
+\newtheorem{example}{例子}
+
+\title{核密度估计与核回归 (Kernel Density and Regression Estimators) 讲义笔记}
+\author{AI 处理}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{核心专业术语}
+\begin{itemize}
+    \item \textbf{Kernel Function (核函数, $K(\cdot)$)}: 一种用于估计概率密度或进行局部回归的加权函数，通常满足对称性且积分为 1。
+    \item \textbf{Kernel Density Estimation (KDE, 核密度估计)}: 一种非参数方法，通过将核函数放置在每个数据点上并求平均来估计总体的概率密度函数。
+    \item \textbf{Bandwidth (带宽, $\lambda$)}: 控制核函数宽度的平滑参数，决定了估计的局部程度以及偏差-方差权衡 (bias-variance trade-off)。
+    \item \textbf{Asymptotic Mean Integrated Squared Error (AMISE, 渐近平均积分平方误差)}: 用于评估密度估计器整体性能的指标，是偏差平方积分和方差积分的和。
+    \item \textbf{Epanechnikov Kernel (Epanechnikov 核)}: 在最小化 AMISE 意义下理论上最优的核函数。
+    \item \textbf{Kernel Regression (核回归 / Kernel Smoother)}: 一种非参数回归方法，通过对目标点附近的数据点进行加权平均（或局部拟合）来预测目标值。
+    \item \textbf{Nadaraya-Watson Estimator (N-W 估计量)}: 最基本的核平滑估计量，通过对响应变量 $y_i$ 进行核加权平均进行预测。
+    \item \textbf{Local Linear Regression (局部线性回归)}: 在每个目标点附近拟合一个加权线性回归，从而解决 N-W 估计量在边界处的偏差问题。
+\end{itemize}
+
+\section{核密度估计 (Kernel Density Estimation)}
+假设我们有来自未知分布 $f(\cdot)$ 的独立同分布样本 $X_1, \ldots, X_n$，目标是估计概率密度函数 (pdf)。
+
+\subsection{直方图与核函数引入}
+直方图等价于在每个观测值 $x_i$ 处放置质量为 $1/n$ 的点质量，并将其均匀分散到宽度为 $\lambda$ 的区域内。将均匀分布替换为一般核函数 $K(\cdot)$，我们得到 Parzen 估计量：
+$$ \hat{f}(x) = \frac{1}{n} \sum_{i=1}^n K_\lambda(x, x_i) $$
+其中 $K_\lambda(x, x_i) = \frac{1}{\lambda} K\left(\frac{|x - x_i|}{\lambda}\right)$。
+
+\begin{example}[常见的核函数]
+\begin{itemize}
+    \item \textbf{高斯核 (Gaussian kernel)}: $K(u) = \frac{1}{\sqrt{2\pi}} \exp(-u^2/2)$
+    \item \textbf{Epanechnikov 核}: $K(u) = \frac{3}{4}(1 - u^2) \mathbf{1}_{\{|u| \le 1\}}$ （属于对称 Beta 族核函数）
+    \item \textbf{Tri-cube 核}: $K(u) = \frac{70}{81}(1 - |u|^3)^3 \mathbf{1}_{\{|u| \le 1\}}$
+\end{itemize}
+\end{example}
+
+\subsection{核密度估计的性质与带宽选择}
+\begin{theorem}[核估计的偏差与方差]
+在一定的正则性条件下，核密度估计在目标点 $x$ 处是渐近无偏的。其偏差的平方积分和方差积分分别为：
+\begin{align*}
+\text{Bias}^2 &\approx \frac{\lambda^4 \sigma_K^4}{4} \int [f''(x)]^2 dx \\
+\text{Var} &\approx \frac{1}{n\lambda} \int K^2(t) dt
+\end{align*}
+其中 $\sigma_K^2 = \int K(t)t^2 dt$。
+\end{theorem}
+通过最小化 AMISE（Bias$^2$ + Var），最优带宽 $\lambda$ 的阶数为 $O(n^{-1/5})$，从而导致最优收敛率为 $O(n^{-4/5})$。
+在实际应用中，核函数的选择（如高斯核或 Epanechnikov 核）不如带宽 $\lambda$ 的选择重要。Silverman 的经验法则为 $\hat{\lambda} = 1.06 \hat{\sigma} n^{-1/5}$。
+
+\section{核回归 (Kernel Regression)}
+
+\subsection{Nadaraya-Watson 核估计量}
+将局部平均的思想应用于回归，我们在预测目标点 $x$ 的值时，根据观测点 $x_i$ 到 $x$ 的距离赋予不同的权重：
+$$ \hat{f}(x) = \frac{\sum_{i=1}^n K_\lambda(x, x_i) y_i}{\sum_{i=1}^n K_\lambda(x, x_i)} $$
+较小的 $\lambda$ 会导致估计更加粗糙（低偏差，高方差），较大的 $\lambda$ 导致估计更加平滑（高偏差，低方差）。由于核函数在边界区域的非对称性，该方法在定义域边界会产生严重的边界偏差。
+
+\subsection{局部多项式回归 (Local Polynomial Regression)}
+为了修正核平滑在边界处的偏差，我们可以进行局部加权线性回归或多项式回归。
+在点 $x_0$ 处，通过最小化以下目标函数来求解 $\beta$：
+$$ \min_{\beta_0, \ldots, \beta_d} \sum_{i=1}^n K_\lambda(x_0, x_i) \left[ y_i - \beta_0(x_0) - \sum_{r=1}^d \beta_r(x_0) x_i^r \right]^2 $$
+\begin{itemize}
+    \item 当 $d=1$ 时为 \textbf{局部线性回归}，它可以修正核估计的边界偏差 (Boundary Bias)。
+    \item 当 $d>1$（如 $d=2$）时为 \textbf{局部多项式回归}，可以在具有较大曲率的区域进一步减少偏差 (Curvature Bias)，但代价是增加方差。
+\end{itemize}
+
+\end{document}

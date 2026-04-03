@@ -1,0 +1,65 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{定理}
+\newtheorem{lemma}{引理}
+\newtheorem{example}{例子}
+
+\title{再生核希尔伯特空间与核岭回归 (RKHS and Kernel Ridge Regression) 讲义笔记}
+\author{AI 处理}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{核心专业术语}
+\begin{itemize}
+    \item \textbf{Hilbert Space (希尔伯特空间, $\mathcal{H}$)}: 一个完备的、定义了内积的内积空间。它满足对称性、线性和正定性。
+    \item \textbf{Reproducing Kernel Hilbert Space (RKHS, 再生核希尔伯特空间)}: 一种特殊的希尔伯特空间，具有再生性质。在此空间中，函数可以通过其与核函数的内积来计算其在某点的值。
+    \item \textbf{Reproducing Property (再生性质)}: 在 RKHS 中，任何函数 $f$ 与核函数 $K(x, \cdot)$ 的内积等于该函数在 $x$ 处的值，即 $\langle f, K(x, \cdot) \rangle = f(x)$。
+    \item \textbf{Representer Theorem (表示定理)}: 指出在 RKHS 中最小化包含经验损失和单调惩罚的目标函数，其最优解一定可以表示为训练样本核函数的线性组合。
+    \item \textbf{Kernel Ridge Regression (KRR, 核岭回归)}: 岭回归的非线性扩展，通过引入核函数在 RKHS 中求解，从而实现对非线性数据的拟合。
+\end{itemize}
+
+\section{再生核希尔伯特空间 (RKHS)}
+我们在机器学习中常常需要在一个函数空间内寻找最优函数。RKHS 是一个既足够灵活，在计算上又非常便于处理的函数空间。
+
+\subsection{RKHS 的构造}
+给定一个核函数 $K$，我们将数据点 $x$ 视为一个实值函数 $K_x(\cdot) = K(x, \cdot)$。
+首先，构造由 $K_x(\cdot)$ 的有限线性组合组成的空间 $\mathcal{G}$：
+$$ \mathcal{G} = \left\{ \sum_{i=1}^n \alpha_i K(x_i, \cdot) \mid \alpha_i \in \mathbb{R}, n \in \mathbb{N}, x_i \in \mathcal{X} \right\} $$
+定义 $\mathcal{G}$ 上的内积为：若 $K_x, K_z \in \mathcal{G}$，则 $\langle K_x, K_z \rangle = K(x, z)$。
+最后，通过包含所有的柯西序列极限使得空间完备，我们得到 RKHS $\mathcal{H} = \bar{\mathcal{G}}$。
+
+\subsection{再生性质 (Reproducing Property)}
+对于 $\mathcal{H}$ 中的函数 $f = \sum_i \alpha_i K(x_i, \cdot)$，它在 $x$ 处的求值等价于与 $K(x, \cdot)$ 做内积：
+$$ \langle f, K(x, \cdot) \rangle = \left\langle \sum_i \alpha_i K(x_i, \cdot), K(x, \cdot) \right\rangle = \sum_i \alpha_i K(x_i, x) = f(x) $$
+
+\section{表示定理 (Representer Theorem)}
+RKHS 是一个无限维空间，但在有限样本上进行经验风险最小化时，问题的解处于一个有限维子空间中。
+
+\begin{theorem}[Representer Theorem, Kimeldorf and Wahba, 1970]
+给定一个正定实值核 $K: \mathcal{X} \times \mathcal{X} \to \mathbb{R}$ 和相关的 RKHS $\mathcal{H}$，以及数据集 $\{x_i, y_i\}_{i=1}^n$。若我们在 $\mathcal{H}$ 中寻找以下优化问题的解：
+$$ \hat{f} = \arg\min_{f \in \mathcal{H}} L(\{y_i, f(x_i)\}_{i=1}^n) + p(\|f\|_{\mathcal{H}}^2) $$
+其中 $L$ 为损失函数，$p$ 为单调递增的惩罚函数。那么最优解必然具有如下形式：
+$$ \hat{f}(\cdot) = \sum_{i=1}^n \alpha_i K(\cdot, x_i) $$
+\end{theorem}
+证明的关键在于将 $f$ 正交分解为由样本核函数张成的空间上的投影和其正交补 $h(\cdot)$。损失函数的值不依赖于 $h(\cdot)$，而正交补 $h(\cdot)$ 只会增加惩罚项，因此最优解中必然有 $h(\cdot) = 0$。
+
+\section{核岭回归 (Kernel Ridge Regression)}
+经典的岭回归问题为：$\min_{\beta} \frac{1}{n} \|y - X\beta\|^2 + \lambda \|\beta\|^2$，其解为 $\hat{\beta} = (X^T X + n\lambda I)^{-1} X^T y$。
+
+将其拓展到 RKHS，利用“损失+惩罚”的形式，我们有：
+$$ \arg\min_{f \in \mathcal{H}} \frac{1}{n} \sum_{i=1}^n (y_i - f(x_i))^2 + \lambda \|f\|_{\mathcal{H}}^2 $$
+由表示定理，代入 $f(x) = \sum_j \alpha_j K(x_i, x_j)$，目标函数可写为关于 $\alpha$ 的优化问题：
+$$ \arg\min_{\alpha} \frac{1}{n} \|y - K\alpha\|^2 + \lambda \alpha^T K \alpha $$
+对 $\alpha$ 求导并令其为 0，得到解：
+$$ \hat{\alpha} = (K + n\lambda I)^{-1} y $$
+预测新数据点 $x_0$ 时，使用：
+$$ \hat{f}(x_0) = \sum_{i=1}^n \hat{\alpha}_i K(x_0, x_i) $$
+KRR 的优点在于能够拟合非线性函数；缺点在于计算开销为 $O(n^3)$（需要求逆一个 $n \times n$ 的核矩阵），在大样本时计算较慢。
+
+\end{document}

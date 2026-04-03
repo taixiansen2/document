@@ -1,0 +1,92 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{定理}
+\newtheorem{lemma}{引理}
+\newtheorem{example}{例子}
+\newtheorem{definition}{定义}
+
+\title{因果推断简介 (An Introduction to Causal Inference) 讲义笔记}
+\author{AI 处理}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{核心专业术语}
+\begin{itemize}
+    \item \textbf{Causal Inference (因果推断)}: 研究一个变量（如干预或暴露）对另一个变量（如结果）的因果效应的过程。
+    \item \textbf{Counterfactuals / Potential Outcomes (反事实 / 潜在结果, $Y^a$)}: 在假定个体接受了特定干预 $a$ 的情况下（可能是假设的或违反事实的）观察到的结果。
+    \item \textbf{Average Causal Effect (ACE) / Average Treatment Effect (ATE, 平均因果效应 / 平均治疗效应)}: 总体中所有个体的潜在结果之差的期望，通常表示为 $\psi = E[Y^1 - Y^0]$。
+    \item \textbf{Randomization (随机化)}: 将受试者随机分配到不同治疗组的过程，以确保潜在结果独立于治疗分配 $(Y^0, Y^1) \perp A$。
+    \item \textbf{Confounding (混杂)}: 当暴露组和未暴露组的结果概率分布存在并非由暴露效应引起差异时的现象。通常由同时影响暴露和结果的外部变量（混杂因子）引起。
+    \item \textbf{No Unmeasured Confounding Assumption (NUCA, 无未测量混杂假设)}: 假设在给定测量协变量 $L$ 的情况下，潜在结果与治疗分配条件独立 $(Y^0, Y^1) \perp A | L$。
+    \item \textbf{G-formula (G-公式 / 标准化公式)}: 用于在存在混杂但满足 NUCA 假设时，从观测数据计算因果效应的公式：$E[Y^a] = \sum_l E[Y|A=a, L=l]Pr(L=l)$。
+    \item \textbf{Inverse Probability Treatment Weighting (IPTW / IPW, 逆概率治疗加权)}: 一种通过个体的治疗概率的倒数对其进行加权来估计因果效应的方法。
+    \item \textbf{Doubly Robust Estimator (DR Estimator, 双稳健估计量)}: 结合了结果回归模型和倾向得分模型的估计量。只要两个模型中至少有一个正确设定，它就是一致的。
+    \item \textbf{Directed Acyclic Graph (DAG, 有向无环图)}: 一种由节点和有向边组成且无闭环的图，用于非参数地表示变量间的因果关系。
+    \item \textbf{d-separation (d-分离)}: 图模型中的一个准则，用于判断一组变量是否能够阻断两节点间的所有路径，从而推导条件独立性。
+    \item \textbf{Backdoor Path Criterion (后门路径准则)}: 通过阻断所有包含指向暴露的箭头的路径（后门路径）来控制混杂的准则。
+\end{itemize}
+
+\section{因果推断基础}
+因果范式包含定义因果量（通过反事实）、陈述识别因果量所需的假设、建立数学模型以及进行统计推断。
+因果推断的根本问题在于：对于每个个体，我们只能观察到两个潜在结果 $Y^0$ 和 $Y^1$ 中的一个，即 $Y = A Y^1 + (1 - A) Y^0$。因此，它本质上是一个缺失数据问题。
+
+\subsection{识别因果效应的三个基本假设}
+为了从观测数据中识别平均因果效应 $E[Y^1 - Y^0]$，通常需要以下三个假设：
+\begin{enumerate}
+    \item \textbf{一致性假设 (Consistency Assumption, CA)}: 若个体接受了治疗 $A=a$，则其观测结果等于其潜在结果，即 $Y = Y^A$。
+    \item \textbf{可交换性假设 (Exchangeability / Randomization / NUCA)}: 在随机化试验中，$(Y^0, Y^1) \perp A$。在观察性研究中，假设无未测量的混杂 $(Y^0, Y^1) \perp A | L$。
+    \item \textbf{正定性假设 (Positivity Assumption, PA)}: 对于所有 $f_L(l) > 0$，都有 $0 < Pr(A=1|L=l) < 1$。
+\end{enumerate}
+
+\section{因果效应估计方法}
+
+\subsection{G-计算 (G-computation)}
+在满足上述三个假设的情况下，可以通过标准化公式识别 $E[Y^a]$：
+$$ E[Y^a] = \sum_l E[Y|A=a, L=l] f_L(l) $$
+G-计算通过对 $E[Y|A=a, L=l]$ 建立结果回归模型来进行推断。
+
+\begin{example}[直接标准化]
+对于离散变量 $A$ 和 $L$，可以通过样本层面的平均值来估计 $E[Y|A=a, L=l]$，并对其在 $L$ 的边际分布上进行加权求和，得到 $\hat{g}(a)$。
+\end{example}
+
+\subsection{逆概率治疗加权 (IPTW)}
+IPTW 依赖于对倾向得分 $Pr(A=1|L)$ 建模，而不需要估计结果回归模型。
+\begin{theorem}[IPTW 恒等式]
+在一致性、可交换性和正定性假设下，潜在结果的期望等于加权的观测结果期望：
+$$ E[Y^a] = E \left[ \frac{I(A=a)}{f(A|L)} Y \right] $$
+\end{theorem}
+IPTW 通过将每个人的权重设为 $W = 1/f(A|L)$，创建了一个伪人群（pseudo-population），在这个伪人群中不存在 $L$ 带来的混杂。
+
+\subsection{双稳健估计 (Doubly Robust Estimator)}
+结合 IPTW 和结果回归的方法，构建一个更具鲁棒性的估计量。
+\begin{theorem}[双稳健性]
+双稳健估计量形式如下：
+$$ \hat{\psi}_{DR} = P_n \left[ \frac{A}{\hat{f}(1|L)} \{Y - \hat{E}(Y|1, L)\} + \hat{E}(Y|1, L) - \left( \frac{1 - A}{\hat{f}(0|L)} \{Y - \hat{E}(Y|0, L)\} + \hat{E}(Y|0, L) \right) \right] $$
+如果倾向得分模型 $\hat{f}(A|L)$ 或者结果回归模型 $\hat{E}(Y|A, L)$ 至少有一个设定正确，则该估计量对于 $\psi = E[Y^1 - Y^0]$ 是一致的。
+\end{theorem}
+
+\subsection{G-估计 (G-estimation)}
+G-估计是一种半参数方法，通常通过设定一个结构因果模型 $\gamma(A, L; \psi)$ 来表示个体或条件平均因果效应，并通过构建关于倾向得分模型的估计方程来求解参数。
+
+\section{有向无环图 (DAG) 与 d-分离}
+DAG 是一种非参数的图模型，用于表示变量间的因果结构。节点间的有向路径表示因果路径，后门路径表示混杂。
+
+\begin{definition}[d-分离 (d-separation)]
+在 DAG 中，对于节点集合 $B$，$B$ d-分离节点 $A$ 和 $Y$，当且仅当 $A$ 和 $Y$ 之间的所有路径都被 $B$ 阻断。路径被阻断的条件是：
+\begin{itemize}
+    \item 路径包含一个链 (chain, $\rightarrow m \rightarrow$) 或分叉 (fork, $\leftarrow m \rightarrow$)，且中间节点 $m \in B$；或者
+    \item 路径包含一个对撞节点 (collider, $\rightarrow c \leftarrow$)，且 $c$ 及其任何后代都不在 $B$ 中。
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[后门路径准则 (Backdoor Path Criterion)]
+如果变量集合 $S$ 不包含暴露 $E$ 的任何后代，并且在图中删除所有从 $E$ 发出的箭头后，$S$ 能够 d-分离 $E$ 和结果 $D$，则调整集合 $S$ 足以控制混杂。
+\end{theorem}
+
+\end{document}
