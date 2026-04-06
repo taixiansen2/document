@@ -1,0 +1,175 @@
+\documentclass{ctexart}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\begin{document}
+
+\title{Homework 04(1)}
+\author{}
+\date{}
+\maketitle
+
+\section*{Problem 1}
+\textbf{翻译题目：}\\
+(a) 证明指数映射 $\exp : sl_2(\mathbb{R}) \to SL_2(\mathbb{R})$ 不是满射。\\
+(b) 描述指数映射 $\exp : gl_2(\mathbb{R}) \to GL_2(\mathbb{R})$ 的像（用共轭类来表述）。
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+(a) 对任意 $X \in sl_2(\mathbb{R})$，有 $\text{tr}(X) = 0$。因此它的特征值为 $\lambda$ 和 $-\lambda$。\\
+如果 $\lambda \in \mathbb{R}$，则 $\exp(X)$ 的特征值为 $e^\lambda$ 和 $e^{-\lambda}$，此时 $\text{tr}(\exp(X)) = e^\lambda + e^{-\lambda} \ge 2$。\\
+如果 $\lambda$ 是纯虚数，设 $\lambda = i\theta$（$\theta \in \mathbb{R}$），则 $\exp(X)$ 的特征值为 $e^{i\theta}$ 和 $e^{-i\theta}$，此时 $\text{tr}(\exp(X)) = 2\cos\theta \in [-2, 2]$。\\
+如果 $\lambda = 0$ 且不可对角化，则 $\exp(X)$ 的特征值为 $1, 1$，$\text{tr}(\exp(X)) = 2$。\\
+这表明对所有的 $X \in sl_2(\mathbb{R})$，都有 $\text{tr}(\exp(X)) \ge -2$。并且，如果 $\text{tr}(\exp(X)) = -2$，这说明 $\cos\theta = -1$，即 $\theta$ 是 $\pi$ 的奇数倍。在这种情况下，$X$ 在复数域上可对角化，因此 $\exp(X)$ 必须可对角化，这意味着 $\exp(X) = -I$。\\
+现在考虑矩阵 $A = \begin{pmatrix} -1 & 1 \\ 0 & -1 \end{pmatrix} \in SL_2(\mathbb{R})$。它的迹为 $-2$，但它不可对角化，因此 $A \neq -I$。由此可知，$A$ 不在指数映射的像中，所以 $\exp$ 不是满射。
+
+(b) 对于 $gl_2(\mathbb{R})$，由于 $\det(\exp(X)) = e^{\text{tr}(X)} > 0$，所以 $\exp$ 的像包含在 $GL_2^+(\mathbb{R})$（行列式为正的矩阵）中。\\
+如果一个矩阵 $A \in GL_2^+(\mathbb{R})$ 具有不相等的负实数特征值 $\lambda_1 < \lambda_2 < 0$，为了使 $A = \exp(X)$，$X$ 必须具有特征值 $a \pm ib$ 使得 $e^{a \pm ib} = \lambda_{1,2}$。这要求 $e^a e^{ib}$ 为负实数，推导出 $b$ 是 $\pi$ 的奇数倍。这样的话 $e^{a+ib} = e^{a-ib} = -e^a$，这意味着 $\lambda_1 = \lambda_2$，与假设矛盾。\\
+如果 $A$ 有两个相等的负特征值 $\lambda < 0$，但 $A$ 不可对角化，同样因为 $X$ 若具有复特征值必然在复数域上可对角化，从而 $\exp(X)$ 也必须可对角化，所以此时 $A$ 也不在像中。\\
+除此之外，$GL_2^+(\mathbb{R})$ 中的所有其他共轭类（具有正实特征值、具有共轭复特征值、或者等于标量矩阵 $-cI, c>0$）都在 $\exp$ 的像中。\\
+因此，像集为所有不包含“具有相异负实特征值的矩阵”以及“具有相同负特征值且不可对角化的矩阵”的 $GL_2^+(\mathbb{R})$ 中的共轭类。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+(a) For $X \in sl_2(\mathbb{R})$, $\text{tr}(X) = 0 \implies \text{tr}(\exp(X)) \ge -2$. If $\text{tr}(\exp(X)) = -2$, $\exp(X)$ must be diagonalizable, i.e., $\exp(X) = -I$. Matrix $A = \begin{pmatrix} -1 & 1 \\ 0 & -1 \end{pmatrix} \in SL_2(\mathbb{R})$ has trace $-2$ but $A \neq -I$, so $A \notin \text{Im}(\exp)$. Thus, $\exp$ is not surjective.\\
+(b) The image of $\exp: gl_2(\mathbb{R}) \to GL_2(\mathbb{R})$ consists of all matrices in $GL_2^+(\mathbb{R})$ EXCEPT those with two distinct negative real eigenvalues, and EXCEPT those with a repeated negative real eigenvalue that are not diagonalizable (not a scalar multiple of identity).
+
+\vspace{2em}
+\section*{Problem 2}
+\textbf{翻译题目：}\\
+证明 $GL_n(\mathbb{C})$ 的指数映射是满射。（提示：使用若尔当标准型并应用 Lecture Notes 04 定理 4.3。）
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+设 $A \in GL_n(\mathbb{C})$。由于 $A$ 是可逆矩阵，根据若尔当标准型定理，存在可逆矩阵 $P \in GL_n(\mathbb{C})$，使得 $A$ 相似于一些若尔当块的直和 $P^{-1}AP = \text{diag}(J_{k_1}(\lambda_1), \dots, J_{k_m}(\lambda_m))$。\\
+由于 $A$ 可逆，所有的特征值 $\lambda_i \neq 0$。\\
+对于每一个若尔当块 $J_k(\lambda) = \lambda (I + N)$，其中 $N$ 是标准的幂零移位矩阵（即其对角线上的上一条斜线为 1，其余为 0）。\\
+因为 $\lambda \neq 0$，我们可以选择复对数 $\ln\lambda$。令\\
+$X_k = (\ln\lambda)I + \sum_{m=1}^{k-1} \frac{(-1)^{m-1}}{m} N^m$。\\
+由于 $N^k = 0$，上述级数是有限项求和，因此 $X_k$ 良好定义且在 $gl_k(\mathbb{C})$ 中。\\
+由指数函数的幂级数展开和对数函数的泰勒展开性质，我们有 $\exp(X_k) = \exp((\ln\lambda)I) \exp(\ln(I+N)) = \lambda I (I+N) = J_k(\lambda)$。\\
+构造分块对角矩阵 $X = \text{diag}(X_1, \dots, X_m)$，我们有 $\exp(X) = P^{-1}AP$。\\
+最后取 $Y = P X P^{-1} \in gl_n(\mathbb{C})$，则 $\exp(Y) = P \exp(X) P^{-1} = A$。\\
+因此，指数映射是满射。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+Let $A \in GL_n(\mathbb{C})$. By Jordan canonical form, $A = P \text{diag}(J_1(\lambda_1), \dots) P^{-1}$ with $\lambda_i \neq 0$. For each block $J = \lambda(I+N)$ with nilpotent $N$, define $X_J = (\ln\lambda)I + \sum_{m=1}^{n-1} \frac{(-1)^{m-1}}{m} N^m$. Since the sum is finite, $X_J$ is well-defined and $\exp(X_J) = J$. Taking $X = P \text{diag}(X_{J_1}, \dots) P^{-1}$ yields $\exp(X) = A$, proving surjectivity.
+
+\vspace{2em}
+\section*{Problem 3}
+\textbf{翻译题目：}\\
+设 $G = SL_2(\mathbb{R})$。令 $B$ 是 $G$ 的标准 Borel 子群，$K = SO(2)$。\\
+(a) 对任意 $g = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \in G$，证明存在唯一的 $b \in B$ 和 $k \in K$ 使得 $g = bk$。（提示：这完全是线性代数中的格拉姆-施密特正交化过程。）\\
+(b) 验证映射 $G \to B \times K$, $g \mapsto (b, k)$ 是拓扑空间的同胚。（注：它实际上是一个微分同胚，验证正则性只是一个繁琐的工作。）\\
+(c) $G$ 的基本群是什么？\\
+(d) 关于 $SL_n(\mathbb{R})$ 你能得出什么结论？（试着把论断推广到 $SL_n(\mathbb{R})$，不需要证明。）
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+(a) $K = SO(2)$ 中的元素形如 $k = \begin{pmatrix} \cos\theta & \sin\theta \\ -\sin\theta & \cos\theta \end{pmatrix}$。$B$ 是由对角线元素为正的上三角矩阵组成（由于行列式为 1，即 $\begin{pmatrix} r & s \\ 0 & r^{-1} \end{pmatrix}, r > 0$）。\\
+方程 $g = bk$ 等价于 $b = gk^{-1}$。计算 $gk^{-1}$ 得到：\\
+$b = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} = \begin{pmatrix} a\cos\theta+b\sin\theta & -a\sin\theta+b\cos\theta \\ c\cos\theta+d\sin\theta & -c\sin\theta+d\cos\theta \end{pmatrix}$。\\
+为了使 $b$ 是上三角矩阵，我们需要 $c\cos\theta + d\sin\theta = 0$。\\
+由于 $g \in SL_2(\mathbb{R})$，$(c, d) \neq (0, 0)$，所以存在角度 $\theta$ 使得该等式成立。在 $[0, 2\pi)$ 中有两个这样的角度相差 $\pi$。\\
+为了使 $b \in B$，我们还要求 $b_{22} = -c\sin\theta + d\cos\theta > 0$。\\
+这两个条件唯一确定了单位圆上的一个点 $(\cos\theta, \sin\theta)$：\\
+$\cos\theta = \frac{d}{\sqrt{c^2+d^2}}$, $\sin\theta = \frac{-c}{\sqrt{c^2+d^2}}$。\\
+由于 $\theta$ 是唯一确定的，$k$ 是唯一确定的。由于 $g$ 行列式为1 且 $k$ 行列式为1，必然有 $\det(b) = 1$。因为 $b_{22} > 0$，所以 $b_{11} > 0$。所以 $b \in B$ 也被唯一确定。
+
+(b) 由 (a) 中的公式 $\cos\theta = \frac{d}{\sqrt{c^2+d^2}}$ 和 $\sin\theta = \frac{-c}{\sqrt{c^2+d^2}}$ 可以看出，$k$ 的所有分量都是 $g$ 分量的有理函数和非零平方根，因而是关于 $g$ 的连续函数。由于 $b = gk^{-1}$，由矩阵乘法可知 $b$ 也是连续的。所以映射 $g \mapsto (b, k)$ 是连续的。\\
+其逆映射 $(b, k) \mapsto bk$ 只是简单的矩阵乘法，显然也是连续的。因此这是一个同胚。
+
+(c) 由 (b) 知，$SL_2(\mathbb{R}) \cong B \times K$。$B$ 中的元素由 $r > 0, s \in \mathbb{R}$ 确定，拓扑同胚于 $\mathbb{R}_{>0} \times \mathbb{R} \cong \mathbb{R}^2$，这是一个可缩空间。\\
+$K = SO(2) \cong S^1$，其基本群为 $\mathbb{Z}$。\\
+因此 $\pi_1(SL_2(\mathbb{R})) = \pi_1(B \times K) = \pi_1(\mathbb{R}^2 \times S^1) = \pi_1(S^1) = \mathbb{Z}$。
+
+(d) 对于 $SL_n(\mathbb{R})$，通过岩泽分解（Iwasawa decomposition）有 $SL_n(\mathbb{R}) \cong B \times SO(n)$（同胚），其中 $B$ 是对角线全正的上三角矩阵构成的 Borel 子群，$B$ 同胚于欧氏空间所以是可缩的。因此 $\pi_1(SL_n(\mathbb{R})) \cong \pi_1(SO(n))$。由于对 $n \ge 3$ 有 $\pi_1(SO(n)) = \mathbb{Z}/2\mathbb{Z}$，所以当 $n \ge 3$ 时，$\pi_1(SL_n(\mathbb{R})) = \mathbb{Z}/2\mathbb{Z}$。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+(a) To write $g = bk$, we need $b = gk^{-1}$ to be upper triangular with positive diagonal entries. This yields $c\cos\theta + d\sin\theta = 0$ and $-c\sin\theta + d\cos\theta > 0$. This system uniquely determines $(\cos\theta, \sin\theta) = (\frac{d}{\sqrt{c^2+d^2}}, \frac{-c}{\sqrt{c^2+d^2}})$. Thus $k$, and therefore $b$, are uniquely determined.\\
+(b) The formulas for $k$ and $b=gk^{-1}$ are explicitly continuous with respect to the matrix entries of $g$. The inverse map $(b, k) \mapsto bk$ is given by matrix multiplication, which is also continuous. Thus it is a homeomorphism.\\
+(c) Since $G \cong B \times K$ and $B \cong \mathbb{R}^2$ is contractible, $\pi_1(G) = \pi_1(SO(2)) = \mathbb{Z}$.\\
+(d) Generalizing via Iwasawa decomposition, $SL_n(\mathbb{R})$ retracts to $SO(n)$. Thus $\pi_1(SL_n(\mathbb{R})) \cong \pi_1(SO(n))$, which is $\mathbb{Z}$ for $n=2$, and $\mathbb{Z}/2\mathbb{Z}$ for $n \ge 3$.
+
+\vspace{2em}
+\section*{Problem 4}
+\textbf{翻译题目：}\\
+设 $F = \mathbb{R}$ 或 $\mathbb{C}$。设 $H_n(F) := \{A \in Mat_n(F) \mid A = A^*\}$ 为所有埃尔米特（Hermitian）矩阵构成的空间（注：原题写为 $A = A^t$，对于复数域，这应当理解为共轭转置 $A^*$ 才能保证特征值为实数以及正定性的定义）。并设 $H_n^+(F) := \{A \in H_n(F) \mid A \text{ 是正定的}\}$。\\
+(a) 指数映射将埃尔米特矩阵映射为正定埃尔米特矩阵。\\
+(b) 限制在 $H_n(F)$ 上的指数映射 $\exp: H_n(F) \to H_n^+(F)$ 是单射。\\
+(c) 映射 $O(n) \times H_n(\mathbb{R}) \to GL_n(\mathbb{R})$，$(k, X) \mapsto k \cdot e^X$ 是同胚。\\
+(d) $GL_n(\mathbb{R})^0$（即 $GL_n(\mathbb{R})$ 的连通分支）的基本群是什么？
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+(a) 设 $X \in H_n(F)$。根据谱定理，埃尔米特矩阵可以通过酉矩阵对角化，即存在酉矩阵 $U$ 和实数对角矩阵 $D = \text{diag}(\lambda_1, \dots, \lambda_n)$，使得 $X = UDU^*$。\\
+其指数矩阵为 $\exp(X) = U \exp(D) U^* = U \text{diag}(e^{\lambda_1}, \dots, e^{\lambda_n}) U^*$。\\
+显然 $\exp(X)$ 依然是埃尔米特矩阵。且它的特征值为 $e^{\lambda_i}$。因为 $\lambda_i \in \mathbb{R}$，所以 $e^{\lambda_i} > 0$。特征值全为正的埃尔米特矩阵即为正定矩阵。因此 $\exp(X) \in H_n^+(F)$。
+
+(b) 假设对于 $X, Y \in H_n(F)$，有 $\exp(X) = \exp(Y) = P \in H_n^+(F)$。\\
+由于 $P$ 是正定埃尔米特矩阵，根据谱定理，$P$ 可以唯一地写成正交投影的线性组合 $P = \sum \mu_k P_k$，其中 $\mu_k > 0$ 且所有的 $P_k$ 互相正交并求和为单位阵。\\
+如果 $X \in H_n(F)$ 使得 $\exp(X) = P$，由于 $X$ 也是埃尔米特矩阵，它在同样的特征空间上对角化，所以 $X$ 必然有形式 $X = \sum (\ln\mu_k) P_k$。由于实数的对数 $\ln \mu_k$ 是唯一确定的，这就表明满足此条件的 $X$ 是唯一的。所以 $X = Y = \ln P$，因此 $\exp$ 是单射。
+
+(c) 这是极分解（Polar Decomposition）定理的体现。\\
+对于任何可逆矩阵 $A \in GL_n(\mathbb{R})$，矩阵 $A^TA$ 是对称且正定的。由(a)和(b)可知，限制在实对称矩阵上的指数映射是双射。因此，存在唯一的对称矩阵 $X \in H_n(\mathbb{R})$ 使得 $\exp(2X) = A^TA$。\\
+设 $k = A \exp(-X)$。我们有：\\
+$k^T k = (A \exp(-X))^T (A \exp(-X)) = \exp(-X) A^T A \exp(-X) = \exp(-X) \exp(2X) \exp(-X) = I$。\\
+所以 $k \in O(n)$。因此对每个 $A$，存在唯一的 $(k, X)$ 满足 $A = k e^X$。\\
+映射 $(k, X) \mapsto k e^X$ 是连续的。其逆映射通过求 $A^TA$ 的唯一对称正定平方根及其对数，然后取 $k = A e^{-X}$ 构造出，这在可逆矩阵的拓扑空间上也是连续的。所以这是同胚。
+
+(d) $GL_n(\mathbb{R})^0$ 的连通分支等价于行列式大于 0 的矩阵集合 $GL_n^+(\mathbb{R})$。\\
+在极分解 $GL_n(\mathbb{R}) \cong O(n) \times H_n(\mathbb{R})$ 下，$GL_n^+(\mathbb{R})$ 对应于 $SO(n) \times H_n(\mathbb{R})$。\\
+因为 $H_n(\mathbb{R})$（全体 $n$ 阶实对称矩阵空间）同胚于 $\mathbb{R}^{n(n+1)/2}$，是可缩的。\\
+所以 $\pi_1(GL_n(\mathbb{R})^0) \cong \pi_1(SO(n) \times H_n(\mathbb{R})) \cong \pi_1(SO(n))$。\\
+于是基本群为：对于 $n=1$，$\pi_1 = 0$；对于 $n=2$，$\pi_1 = \mathbb{Z}$；对于 $n \ge 3$，$\pi_1 = \mathbb{Z}/2\mathbb{Z}$。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+(a) For $X \in H_n(F)$, $X = UDU^*$ with real diagonal $D$. Then $\exp(X) = U \exp(D) U^*$ is Hermitian, and its eigenvalues $e^{\lambda_i}$ are all positive, so it's positive definite.\\
+(b) Any positive definite Hermitian matrix $P$ has a unique real logarithm within the space of Hermitian matrices given by $\ln P = U \ln(D) U^*$. Thus $\exp(X) = \exp(Y)$ implies $X=Y=\ln P$, proving injectivity.\\
+(c) For $A \in GL_n(\mathbb{R})$, $A^TA$ is symmetric positive definite, so $A^TA = e^{2X}$ for a unique symmetric $X$. Taking $k = Ae^{-X}$ gives $k^Tk = I$, so $k \in O(n)$. The map and its inverse given by the polar decomposition are both continuous, hence it's a homeomorphism.\\
+(d) Since $GL_n(\mathbb{R})^0 \cong SO(n) \times H_n(\mathbb{R})$ and $H_n(\mathbb{R})$ is contractible, $\pi_1(GL_n(\mathbb{R})^0) \cong \pi_1(SO(n))$, which is $0$ for $n=1$, $\mathbb{Z}$ for $n=2$, and $\mathbb{Z}/2\mathbb{Z}$ for $n \ge 3$.
+
+\vspace{2em}
+\section*{Problem 5}
+\textbf{翻译题目：}\\
+设 $G = O(p, q)$ 且 $K = O(p) \times O(q)$。通过自然的块对角嵌入 $(k_1, k_2) \mapsto \begin{pmatrix} k_1 & 0 \\ 0 & k_2 \end{pmatrix}$ 将 $K$ 视为 $G$ 的子群。设 $\mathfrak{p} = \left\{ X = \begin{pmatrix} 0 & A^t \\ A & 0 \end{pmatrix} \mid A \in Mat_{q \times p}(\mathbb{R}) \right\}$。\\
+(a) 验证对任意 $X \in \mathfrak{p}$ 有 $e^X \in G$。\\
+(b) 证明 $K \times \mathfrak{p} \to G$, $(k, X) \mapsto ke^X$ 是一个同胚。\\
+(c) 通过取连通分支，求 $G^0$ 的基本群。
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+(a) 群 $G = O(p, q)$ 保留内积度量 $I_{p,q} = \begin{pmatrix} I_p & 0 \\ 0 & -I_q \end{pmatrix}$，即 $M \in G$ 当且仅当 $M^T I_{p,q} M = I_{p,q}$。\\
+其李代数 $o(p, q)$ 中的元素 $Y$ 满足 $Y^T I_{p,q} + I_{p,q} Y = 0$。\\
+对于给定的 $X = \begin{pmatrix} 0 & A^t \\ A & 0 \end{pmatrix}$，我们有 $X^T = X$。计算得：\\
+$X^T I_{p,q} = \begin{pmatrix} 0 & A^t \\ A & 0 \end{pmatrix} \begin{pmatrix} I_p & 0 \\ 0 & -I_q \end{pmatrix} = \begin{pmatrix} 0 & -A^t \\ A & 0 \end{pmatrix}$。\\
+$I_{p,q} X = \begin{pmatrix} I_p & 0 \\ 0 & -I_q \end{pmatrix} \begin{pmatrix} 0 & A^t \\ A & 0 \end{pmatrix} = \begin{pmatrix} 0 & A^t \\ -A & 0 \end{pmatrix}$。\\
+两式相加得 $X^T I_{p,q} + I_{p,q} X = 0$，所以 $X \in o(p, q)$。由于矩阵指数映射将李代数映射到李群，我们得出 $e^X \in O(p, q) = G$。
+
+(b) 这是 $O(p, q)$ 上的嘉当分解（Cartan decomposition）。\\
+对于任意 $g \in G$，考虑映射 $\theta(g) = (g^{-1})^T$。因为 $g^T I_{p,q} g = I_{p,q}$，得 $g^T = I_{p,q} g^{-1} I_{p,q}$，所以 $gg^T = g I_{p,q} g^{-1} I_{p,q}$。\\
+$gg^T$ 是一个对称正定矩阵。存在唯一的对称矩阵 $Y$ 使得 $gg^T = e^{2Y}$。由于 $gg^T \in G$（$G$ 对转置封闭），有 $(gg^T)^T I_{p,q} (gg^T) = I_{p,q}$。将指数映射代入意味着李代数元素 $Y$ 必须在 $o(p, q)$ 中。又因为 $Y$ 也是对称的（$Y=Y^T$），因此它形如 $\begin{pmatrix} 0 & A^t \\ A & 0 \end{pmatrix}$，所以 $Y \in \mathfrak{p}$。\\
+令 $X = Y$，$k = g e^{-X}$。则：\\
+$k k^T = g e^{-X} e^{-X} g^T = g e^{-2X} g^T = g (gg^T)^{-1} g^T = I$。\\
+所以 $k \in O(p+q)$。同时 $k \in O(p, q)$，这意味着 $k$ 与 $I_{p,q}$ 交换。能在 $O(p+q)$ 中与 $I_{p,q}$ 交换的矩阵必须是块对角的，所以 $k \in O(p) \times O(q) = K$。\\
+这就证明了存在唯一的分解 $g = ke^X$。由于分解的两个组成部分都具有连续依赖于 $g$ 的显式表达，这构成了同胚映射。
+
+(c) 由 (b) 知道同胚 $G \cong K \times \mathfrak{p}$。取单位元所在的连通分支有 $G^0 \cong K^0 \times \mathfrak{p}$。\\
+$K^0 = (O(p) \times O(q))^0 = SO(p) \times SO(q)$。\\
+由于 $\mathfrak{p}$ 作为向量空间同胚于 $\mathbb{R}^{pq}$，它是可缩的。因此 $G^0$ 的基本群只取决于 $K^0$：\\
+$\pi_1(G^0) \cong \pi_1(SO(p) \times SO(q)) \cong \pi_1(SO(p)) \times \pi_1(SO(q))$。\\
+具体的群取决于 $p, q$ 的值（例如：$p, q \ge 3 \implies \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}$ 等等）。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+(a) $X^T = X$. We check $X^T I_{p,q} + I_{p,q} X = 0$, so $X \in o(p, q)$. By Lie theory, $e^X \in O(p, q) = G$.\\
+(b) This is the Cartan decomposition. For $g \in G$, $gg^T$ is symmetric positive definite and lies in $G$, so $gg^T = e^{2X}$ for a unique symmetric $X \in o(p, q)$, meaning $X \in \mathfrak{p}$. Setting $k = ge^{-X}$, we verify $kk^T = I$, so $k \in O(p+q) \cap O(p,q) = O(p) \times O(q) = K$. This unique and continuous factorization makes the map a homeomorphism.\\
+(c) The identity component restricts to $G^0 \cong K^0 \times \mathfrak{p} = (SO(p) \times SO(q)) \times \mathfrak{p}$. Since $\mathfrak{p} \cong \mathbb{R}^{pq}$ is contractible, $\pi_1(G^0) \cong \pi_1(SO(p)) \times \pi_1(SO(q))$.
+
+\end{document}

@@ -1,0 +1,159 @@
+\documentclass{ctexart}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\begin{document}
+
+\title{Homework 05}
+\author{}
+\date{}
+\maketitle
+
+\section*{Problem 1}
+\textbf{翻译题目：}\\
+设 $g$ 是域 $F$（$F = \mathbb{R}$ 或 $\mathbb{C}$）上的有限维李代数。回顾定义\\
+$\text{Der}_F(g) := \{D \in \text{End}_F(g) \mid D[X, Y] = [DX, Y] + [X, DY]\}$。\\
+证明 $\text{Aut}_F(g)$（$g$ 的 $F$-线性自同构群）的李代数是 $\text{Der}_F(g)$。（上次忘记留作作业了，所以我们在这里做。）
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+我们知道 $\text{Aut}_F(g)$ 是 $GL(g)$ 的一个闭子群，因此它是一个李群。它的李代数 $\text{Lie}(\text{Aut}_F(g))$ 定义为所有满足对任意 $t \in \mathbb{R}$ 都有 $\exp(tD) \in \text{Aut}_F(g)$ 的 $D \in \text{End}_F(g)$ 组成的空间。\\
+设 $D \in \text{Lie}(\text{Aut}_F(g))$。这意味着对于所有的 $X, Y \in g$，有\\
+$\exp(tD)([X, Y]) = [\exp(tD)X, \exp(tD)Y]$。\\
+将 $\exp(tD)$ 在 $t=0$ 处展开为泰勒级数，即 $\exp(tD) = I + tD + O(t^2)$，代入上式得到：\\
+$(I + tD + O(t^2))([X, Y]) = [(I + tD + O(t^2))X, (I + tD + O(t^2))Y]$\\
+$[X, Y] + tD([X, Y]) + O(t^2) = [X + tDX + O(t^2), Y + tDY + O(t^2)]$\\
+展开右侧并忽略 $t^2$ 及更高阶项，得到：\\
+$[X, Y] + tD([X, Y]) + O(t^2) = [X, Y] + t[DX, Y] + t[X, DY] + O(t^2)$\\
+比较 $t$ 的一次项系数，我们必然有：\\
+$D([X, Y]) = [DX, Y] + [X, DY]$。\\
+这说明 $D$ 是一个导子，即 $D \in \text{Der}_F(g)$。
+
+反之，如果 $D \in \text{Der}_F(g)$，根据莱布尼茨法则，我们可以用数学归纳法证明对于任意自然数 $n$，有：\\
+$D^n([X, Y]) = \sum_{k=0}^n \binom{n}{k} [D^k X, D^{n-k} Y]$。\\
+因此，计算指数映射作用在换位子上：\\
+$\exp(D)([X, Y]) = \sum_{n=0}^\infty \frac{1}{n!} D^n([X, Y]) = \sum_{n=0}^\infty \frac{1}{n!} \sum_{k=0}^n \frac{n!}{k!(n-k)!} [D^k X, D^{n-k} Y]$\\
+令 $j = n-k$，可以重新组合求和符号：\\
+$= \sum_{k=0}^\infty \sum_{j=0}^\infty \frac{1}{k!j!} [D^k X, D^j Y] = \left[ \sum_{k=0}^\infty \frac{D^k}{k!} X, \sum_{j=0}^\infty \frac{D^j}{j!} Y \right] = [\exp(D)X, \exp(D)Y]$。\\
+由于 $D \in \text{Der}_F(g)$ 蕴含 $tD \in \text{Der}_F(g)$，我们有 $\exp(tD) \in \text{Aut}_F(g)$，所以 $D \in \text{Lie}(\text{Aut}_F(g))$。\\
+综上所述，$\text{Lie}(\text{Aut}_F(g)) = \text{Der}_F(g)$。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+$D \in \text{Lie}(\text{Aut}_F(g))$ iff $\exp(tD) \in \text{Aut}_F(g)$ for all $t$. Differentiating $\exp(tD)[X,Y] = [\exp(tD)X, \exp(tD)Y]$ at $t=0$ yields $D[X,Y] = [DX,Y] + [X,DY]$, so $D \in \text{Der}_F(g)$. Conversely, if $D \in \text{Der}_F(g)$, induction shows $D^n[X,Y] = \sum_{k=0}^n \binom{n}{k} [D^k X, D^{n-k}Y]$. Thus $\exp(D)[X,Y] = [\exp(D)X, \exp(D)Y]$, meaning $\exp(tD) \in \text{Aut}_F(g)$, which implies $D \in \text{Lie}(\text{Aut}_F(g))$.
+
+\vspace{2em}
+\section*{Problem 2}
+\textbf{翻译题目：}\\
+(a) 简要解释你对作为希尔伯特空间的 $L^2(\mathbb{R})$ 的定义。\\
+(b) 定义 $G = \mathbb{R}$ 在 $L^2(\mathbb{R})$ 上的平移作用：$(R_a(f))(x) := f(x+a)$。基于你对 $L^2(\mathbb{R})$ 的定义，证明 $(\mathbb{R}, L^2(\mathbb{R}))$ 是 $\mathbb{R}$ 的连续表示。（当然，可以立即得出这是一个酉表示。）
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+(a) $L^2(\mathbb{R})$ 被定义为 $\mathbb{R}$ 上所有勒贝格可测且满足平方可积条件 $\int_{\mathbb{R}} |f(x)|^2 dx < \infty$ 的复值函数 $f$ 的等价类空间（两个函数如果几乎处处相等，则认为它们属于同一个等价类）。它配备有内积 $\langle f, g \rangle = \int_{\mathbb{R}} f(x) \overline{g(x)} dx$，并在此内积导出的范数 $\|f\|_2 = \left(\int_{\mathbb{R}} |f(x)|^2 dx\right)^{1/2}$ 下完备，因此它是一个希尔伯特空间。
+
+(b) 要证明这是一个连续表示，由于群作用是线性的且 $R_{a+b} = R_a R_b$ 显然成立，我们只需要证明强连续性：对于任意固定的 $f \in L^2(\mathbb{R})$，当 $a \to 0$ 时，$\|R_a(f) - f\|_2 \to 0$。\\
+证明分为两步：\\
+第一步，证明当 $f$ 是具有紧支撑的连续函数 $C_c(\mathbb{R})$ 时结论成立。因为 $f \in C_c(\mathbb{R})$，它不仅一致连续，且支撑集有界。设 $f$ 的支撑集包含在 $[-M, M]$ 中，当限制 $|a| \le 1$ 时，$R_a(f) - f$ 的支撑集将包含在 $[-M-1, M+1]$ 中。由于 $f$ 是一致连续的，对任意 $\epsilon > 0$，存在 $0 < \delta < 1$，使得当 $|a| < \delta$ 时，对所有 $x$ 都有 $|f(x+a) - f(x)| < \epsilon / \sqrt{2M+2}$。因此：\\
+$\|R_a(f) - f\|_2^2 = \int_{-M-1}^{M+1} |f(x+a) - f(x)|^2 dx \le (2M+2) \frac{\epsilon^2}{2M+2} = \epsilon^2$。即 $\|R_a(f) - f\|_2 \to 0$。\\
+第二步，扩展到一般的 $f \in L^2(\mathbb{R})$。由于 $C_c(\mathbb{R})$ 在 $L^2(\mathbb{R})$ 中是稠密的，对任意给定的 $\epsilon > 0$，存在 $g \in C_c(\mathbb{R})$ 使得 $\|f - g\|_2 < \epsilon/3$。由第一步，存在 $\delta > 0$ 使得当 $|a| < \delta$ 时，$\|R_a(g) - g\|_2 < \epsilon/3$。注意到平移算子 $R_a$ 是等距的（即 $\|R_a(h)\|_2 = \|h\|_2$），根据三角不等式，当 $|a| < \delta$ 时有：\\
+$\|R_a(f) - f\|_2 \le \|R_a(f) - R_a(g)\|_2 + \|R_a(g) - g\|_2 + \|g - f\|_2 = \|R_a(f-g)\|_2 + \|R_a(g) - g\|_2 + \|g - f\|_2 < \epsilon/3 + \epsilon/3 + \epsilon/3 = \epsilon$。\\
+这就证明了连续性。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+(a) $L^2(\mathbb{R})$ is the Hilbert space of equivalence classes of Lebesgue measurable functions $f: \mathbb{R} \to \mathbb{C}$ such that $\int |f|^2 dx < \infty$, with inner product $\langle f, g \rangle = \int f \bar{g} dx$.\\
+(b) We need to show $\|R_a f - f\|_2 \to 0$ as $a \to 0$ for $f \in L^2(\mathbb{R})$. First, for $g \in C_c(\mathbb{R})$, uniform continuity ensures $g(x+a) \to g(x)$ uniformly. Since they share a common compact support for small $a$, $\|R_a g - g\|_2 \to 0$. For a general $f \in L^2(\mathbb{R})$, since $C_c(\mathbb{R})$ is dense in $L^2(\mathbb{R})$, we approximate $f$ by $g \in C_c(\mathbb{R})$ within $\epsilon/3$. Using the triangle inequality and the isometry of $R_a$, $\|R_a f - f\|_2 \le \|R_a(f-g)\|_2 + \|R_a g - g\|_2 + \|g - f\|_2 < \epsilon$, proving strong continuity.
+
+\vspace{2em}
+\section*{Problem 3}
+\textbf{翻译题目：}\\
+设 $H$ 是连通李群 $G$ 的连通李子群。\\
+(a) $H$ 在 $G$ 中的正规化子，定义为 $N_G(H) := \{g \in G \mid gHg^{-1} = H\}$，是 $G$ 的一个李子群，其李代数为 $n_g(h) = \{Y \in g \mid [Y, h] \subseteq h\}$。\\
+(b) $H$ 在 $G$ 中是正规子群当且仅当 $h$ 是 $g$ 中的理想。（提示：模仿 Lecture 05 命题 3.2 的证明。）
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+(a) 因为 $H$ 是连通的，所以 $H$ 由形如 $\exp(X)$ 的元素生成（$X \in h$）。因此 $gHg^{-1} = H$ 等价于对于所有 $X \in h$，有 $g\exp(X)g^{-1} \in H$。利用伴随映射的性质 $g\exp(X)g^{-1} = \exp(Ad_g(X))$，这等价于 $Ad_g(h) \subseteq h$。由于 $Ad_g$ 是一一映射，它实际上意味着 $Ad_g(h) = h$。\\
+因此 $N_G(H)$ 是伴随表示 $Ad: G \to GL(g)$ 下保持子空间 $h$ 不变的稳定子群。由于保持子空间不变的条件是多项式方程，该稳定子群在 $G$ 中闭，因此 $N_G(H)$ 是一个闭李子群。\\
+它的李代数由所有使得对于所有的 $t \in \mathbb{R}$，$\exp(tY) \in N_G(H)$ 成立的 $Y \in g$ 组成。这等价于 $Ad_{\exp(tY)}(h) = h$，即 $e^{t ad_Y}(h) = h$。对此等式在 $t=0$ 处关于 $t$ 求导，我们有 $ad_Y(h) \subseteq h$，亦即 $[Y, h] \subseteq h$。反之如果 $[Y, h] \subseteq h$，则 $e^{t ad_Y}$ 也显然保持 $h$ 不变。这就证明了李代数为 $n_g(h)$。
+
+(b) （必要性）假设 $H$ 是 $G$ 的正规子群。那么对于任意 $g \in G$，都有 $gHg^{-1} = H$。因此 $N_G(H) = G$。对应的李代数也必须相等，即 $n_g(h) = g$。根据 $n_g(h)$ 的定义，这意味着对所有的 $Y \in g$，都有 $[Y, h] \subseteq h$。这正是理想的定义，所以 $h$ 是 $g$ 中的理想。\\
+（充分性）假设 $h$ 是 $g$ 的理想。这表明对所有的 $Y \in g$，有 $[Y, h] \subseteq h$。因此 $n_g(h) = g$。由于 $N_G(H)$ 是 $G$ 的闭李子群，且具有和 $G$ 相同的李代数，所以 $N_G(H)$ 包含 $G$ 中与单位元相连的连通分支。又因为 $G$ 本身是连通的，我们得出结论 $N_G(H) = G$。这等价于对所有的 $g \in G$，都有 $gHg^{-1} = H$，因此 $H$ 是正规子群。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+(a) Since $H$ is connected, $gHg^{-1} = H \iff Ad_g(h) = h$. Thus $N_G(H)$ is the stabilizer of $h$ under the continuous representation $Ad$, making it a closed Lie subgroup. Its Lie algebra consists of $Y \in g$ such that $e^{t ad_Y}(h) = h$ for all $t$. Differentiating at $t=0$ yields $ad_Y(h) \subseteq h \iff [Y, h] \subseteq h$.\\
+(b) $H \triangleleft G \iff N_G(H) = G \iff \text{Lie}(N_G(H)) = g$ (since $G$ is connected). Using (a), $\text{Lie}(N_G(H)) = g \iff n_g(h) = g \iff [g, h] \subseteq h$, which means exactly that $h$ is an ideal in $g$.
+
+\vspace{2em}
+\section*{Problem 4}
+\textbf{翻译题目：}\\
+正如课堂上讲到的，$E(2) := SO(2) \ltimes \mathbb{R}^2$ 是 $\mathbb{R}^2$ 上保持定向的刚体运动群。令 $\tilde{E}(2)$ 为其万有覆叠群。\\
+(a) 设 $G := \{g_{a,b} = \begin{pmatrix} a & b \\ 0 & 1 \end{pmatrix} \mid a, b \in \mathbb{C}, |a|=1\}$。验证 $G \cong E(2)$。\\
+(b) 计算 $G$ 的指数映射并证明它不是单射而是满射。\\
+(c) 设 $\tilde{G} = \{\tilde{g}_{t,b} = \begin{pmatrix} e^{it} & 0 & b \\ 0 & 1 & t \\ 0 & 0 & 1 \end{pmatrix} \mid t \in \mathbb{R}, b \in \mathbb{C}\}$。计算 $\tilde{G}$ 的指数映射并证明它既不是单射也不是满射。\\
+(d) 构造一个显式的覆叠同态 $\tilde{G} \to G$ 并得出 $\tilde{G}$ 确实是 $G$ 的万有覆叠群的结论。
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+(a) 将 $SO(2)$ 等同于 $U(1) = \{a \in \mathbb{C} \mid |a| = 1\}$，将 $\mathbb{R}^2$ 等同于 $\mathbb{C}$。$E(2) = U(1) \ltimes \mathbb{C}$ 的元素记为 $(a, b)$，群乘法规则为 $(a_1, b_1)(a_2, b_2) = (a_1 a_2, a_1 b_2 + b_1)$。对于群 $G$，矩阵乘法计算得：\\
+$\begin{pmatrix} a_1 & b_1 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} a_2 & b_2 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} a_1 a_2 & a_1 b_2 + b_1 \\ 0 & 1 \end{pmatrix}$。\\
+因此映射 $(a, b) \mapsto \begin{pmatrix} a & b \\ 0 & 1 \end{pmatrix}$ 明确给出了 $E(2)$ 和 $G$ 之间的同构。
+
+(b) $G$ 的李代数由形如 $X = \begin{pmatrix} i\theta & z \\ 0 & 0 \end{pmatrix}$ 的矩阵组成，其中 $\theta \in \mathbb{R}$, $z \in \mathbb{C}$。\\
+对于 $\theta \neq 0$，由于 $X^n = \begin{pmatrix} (i\theta)^n & (i\theta)^{n-1} z \\ 0 & 0 \end{pmatrix}$ （$n \ge 1$），可以算出：\\
+$\exp(X) = \sum_{n=0}^\infty \frac{X^n}{n!} = \begin{pmatrix} e^{i\theta} & \sum_{n=1}^\infty \frac{(i\theta)^{n-1} z}{n!} \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} e^{i\theta} & \frac{e^{i\theta} - 1}{i\theta} z \\ 0 & 1 \end{pmatrix}$。\\
+当 $\theta=0$ 时，$\exp(X) = \begin{pmatrix} 1 & z \\ 0 & 1 \end{pmatrix}$。\\
+\textbf{不是单射}：取 $\theta = 2\pi$，任意 $z \in \mathbb{C}$，都有 $\exp \begin{pmatrix} 2\pi i & z \\ 0 & 0 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I$，因此 $\exp$ 不是单射。\\
+\textbf{是满射}：给定 $G$ 中任意元素 $\begin{pmatrix} a & b \\ 0 & 1 \end{pmatrix}$。若 $a = 1$，取 $\theta = 0, z = b$。若 $a \neq 1$，可设 $a = e^{i\theta}$ ($\theta \in (0, 2\pi)$)，由于此时 $\frac{e^{i\theta}-1}{i\theta} \neq 0$，我们只需取 $z = b \frac{i\theta}{e^{i\theta}-1}$ 即可，所以 $\exp$ 是满射。
+
+(c) $\tilde{G}$ 的李代数由 $Y = \begin{pmatrix} i\theta & 0 & z \\ 0 & 0 & \theta \\ 0 & 0 & 0 \end{pmatrix}$ 组成。\\
+计算其指数映射（通过泰勒展开）：\\
+$\exp(Y) = I + Y + \frac{Y^2}{2} + \dots = \begin{pmatrix} e^{i\theta} & 0 & \frac{e^{i\theta} - 1}{i\theta} z \\ 0 & 1 & \theta \\ 0 & 0 & 1 \end{pmatrix}$ （当 $\theta \neq 0$ 时），当 $\theta = 0$ 时为 $\begin{pmatrix} 1 & 0 & z \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}$。\\
+\textbf{不是满射}：要得到 $\tilde{G}$ 中的形如 $\begin{pmatrix} 1 & 0 & b \\ 0 & 1 & 2\pi \\ 0 & 0 & 1 \end{pmatrix}$ ($b \neq 0$) 的元素，根据第三列第二行的项，必须有 $\theta = 2\pi$。但一旦 $\theta = 2\pi$，第一行第三列的项 $\frac{e^{2\pi i} - 1}{2\pi i} z$ 必然为 $0$，不可能等于非零的 $b$。所以不是满射。\\
+\textbf{不是单射}：对于不同的 $z_1, z_2$，取 $\theta = 2\pi$，由于 $\frac{e^{2\pi i}-1}{2\pi i} = 0$，指数映射的值均为 $\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 2\pi \\ 0 & 0 & 1 \end{pmatrix}$，所以不是单射。
+
+(d) 定义映射 $p: \tilde{G} \to G$ 为 $p(\tilde{g}_{t,b}) = \begin{pmatrix} e^{it} & b \\ 0 & 1 \end{pmatrix}$。\\
+验证其为同态：\\
+$p \left( \begin{pmatrix} e^{it_1} & 0 & b_1 \\ 0 & 1 & t_1 \\ 0 & 0 & 1 \end{pmatrix} \begin{pmatrix} e^{it_2} & 0 & b_2 \\ 0 & 1 & t_2 \\ 0 & 0 & 1 \end{pmatrix} \right) = p \left( \begin{pmatrix} e^{i(t_1+t_2)} & 0 & e^{it_1}b_2 + b_1 \\ 0 & 1 & t_1+t_2 \\ 0 & 0 & 1 \end{pmatrix} \right) = \begin{pmatrix} e^{i(t_1+t_2)} & e^{it_1}b_2 + b_1 \\ 0 & 1 \end{pmatrix} = p(\tilde{g}_{t_1, b_1}) p(\tilde{g}_{t_2, b_2})$。\\
+可见 $p$ 是一个平滑且满秩的同态，且显然是满射的。它的核为离散子群 $\ker p = \{ \tilde{g}_{2k\pi, 0} \mid k \in \mathbb{Z} \} \cong \mathbb{Z}$。由于作为流形 $\tilde{G} \cong \mathbb{R} \times \mathbb{C} \cong \mathbb{R}^3$ 是单连通的（同胚于欧几里得空间），所以 $\tilde{G}$ 是 $G$ 的万有覆叠群。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+(a) Identifying $U(1)$ with $SO(2)$ and $\mathbb{C}$ with $\mathbb{R}^2$, the matrix multiplication in $G$ directly mirrors the semidirect product $U(1) \ltimes \mathbb{C}$ rule in $E(2)$.\\
+(b) $\exp \begin{pmatrix} i\theta & z \\ 0 & 0 \end{pmatrix} = \begin{pmatrix} e^{i\theta} & \frac{e^{i\theta}-1}{i\theta}z \\ 0 & 1 \end{pmatrix}$. It is surjective because for any $a=e^{i\theta} \neq 1$, $\frac{e^{i\theta}-1}{i\theta} \neq 0$, so $z$ can be solved. It is not injective since $\exp \begin{pmatrix} 2\pi i & z \\ 0 & 0 \end{pmatrix} = I$ for any $z$.\\
+(c) $\exp \begin{pmatrix} i\theta & 0 & z \\ 0 & 0 & \theta \\ 0 & 0 & 0 \end{pmatrix} = \begin{pmatrix} e^{i\theta} & 0 & \frac{e^{i\theta}-1}{i\theta}z \\ 0 & 1 & \theta \\ 0 & 0 & 1 \end{pmatrix}$. It's not surjective since elements with $\theta = 2\pi$ and non-zero top-right entry cannot be hit. It's not injective as $\theta = 2\pi$ maps any $z$ to $0$ in the top-right entry.\\
+(d) The map $p(\tilde{g}_{t,b}) = \begin{pmatrix} e^{it} & b \\ 0 & 1 \end{pmatrix}$ is a smooth, surjective homomorphism with discrete kernel. Since $\tilde{G} \cong \mathbb{R} \times \mathbb{C} \cong \mathbb{R}^3$ is simply connected, it serves as the universal covering group.
+
+\vspace{2em}
+\section*{Problem 5}
+\textbf{翻译题目：}\\
+$G = U(n)$ 的中心是什么？补充完整 Lecture 04 引理 5.9 的细节。（提示：使用谱定理得出 $Z_G$ 是对角的结论。然后应用 Lecture 05 推论 3.3 和 Lecture 04 推论 4.10。）
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+$U(n)$ 的中心 $Z_{U(n)}$ 由形如 $\lambda I$（纯量矩阵）且 $|\lambda|=1$ 的矩阵组成。\\
+证明如下：\\
+假设 $A \in Z_{U(n)}$。这意味着对于所有的 $B \in U(n)$，都有 $AB = BA$。\\
+首先，因为 $A \in U(n)$ 是一酉矩阵（正常矩阵），根据谱定理，它能够被酉对角化。即存在 $P \in U(n)$，使得 $P^{-1}AP = \Lambda$，其中 $\Lambda$ 为对角矩阵。\\
+由于 $A$ 在中心里，它与 $P$ 是可以交换的，因此有 $P^{-1}AP = P^{-1}PA = A$。这意味着 $A = \Lambda$，即 $A$ 必须是一个对角矩阵：$A = \text{diag}(\lambda_1, \lambda_2, \dots, \lambda_n)$。\\
+其次，为了 $A$ 能与 $U(n)$ 中的所有矩阵交换，它必须特别地与所有的置换矩阵交换（置换矩阵是正交矩阵，因而自然是酉矩阵）。任意两个对角元素位置的交换如果必须保持 $A$ 矩阵不变，这就强制所有的对角元素必须相等：$\lambda_1 = \lambda_2 = \dots = \lambda_n = \lambda$。由于 $A$ 为酉矩阵，所以必定有 $|\lambda|=1$。\\
+因此，中心 $Z_{U(n)} = \{ \lambda I \mid \lambda \in \mathbb{C}, |\lambda| = 1 \} \cong U(1)$。
+
+利用提示中提到的推论：\\
+李代数 $u(n)$ 由所有的反埃尔米特矩阵构成。若中心为 $Z_G$，它对应的李代数 $z_g$ 包含所有与 $u(n)$ 中任意元素交换的元素。容易得出与所有反埃尔米特矩阵交换的只能是纯量对角矩阵，故 $z_g = \{ i\theta I \mid \theta \in \mathbb{R} \}$。\\
+根据 Lecture 05 Cor 3.3，连通李群的中心李代数就是 $z_g$。\\
+再根据 Lecture 04 Cor 4.10，紧连通李群的指数映射是满射。因为 $U(n)$ 是连通紧李群，它的中心 $Z_{U(n)}$ 可以由其李代数 $z_g$ 通过指数映射生成：\\
+$Z_{U(n)} = \exp(z_g) = \{ \exp(i\theta I) \mid \theta \in \mathbb{R} \} = \{ e^{i\theta} I \mid \theta \in \mathbb{R} \}$，这与前面用矩阵的方法得到的结论完全一致。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+The center is $Z_{U(n)} = \{ \lambda I \mid \lambda \in \mathbb{C}, |\lambda|=1 \} \cong U(1)$.\\
+Proof: Let $A \in Z_{U(n)}$. Being unitary, by the spectral theorem, $A$ is diagonalizable by some unitary matrix $P$. Since $A$ commutes with $P$, $A = P^{-1} A P$ shows $A$ is itself a diagonal matrix. Furthermore, $A$ must commute with all permutation matrices in $U(n)$, which forces all its diagonal entries to be equal. Hence $A = \lambda I$ and $|\lambda|=1$.\\
+Alternatively, the Lie algebra $u(n)$'s center consists of scalar anti-Hermitian matrices $z_g = \{ i\theta I \}$. By Cor 3.3 and Cor 4.10 (surjectivity of exp for compact connected groups), $Z_{U(n)} = \exp(z_g) = \{ e^{i\theta} I \}$, yielding the same result.
+
+\end{document}
