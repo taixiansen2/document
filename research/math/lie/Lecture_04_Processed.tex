@@ -1,0 +1,229 @@
+\documentclass[12pt, a4paper]{ctexart}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{example}[theorem]{例}
+\newtheorem{remark}[theorem]{注}
+
+\title{讲义 04：指数映射、覆叠与李群复结构的若干结果}
+\author{Fangyang Tian}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{核心专业术语对照与解释}
+\begin{itemize}
+    \item \textbf{Exponential Map (指数映射)}：李代数到李群的映射，给出了通过单位元的单参数子群。
+    \item \textbf{One-parameter subgroup (单参数子群)}：从实数加法群 $\mathbb{R}$ 到李群 $G$ 的连续（光滑）单射同态。
+    \item \textbf{Derivation (导子)}：满足李括号莱布尼茨法则的线性自同态。
+    \item \textbf{Semi-direct Product (半直积)}：通过自同构群的群作用将两个群或两个李代数结合的构造方式。
+    \item \textbf{Solvable / Nilpotent Lie group (可解李群 / 幂零李群)}：连通且其李代数为可解 / 幂零的李群。
+    \item \textbf{Universal Covering (万有覆叠)}：空间单连通的覆叠空间（对李群来说同时是一个李群）。
+    \item \textbf{Complex Structure / Almost Complex Structure (复结构 / 殆复结构)}：满足 $J^2 = -\text{Id}$ 的线性自同态 / 流形切丛上的光滑 $(1,1)$ 型张量场。
+    \item \textbf{Spectral Theorem of Normal Matrices (正规矩阵的谱定理)}：正规矩阵在特定酉/正交/辛变换下可对角化或块对角化的相关定理。
+\end{itemize}
+
+\section{指数映射 (Exponential Maps)}
+
+\begin{proposition}[1.1]
+(1) 若 $\varphi: G \to H$ 是李群同态，则在单位元 $e$ 处的切映射 $d\varphi$ 是从 $\mathfrak{g}$ 到 $\mathfrak{h}$ 的李代数同态。当 $G$ 连通时，映射 $\varphi \mapsto d\varphi$ 是单射。\\
+(2) 反之，若 $G$ 是单连通的，给定李代数同态 $\psi: \mathfrak{g} \to \mathfrak{h}$，存在唯一的李群同态 $\varphi: G \to H$ 提升 $\psi$。
+\end{proposition}
+
+\begin{example}[1.2]
+考虑特征标 $\chi_s: \mathbb{R}^\times \to \mathbb{C}^\times, a \mapsto |a|^s$。在李理论中，该特征标诱导了李代数同态 $\psi_s: \mathbb{R} \to \mathbb{C}, a \mapsto sa$。由于切空间无法提供不包含 1 的连通分支的信息，$d\chi_s$ 不能唯一确定 $\chi_s$。实际上，$\chi'_s(a) = |a|^s \mathrm{sgn}(a)$ 也会诱导相同的李代数同态。
+\end{example}
+
+\begin{definition}[1.3]
+设 $X \in \mathfrak{g}$。李代数同态 $\mathbb{R} \to \mathfrak{g}, \frac{d}{dr} \mapsto X$ 可以唯一提升为李群同态 $\exp_X: \mathbb{R} \to G$。其中 $\exp_X(t)$ 是群 $G$ 上常微分方程 $\frac{d}{dt}\sigma(t) = X\sigma(t)$ 且初值为 $\sigma(0)=e$ 的唯一解。指数映射定义为 $\exp: \mathfrak{g} \to G, X \mapsto \exp_X(1)$。
+\end{definition}
+
+\begin{remark}[1.4]
+单射群同态 $\varphi: \mathbb{R} \to G$ 称为 $G$ 的单参数子群。
+\end{remark}
+
+\begin{theorem}[1.5]
+设 $X \in \mathfrak{g}$, $t, t_1, t_2 \in \mathbb{R}$。\\
+(1) $\exp(tX) = \exp_X(t)$ \\
+(2) $\exp(t_1 + t_2)X = \exp(t_1X) \exp(t_2X)$ \\
+(3) $\exp(-tX) = (\exp(tX))^{-1}$ \\
+(4) $\exp: \mathfrak{g} \to G$ 是在零点处的局部微分同胚（识别 $\mathfrak{g} \simeq T_e G$）。
+\end{theorem}
+\begin{proof}
+由 ODE 解的唯一性可得。对于 (4)，只需将切向量扩展为流形上的光滑向量场，并证明指数映射在零点处的微分为恒等映射即可。
+\end{proof}
+
+\begin{theorem}[1.6]
+设 $\varphi: H \to G$ 为李群同态，则对任意 $X \in \mathfrak{h}$，有交换图表 $\varphi(\exp(X)) = \exp(d\varphi(X))$。
+\end{theorem}
+\begin{proof}
+$t \mapsto \varphi(\exp(tX))$ 与 $t \mapsto \exp(t d\varphi(X))$ 皆为 $G$ 中的单参数子群，且在单位元的切向量均为 $d\varphi(X)$。由唯一性即可得证。
+\end{proof}
+
+\begin{corollary}[1.7]
+设 $H$ 是 $G$ 的李子群（不一定闭），则其李代数 $\mathfrak{h} = \{X \in \mathfrak{g} \mid \exp(tX) \in H, \forall t \in \mathbb{R}\}$。
+\end{corollary}
+
+\begin{corollary}[1.8]
+假设有李群同态 $\varphi: G \to H$。则 $\ker \varphi$ 是闭李子群，其李代数为 $\ker d\varphi$。
+\end{corollary}
+
+\begin{example}[1.9]
+对任意线性李群（即 $\mathrm{GL}_n(F)$ 的李子群），指数映射即为通常的矩阵指数：
+$$ e^X = \sum_{k=0}^\infty \frac{1}{k!} X^k $$
+\end{example}
+
+\begin{example}[1.10 - 1.12]
+对于 $\mathrm{SL}_2(\mathbb{R})$：若 $A \in \mathfrak{sl}_2(\mathbb{R})$ 且 $A^2 = -\omega^2 I_2$ ($\omega^2 = -\det A$)：
+$$ e^A = \cosh(\omega) I_2 + \frac{\sinh(\omega)}{\omega} A $$
+对于 $\mathrm{SO}(3)$，若 $A \in \mathfrak{so}(3)$ 且 $\theta = \sqrt{a^2+b^2+c^2}$：
+$$ e^A = I_3 + \frac{\sin\theta}{\theta} A + \frac{1-\cos\theta}{\theta^2} A^2 $$
+\end{example}
+
+\begin{example}[1.13]
+设 $G \le \mathrm{GL}_n(\mathbb{C})$ 是线性李群。对任意 $X \in \mathfrak{g}$，有 $\det e^X = e^{\mathrm{Tr}X}$。这意味着从矩阵层面上 $d(\det) = \mathrm{Tr}$。
+\end{example}
+
+\begin{example}[1.14]
+矩阵对数 $\ln A = \sum_{j=1}^\infty \frac{(-1)^{j+1}}{j}(A-I)^j$ 在 $\|A-I\| < 1$ 的收敛域内是矩阵指数的逆映射。
+\end{example}
+
+\section{$\mathrm{Aut}(G)$, $\mathrm{Aut}(\mathfrak{g})$ 与 $\mathrm{Der}(\mathfrak{g})$}
+
+\begin{lemma}[2.1]
+$\mathrm{Aut}(\mathfrak{g})$ 是 $\mathrm{GL}(\mathfrak{g})$ 的闭李子群。
+\end{lemma}
+
+\begin{proposition}[2.3]
+设 $\mathfrak{g}$ 为有限维 $F$-李代数。$\mathrm{Aut}_F(\mathfrak{g})$ 的李代数为 $\mathrm{Der}_F(\mathfrak{g})$。
+\end{proposition}
+
+\begin{theorem}[2.4 (Hochschild, 1952)]
+设 $G$ 是连通李群。赋予 $\mathrm{Aut}(G)$ 紧致开拓扑，则微分映射 $d: \mathrm{Aut}(G) \to \mathrm{Aut}(\mathfrak{g}), f \mapsto df$ 是到其像的同胚，即 $\mathrm{Aut}(G)$ 可视作 $\mathrm{Aut}(\mathfrak{g})$ 的闭李子群。
+\end{theorem}
+
+\section{李群与李代数的半直积}
+
+\begin{definition}[3.1]
+给定李代数 $\mathfrak{a}, \mathfrak{b}$ 及同态 $\pi: \mathfrak{b} \to \mathrm{Der}_F(\mathfrak{a})$，可以定义半直积 $\mathfrak{g} := \mathfrak{b} \ltimes_\pi \mathfrak{a}$，作为线性空间它等于 $\mathfrak{b} \oplus \mathfrak{a}$，其李括号为：
+$$ [(B_1, A_1), (B_2, A_2)] = ([B_1, B_2], \pi(B_1)A_2 - \pi(B_2)A_1 + [A_1, A_2]) $$
+\end{definition}
+
+\begin{example}[3.2]
+欧氏空间上的刚体运动李代数为 $\mathfrak{o}(n) \ltimes \mathbb{R}^n$。
+\end{example}
+
+\begin{definition}[3.3]
+给定李群同态 $\tau: G \to \mathrm{Aut}(H)$，定义半直积 $G \ltimes_\tau H$，乘法为 $(g_1, h_1)(g_2, h_2) = (g_1 g_2, h_1 \cdot \tau(g_1)h_2)$。
+\end{definition}
+
+\begin{proposition}[3.4]
+$G \ltimes_\varphi H$ 的李代数为 $\mathfrak{g} \ltimes_{d\varphi} \mathfrak{h}$。反之，当 $G$ 和 $H$ 单连通时，给定李代数同态 $\psi: \mathfrak{g} \to \mathrm{Der}(\mathfrak{h})$，存在唯一的半直积提升它。
+\end{proposition}
+
+\section{指数映射的满射性与单射性}
+
+\begin{definition}[4.1]
+若连通李群的李代数是可解（或幂零）的，则称该李群为可解（或幂零）李群。
+\end{definition}
+
+\begin{theorem}[4.3]
+设 $N$ 为具有李代数 $\mathfrak{n}$ 的单连通幂零李群。则 $\exp: \mathfrak{n} \to N$ 是微分同胚。推论：$N$ 的任何闭子群均是单连通且闭的。
+\end{theorem}
+
+\begin{theorem}[4.5 (Diximier, Saito, 1957)]
+下列条件等价：\\
+(1) $\exp$ 是单射；\\
+(2) $\exp$ 是双射；\\
+(3) $\exp$ 是微分同胚；\\
+(4) $G$ 是可解的、单连通的，且 $\mathfrak{g}$ 的任何商代数都不包含 $\mathfrak{e}(2)$ 作为子代数。
+\end{theorem}
+
+\begin{lemma}[4.9]
+对 $X, Y \in \mathfrak{g}$，$[X, Y]=0$ 当且仅当 $\forall s, t \in \mathbb{R}$, $\exp(sX)\exp(tY) = \exp(tY)\exp(sX)$。此时 $\exp(sX)\exp(tY) = \exp(sX+tY)$。
+\end{lemma}
+
+\begin{corollary}[4.10]
+连通阿贝尔群的指数映射是满射。
+\end{corollary}
+
+\begin{theorem}[4.11]
+对于 $G = \mathrm{U}(n), \mathrm{SO}(n), \mathrm{Sp}(2n)$，指数映射是满射的。
+\end{theorem}
+\begin{proof}
+这是由于在这些紧群中，任何元素都共轭于一个对角阵元素（见附录的谱定理），结合推论 4.10 即可得证。
+\end{proof}
+
+\section{覆叠，中心与 $\pi_1$}
+
+\begin{definition}[5.1]
+连通光滑流形之间的光滑映射 $\pi: \widetilde{G} \to G$ 若满足满射及局部微分同胚性质，则称为覆叠映射。当 $\widetilde{G}$ 单连通时，称为万有覆叠流形。
+\end{definition}
+
+\begin{theorem}[5.2]
+万有覆叠 $\widetilde{G}$ 可被赋予李群结构，使得覆叠映射 $\pi: \widetilde{G} \to G$ 是李群同态。
+\end{theorem}
+
+\begin{corollary}[5.3]
+连通李群之间的同态 $\varphi: G \to H$ 是覆叠同态当且仅当 $d\varphi: \mathfrak{g} \to \mathfrak{h}$ 是李代数同构。
+\end{corollary}
+
+\begin{lemma}[5.7]
+若 $H$ 是连通李群 $G$ 的离散正规子群，则 $H \le Z(G)$。
+\end{lemma}
+
+\begin{corollary}[5.8]
+设 $\pi: G \to H$ 为覆叠同态，则 $\ker \pi$ 是离散的且包含在 $Z(G)$ 中。若 $G$ 为 $H$ 的万有覆叠，则 $\pi_1(H) \simeq \ker \pi$。
+\end{corollary}
+
+\begin{lemma}[5.9]
+(1) $Z(\mathrm{SU}(n)) \simeq \mathbb{Z}/n\mathbb{Z}$\\
+(2) $Z(\mathrm{U}(n)) \simeq S^1$\\
+(3) $Z(\mathrm{Sp}(2n)) \simeq \mathbb{Z}/2\mathbb{Z}$\\
+(4) $Z(\mathrm{SO}(2n+1)) = \{I_{2n+1}\}$\\
+(5) $Z(\mathrm{SO}(2n)) = \{\pm I_{2n}\} \simeq \mathbb{Z}/2\mathbb{Z}$
+\end{lemma}
+
+\section{复结构 (Complex Structure)}
+
+\begin{definition}[6.1 \& 6.2]
+复结构是一个满足 $J^2 = -\mathrm{Id}$ 的线性自同态。在偶数维光滑流形上，殆复结构是使得每点切空间上存在复结构的光滑 $(1,1)$ 型张量场。
+\end{definition}
+
+\begin{definition}[6.4]
+复李群是具有复流形结构且群乘法和求逆运算全纯的李群。
+\end{definition}
+
+\begin{proposition}[6.5]
+李群 $G$ 是复李群当且仅当其李代数 $\mathfrak{g}$ 上存在殆复结构（即 $\mathfrak{g}$ 也是复向量空间）。
+\end{proposition}
+
+\begin{theorem}[6.6]
+(1) 若 $G$ 是复李群，则 $\mathfrak{g}$ 是复李代数，且 $\exp$ 映射是全纯的。\\
+(2) 复李群同态 $\varphi$ 为全纯当且仅当 $d\varphi$ 是复线性的。\\
+(3) 若 $\mathfrak{g}$ 是复李代数，则 $G$ 可赋予复流形结构从而成为复李群。
+\end{theorem}
+
+\begin{example}[6.8]
+$\mathrm{SU}(n)$ 永远不是复李群。
+\end{example}
+
+\section*{附录 A. 正规矩阵的谱定理}
+
+\begin{theorem}[A.2 - A.4]
+正规矩阵 $A$（即 $A A^t = A^t A$ 或 $A A^* = A^* A$）：
+\begin{itemize}
+    \item 若 $A \in \mathrm{Mat}_n(\mathbb{C})$，可由酉矩阵对角化。
+    \item 若 $A \in \mathrm{Mat}_n(\mathbb{R})$，可由特殊正交矩阵块对角化。
+    \item 若 $A \in \mathrm{Mat}_n(\mathbb{H})$，可由紧辛矩阵对角化，且其特征值必定是复数。
+\end{itemize}
+\end{theorem}
+
+\end{document}
