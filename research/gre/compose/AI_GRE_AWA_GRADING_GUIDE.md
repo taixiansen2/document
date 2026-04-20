@@ -36,7 +36,7 @@
 
 ### 批改输出模板 (Output Format Template)
 
-当接收到用户的作文后，请严格按照以下 Markdown 格式进行输出：
+当接收到用户的作文后，请严格按照以下 Markdown 格式进行输出到当前文件夹：
 
 ```markdown
 # GRE AWA 评估报告

@@ -1,0 +1,273 @@
+\documentclass{ctexart}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\begin{document}
+
+\title{Homework 06}
+\author{}
+\date{}
+\maketitle
+
+\section*{Problem 1}
+\textbf{翻译题目：}\\
+设 $F = \mathbb{R}$ 或 $\mathbb{C}$，$V$ 为 $F$-向量空间。假设 $(\pi, V)$ 是李群 $G$ 的有限维表示。证明：$V \cong V^{*}$ 作为 $G$ 的表示当且仅当 $V$ 上存在非退化的 $G$-不变 $F$-双线性型。（提示：模仿 Lecture 05 Theorem 5.4 的证明。）
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+回忆 $V^{*}$ 上的 $G$-作用定义为 $(g \cdot f)(v) := f(g^{-1}v)$（对偶表示）。
+
+（$\Leftarrow$）设 $B: V \times V \to F$ 是非退化的 $G$-不变双线性型，即对所有 $g \in G$、$v, w \in V$，有 $B(gv, gw) = B(v, w)$。
+
+定义 $F$-线性映射 $\varphi: V \to V^{*}$，$\varphi(v)(w) := B(v, w)$。由 $B$ 的非退化性，$\varphi$ 是单射。由于 $\dim V = \dim V^{*}$ 有限，$\varphi$ 是同构。
+
+验证 $G$-等变性：对任意 $g \in G$ 和 $v, w \in V$，有
+\[
+\varphi(gv)(w) = B(gv, w) = B(v, g^{-1}w) = \varphi(v)(g^{-1}w) = (g \cdot \varphi(v))(w),
+\]
+即 $\varphi(gv) = g \cdot \varphi(v)$。故 $\varphi$ 是 $G$-表示的同构，$V \cong V^{*}$。
+
+（$\Rightarrow$）设存在 $G$-表示同构 $\varphi: V \to V^{*}$。定义 $B: V \times V \to F$，$B(v, w) := \varphi(v)(w)$。则 $B$ 显然是 $F$-双线性的。
+
+非退化性：若 $B(v, w) = 0$ 对所有 $w$ 成立，则 $\varphi(v) = 0$，由 $\varphi$ 为同构知 $v = 0$。故 $B$ 左非退化；由维数对称性，$B$ 也是右非退化的。
+
+$G$-不变性：对任意 $g \in G$ 和 $v, w \in V$，
+\[
+B(gv, gw) = \varphi(gv)(gw) = (g \cdot \varphi(v))(gw) = \varphi(v)(g^{-1}(gw)) = \varphi(v)(w) = B(v, w).
+\]
+故 $B$ 是 $G$-不变的非退化双线性型。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+Given a non-degenerate $G$-invariant bilinear form $B$ on $V$, define $\varphi: V \to V^{*}$ by $\varphi(v)(w) = B(v,w)$. Non-degeneracy makes $\varphi$ an isomorphism; $G$-invariance gives $\varphi(gv)(w) = B(gv, w) = B(v, g^{-1}w) = (g\cdot\varphi(v))(w)$, so $\varphi$ is $G$-equivariant. Conversely, given a $G$-iso $\varphi: V \to V^{*}$, set $B(v,w) = \varphi(v)(w)$; this is non-degenerate bilinear and $B(gv, gw) = (g\cdot\varphi(v))(gw) = \varphi(v)(w) = B(v,w)$.
+
+\vspace{2em}
+\section*{Problem 2}
+\textbf{翻译题目：}\\
+回忆
+\[
+SU(2,2) := \Big\{ g \in SL_4(\mathbb{C}) \;\Big|\; g^{*} \begin{pmatrix} I_2 & \\ & -I_2 \end{pmatrix} g = \begin{pmatrix} I_2 & \\ & -I_2 \end{pmatrix} \Big\}.
+\]
+证明 $SU(2,2)$ 是 $SO(4,2)_0$ 的二重覆叠。（提示：将 Lecture 6 例 4.10 中的 $SU(4)$-不变 Hermite 型替换为由 $\mathrm{diag}(I_2, -I_2)$ 表示的 $SU(2,2)$-不变 Hermite 型。）
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+设 $V = \mathbb{C}^4$，$\eta := \mathrm{diag}(I_2, -I_2)$。$V$ 上的不定 Hermite 型 $h(x, y) := x^{*} \eta y$ 具有符号 $(2,2)$，$SU(2,2)$ 正是保持 $h$ 且行列式为 $1$ 的复矩阵群。
+
+\textbf{第一步：构造关键结构。} 设 $W := \wedge^{2} V$，$\dim_\mathbb{C} W = 6$。记 $\Omega := e_1 \wedge e_2 \wedge e_3 \wedge e_4$。
+
+（1）$W$ 上的对称 $\mathbb{C}$-双线性型 $B$：$a \wedge b = B(a, b)\,\Omega$。它是非退化且 $SL_4(\mathbb{C})$-不变的（因此 $SU(2,2)$-不变）。
+
+（2）$W$ 上由 $h$ 诱导的 Hermite 型 $H$：$H(v_1\wedge v_2, w_1\wedge w_2) := \det[h(v_i, w_j)]$。它也是 $SU(2,2)$-不变的。在基 $\{e_i \wedge e_j\}_{i<j}$ 上可直接算出 $H$ 为对角，对角元为 $h(e_i, e_i)h(e_j, e_j)$，即
+\[
+H(e_{12},e_{12})=1,\ H(e_{34},e_{34})=1,\ H(e_{13},e_{13})=H(e_{14},e_{14})=H(e_{23},e_{23})=H(e_{24},e_{24})=-1.
+\]
+故 $H$ 在 $W$ 上的符号为 $(2, 4)$。
+
+\textbf{第二步：构造 $W$ 上的实结构。} 因 $B$ 和 $H$ 都非退化，存在唯一的共轭线性映射 $\sigma: W \to W$ 满足
+\[
+B(v, \sigma(w)) = H(w, v), \quad \forall v, w \in W.
+\]
+可直接验证 $\sigma^{2} = \mathrm{id}_{W}$（利用 $H$ 的 Hermite 性和 $B$ 的对称性）。故 $\sigma$ 是 $W$ 上的共轭线性对合，从而
+\[
+W_{\mathbb{R}} := \{w \in W \mid \sigma(w) = w\}
+\]
+是 $\dim_{\mathbb{R}} W_{\mathbb{R}} = 6$ 的实向量空间，且 $W_{\mathbb{R}} \otimes_{\mathbb{R}} \mathbb{C} = W$。
+
+\textbf{第三步：$B$ 在 $W_{\mathbb{R}}$ 上给出实符号 $(2,4)$ 的对称非退化双线性型。} 对 $w \in W_{\mathbb{R}}$，
+\[
+B(w, w) = B(w, \sigma(w)) = H(w, w) \in \mathbb{R}.
+\]
+一般地，$B|_{W_{\mathbb{R}}} = H|_{W_{\mathbb{R}}}$ 是实对称非退化的，符号与 $H$ 相同，为 $(2, 4)$。于是 $(W_{\mathbb{R}}, B|_{W_{\mathbb{R}}})$ 是符号 $(2,4)$ 的实二次空间，其正交群为 $O(2,4) = O(4,2)$。
+
+\textbf{第四步：$SU(2,2)$ 作用在 $W_{\mathbb{R}}$ 上。} 对 $g \in SU(2,2)$，它同时保持 $B$ 和 $H$，因此保持 $\sigma$（由其定义唯一确定），从而保持 $W_{\mathbb{R}}$。又 $g$ 保持 $B|_{W_{\mathbb{R}}}$，故得到群同态
+\[
+\Phi: SU(2,2) \longrightarrow O(W_{\mathbb{R}}, B|_{W_{\mathbb{R}}}) \cong O(4, 2).
+\]
+
+\textbf{第五步：像落在 $SO(4,2)_{0}$ 中。} $SU(2,2)$ 是连通的（$\dim_{\mathbb{R}} SU(2,2) = 15$，且为不定酉群中的特殊酉群，熟知连通），$\Phi$ 连续且 $\Phi(I) = I$，故像包含于 $SO(4,2)_{0}$。
+
+\textbf{第六步：核为 $\{\pm I\}$。} $g \in \ker \Phi$ 等价于 $\wedge^{2} g = \mathrm{id}_{W}$，这强制 $g = \lambda I$，代入 $\det g = 1$ 得 $\lambda^{4} = 1$，且 $\lambda^{2} = 1$（由 $\wedge^{2}(\lambda I) = \lambda^{2} \mathrm{id}$），故 $\lambda = \pm 1$。$\pm I$ 显然都在 $SU(2,2)$ 中。故 $\ker \Phi = \{\pm I\} \cong \mathbb{Z}/2$。
+
+\textbf{第七步：维数比较给出满覆叠。} $\dim_{\mathbb{R}} SU(2,2) = 15 = \dim_{\mathbb{R}} SO(4,2)$。故 $\Phi$ 是浸入、$\dim$ 相等，像为开子群；再由 $SO(4,2)_0$ 连通，$\Phi$ 像等于 $SO(4,2)_{0}$。结合核 $\{\pm I\}$ 离散，得
+\[
+SU(2,2) \xrightarrow{\ \Phi\ } SO(4,2)_{0}
+\]
+是二重覆叠。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+Let $V = \mathbb{C}^4$ with Hermitian form $h(x,y)=x^{*}\eta y$, $\eta=\mathrm{diag}(I_2,-I_2)$, of signature $(2,2)$. On $W = \wedge^2 V$ we have the $SL_4(\mathbb{C})$-invariant symmetric $\mathbb{C}$-bilinear form $B$ (via $\Omega = e_1\wedge e_2 \wedge e_3\wedge e_4$) and the $SU(2,2)$-invariant Hermitian form $H$ of signature $(2,4)$. Define the antilinear involution $\sigma:W\to W$ by $B(v,\sigma(w))=H(w,v)$; let $W_{\mathbb{R}}=W^{\sigma}$ (real $6$-dim). For $w\in W_{\mathbb{R}}$, $B(w,w)=H(w,w)\in\mathbb{R}$, so $B|_{W_{\mathbb{R}}}=H|_{W_{\mathbb{R}}}$ is real symmetric non-degenerate of signature $(2,4)=(4,2)$. Since $g\in SU(2,2)$ preserves both $B$ and $H$, it preserves $\sigma$ and $W_{\mathbb{R}}$, giving $\Phi:SU(2,2)\to SO(4,2)_0$. Kernel: $\wedge^2 g = I \Rightarrow g = \pm I$, both in $SU(2,2)$. Both sides have real dimension $15$, and $SU(2,2)$ is connected, so $\Phi$ is a surjective double cover.
+
+\vspace{2em}
+\section*{Problem 3}
+\textbf{翻译题目：}\\
+(a) 特征零域上半单李代数的任意一维表示必定平凡。（提示：$\mathfrak{g} = [\mathfrak{g}, \mathfrak{g}]$。）\\
+(b) 考虑 $\mathfrak{g} = \mathfrak{sl}_2(F)$ 在 $V = F^{2}$ 上的标准表示（李代数作用即矩阵乘法）。证明该表示不可约且自对偶。（提示：$\mathfrak{sl}_{2}(F) = \mathfrak{sp}_{2}(F)$，在 $F^{2}$ 上构造反对称非退化双线性型。）
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+\textbf{(a)} 设 $\pi: \mathfrak{g} \to \mathfrak{gl}(V) = \mathrm{End}_F(V) \cong F$ 是一维表示（此处 $\mathfrak{gl}(V)$ 作为李代数是阿贝尔的）。由 $\mathfrak{g}$ 半单知 $\mathfrak{g} = [\mathfrak{g}, \mathfrak{g}]$（这是半单李代数的标准结论）。故任意 $X \in \mathfrak{g}$ 可写为 $X = \sum_{i} [Y_i, Z_i]$。于是
+\[
+\pi(X) = \sum_{i} \pi([Y_i, Z_i]) = \sum_{i} [\pi(Y_i), \pi(Z_i)] = 0,
+\]
+最后一步因为 $F$ 作为李代数是阿贝尔的。故 $\pi \equiv 0$，即表示平凡。
+
+\textbf{(b) 不可约性。} 设 $0 \neq U \subseteq V = F^{2}$ 是 $\mathfrak{sl}_2(F)$-不变子空间。取 $0 \neq v = (a, b)^{T} \in U$。用标准基 $e = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$，$f = \begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix}$，$h = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$ 作用：
+\[
+e \cdot v = \begin{pmatrix} b \\ 0 \end{pmatrix}, \quad f \cdot v = \begin{pmatrix} 0 \\ a \end{pmatrix}.
+\]
+若 $a \neq 0$，$f \cdot v = (0, a)^{T} \in U$，再取 $e \cdot (f\cdot v) = (a, 0)^{T} \in U$；故 $e_{1}, e_{2} \in U$，$U = V$。若 $a = 0$ 则 $b \neq 0$，$e \cdot v = (b, 0)^{T} \in U$，再用 $f$ 作用得 $(0, b)^{T} \in U$，故 $U = V$。因此 $V$ 不可约。
+
+\textbf{(b) 自对偶。} 定义 $B: V \times V \to F$，$B(x, y) := x^{T} J y$，其中 $J = \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix}$。则 $B$ 是反对称、$\det J = 1$ 非退化的双线性型。
+
+验证 $\mathfrak{sl}_{2}(F)$-不变性（即对所有 $A \in \mathfrak{sl}_2$ 和 $x, y \in V$，$B(Ax, y) + B(x, Ay) = 0$）：该条件等价于 $A^{T} J + J A = 0$，即 $A^{T} = -J A J^{-1} = J A J$（用 $J^{-1} = -J$）。对 $A = \begin{pmatrix} \alpha & \beta \\ \gamma & -\alpha \end{pmatrix}$，直接计算
+\[
+J A J = \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix} \begin{pmatrix} \alpha & \beta \\ \gamma & -\alpha \end{pmatrix} \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix} = \begin{pmatrix} \gamma & -\alpha \\ -\alpha & -\beta \end{pmatrix} \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix} = \begin{pmatrix} \alpha & \gamma \\ \beta & -\alpha \end{pmatrix} = A^{T}.
+\]
+故 $B$ 是 $\mathfrak{sl}_2$-不变的。这表明 $\mathfrak{sl}_{2}(F) \subseteq \mathfrak{sp}_{2}(F)$；由维数相等（皆为 $3$），$\mathfrak{sl}_{2}(F) = \mathfrak{sp}_{2}(F)$。由 Problem 1 的李代数版本（证明相同），$V \cong V^{*}$ 作为 $\mathfrak{sl}_2$-表示。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+(a) For a semisimple $\mathfrak{g}$ (char $0$), $\mathfrak{g}=[\mathfrak{g},\mathfrak{g}]$. If $\pi:\mathfrak{g}\to F$ is $1$-dim (hence abelian target), then $\pi([Y,Z])=[\pi(Y),\pi(Z)]=0$, so $\pi\equiv 0$.\\
+(b) Irreducibility: any nonzero $v=(a,b)^T$ has both $e\cdot v$ and $f\cdot v$ giving the other basis vector, so the $\mathfrak{sl}_2$-orbit spans $F^2$. Self-dual: the skew-symmetric form $B(x,y)=x^T J y$ with $J=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$ is non-degenerate and $\mathfrak{sl}_2$-invariant since $A^T J + J A = 0$ for all $A\in\mathfrak{sl}_2$ (direct computation). By Problem~1, $V\cong V^*$.
+
+\vspace{2em}
+\section*{Problem 4}
+\textbf{翻译题目：}\\
+证明 $\mathfrak{sl}_2(F)$ 是单李代数（证明不长，直接按定义证）。从而 $\mathfrak{sl}_2(F)$ 的伴随表示不可约，可以配备对称非退化双线性型（Killing 型）。（备注：Problem 3、4 的现象很一般：不可约自对偶表示要么是正交型、要么是辛型，取决于配备的双线性型类型。）
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+假设 $\mathrm{char}(F) \neq 2$。取 $\mathfrak{sl}_2(F)$ 的标准基 $\{e, f, h\}$，满足
+\[
+[h, e] = 2e, \quad [h, f] = -2f, \quad [e, f] = h.
+\]
+
+\textbf{单性证明。} 设 $I \subseteq \mathfrak{sl}_2(F)$ 是非零理想。取 $0 \neq X = \alpha e + \beta f + \gamma h \in I$。计算
+\[
+[h, X] = 2\alpha e - 2\beta f \in I, \quad [h, [h, X]] = 4\alpha e + 4\beta f \in I.
+\]
+联立可得 $\alpha e, \beta f \in I$（具体：$\tfrac{1}{2}([h,[h,X]]+2[h,X]) = 4\alpha e$，$\tfrac{1}{2}([h,[h,X]]-2[h,X]) = 4\beta f$）。
+
+\emph{情形 1：} $\alpha \neq 0$ 或 $\beta \neq 0$。不失一般性设 $e \in I$（对称地 $f \in I$ 情形类似）。则 $[f, e] = -h \in I$，进而 $[h, e] = 2e$，$[h, f] = -2f$ 表明 $f \in I$（因 $[e, [e, f]] = [e, h] = -2e$ 不够直接；但已有 $h \in I$，故 $[h, f] = -2f \in I$，即 $f \in I$）。故 $I \supseteq \{e, f, h\} = \mathfrak{sl}_2$。
+
+\emph{情形 2：} $\alpha = \beta = 0$，则 $X = \gamma h$（$\gamma \neq 0$），故 $h \in I$；再由 $[h, e] = 2e \in I$，$[h, f] = -2f \in I$ 得 $e, f \in I$。
+
+两情形都导出 $I = \mathfrak{sl}_2(F)$。又 $\mathfrak{sl}_2$ 显然非阿贝尔（$[e,f]=h \neq 0$），故为单李代数。
+
+\textbf{伴随表示不可约。} 伴随表示 $\mathrm{ad}: \mathfrak{sl}_2 \to \mathfrak{gl}(\mathfrak{sl}_2)$ 的不变子空间即 $\mathfrak{sl}_2$ 的理想。由单性，$\mathfrak{sl}_2$ 只有平凡理想 $0$ 和自身，故伴随表示不可约。
+
+\textbf{Killing 型非退化且对称。} Killing 型定义为 $K(X, Y) := \mathrm{tr}(\mathrm{ad}\,X \cdot \mathrm{ad}\,Y)$，显然对称。在基 $\{e, h, f\}$ 下计算 $\mathrm{ad}$ 的矩阵：
+\[
+\mathrm{ad}(h) = \mathrm{diag}(2, 0, -2), \quad
+\mathrm{ad}(e) = \begin{pmatrix} 0 & -2 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0 \end{pmatrix}, \quad
+\mathrm{ad}(f) = \begin{pmatrix} 0 & 0 & 0 \\ -1 & 0 & 0 \\ 0 & 2 & 0 \end{pmatrix}.
+\]
+故
+\[
+K(h, h) = 4 + 0 + 4 = 8, \quad K(e, f) = \mathrm{tr}(\mathrm{ad}(e)\mathrm{ad}(f)) = \mathrm{tr}\begin{pmatrix} 2 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 0 \end{pmatrix} = 4,
+\]
+其余 $K(e,e) = K(f,f) = K(h,e) = K(h,f) = 0$。在基 $\{e, h, f\}$ 下，Killing 型的矩阵为
+\[
+[K] = \begin{pmatrix} 0 & 0 & 4 \\ 0 & 8 & 0 \\ 4 & 0 & 0 \end{pmatrix}, \quad \det[K] = -128 \neq 0.
+\]
+故 Killing 型非退化。由 Killing 型的 $\mathfrak{g}$-不变性（$K([X,Y],Z) + K(Y,[X,Z]) = 0$，这是 $\mathrm{tr}$ 的标准性质），再由 Problem 1（李代数版本）知伴随表示自对偶，并且是\emph{正交型}（因为 Killing 型对称）。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+Let $I$ be a nonzero ideal of $\mathfrak{sl}_2(F)$ and $0 \neq X=\alpha e+\beta f+\gamma h\in I$. From $[h,X]$ and $[h,[h,X]]$, both $\alpha e,\beta f\in I$. If $\alpha\neq 0$ (or $\beta\neq 0$), then $e\in I$, hence $h=[e,f']\in I$ via bracketing, forcing $I=\mathfrak{sl}_2$; the case $\alpha=\beta=0$ gives $h\in I$, so $e=\tfrac12[h,e],f=-\tfrac12[h,f]\in I$. Hence $\mathfrak{sl}_2$ is simple, $\mathrm{ad}$ is irreducible, and the Killing form with matrix $\mathrm{diag\text{-like}}$ form $[K]=\begin{pmatrix}0&0&4\\0&8&0\\4&0&0\end{pmatrix}$ in basis $\{e,h,f\}$ has $\det = -128 \neq 0$, is symmetric and invariant; by Problem 1, $\mathrm{ad}$ is self-dual of orthogonal type.
+
+\vspace{2em}
+\section*{Problem 5}
+\textbf{翻译题目：}\\
+考虑 $G = SO_{2n+1}(\mathbb{C})$ 在 $V = \mathbb{C}^{2n+1}$ 上的标准表示。证明：作为 $G$-表示，
+\[
+\wedge^{r} V \cong \wedge^{2n+1-r} V, \quad r = n, n+1, \dots, 2n.
+\]
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+事实上，对所有 $0 \leq r \leq 2n+1$ 都有 $\wedge^{r} V \cong \wedge^{2n+1-r} V$，下面给出证明。
+
+\textbf{第一步：$V \cong V^{*}$ 作为 $G$-表示。} $G = SO_{2n+1}(\mathbb{C})$ 根据定义保持 $V$ 上给定的对称非退化双线性型 $B$。由 Problem 1，$V \cong V^{*}$ 作为 $G$-表示。故对任意 $s$，
+\[
+\wedge^{s} V \cong \wedge^{s} V^{*} \cong (\wedge^{s} V)^{*},
+\]
+其中第二个自然同构由 $(v_1^* \wedge \cdots \wedge v_s^*)(w_1 \wedge \cdots \wedge w_s) = \det[v_i^{*}(w_j)]$ 给出，对 $GL(V)$（因而对 $G$）不变。
+
+\textbf{第二步：$\wedge^{r} V \cong (\wedge^{2n+1-r} V)^{*}$ 作为 $G$-表示。} 由 $G \subseteq SL_{2n+1}(\mathbb{C})$（因 $\det g = 1$ 对所有 $g \in SO_{2n+1}$），$G$ 保持体积形式 $\Omega \in \wedge^{2n+1} V$。定义配对
+\[
+\wedge^{r} V \times \wedge^{2n+1-r} V \longrightarrow \wedge^{2n+1} V \xrightarrow{\sim} \mathbb{C}, \quad (\alpha, \beta) \mapsto \alpha \wedge \beta,
+\]
+它非退化且 $G$-不变。故 $\wedge^{r} V \cong (\wedge^{2n+1-r} V)^{*}$ 作为 $G$-表示。
+
+\textbf{第三步：结合两步。} 由第一步，$(\wedge^{2n+1-r} V)^{*} \cong \wedge^{2n+1-r} V$。由第二步，
+\[
+\wedge^{r} V \cong (\wedge^{2n+1-r} V)^{*} \cong \wedge^{2n+1-r} V.
+\]
+特别地，对 $r = n, n+1, \dots, 2n$ 成立。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+$SO_{2n+1}(\mathbb{C})$ preserves the non-degenerate symmetric form $B$ on $V$, so by Problem 1, $V \cong V^{*}$ and hence $\wedge^{s} V \cong \wedge^{s} V^{*} \cong (\wedge^{s} V)^{*}$ for all $s$. Since $G\subseteq SL_{2n+1}(\mathbb{C})$ preserves the volume form, the wedge pairing $\wedge^{r} V \times \wedge^{2n+1-r} V \to \wedge^{2n+1} V \cong \mathbb{C}$ is $G$-invariant and non-degenerate, giving $\wedge^{r} V \cong (\wedge^{2n+1-r} V)^{*} \cong \wedge^{2n+1-r} V$.
+
+\vspace{2em}
+\section*{Problem 6 (Bonus)}
+\textbf{翻译题目：}\\
+设 $w = \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix}$，将
+\[
+SL_2(\mathbb{H}) = \Big\{ g \in SL_4(\mathbb{C}) \;\Big|\; g = W \bar{g} W^{-1} \Big\}
+\]
+实现，其中 $W := \begin{pmatrix} w & \\ & w \end{pmatrix}$。证明 $SL_2(\mathbb{H})$ 是 $SO(5,1)_0$ 的二重覆叠。（提示：考虑共轭线性映射 $J: \wedge^{2} \mathbb{C}^{4} \to \wedge^{2} \mathbb{C}^{4}$，$x \wedge y \mapsto W\bar{x} \wedge W\bar{y}$。）
+
+\vspace{1em}
+\textbf{详细的中文作答：}\\
+\textbf{第一步：四元数结构。} 定义 $V$ 上的共轭线性映射 $\tilde{J}: V \to V$，$\tilde{J}(v) = W \bar{v}$（$V = \mathbb{C}^{4}$）。因 $W$ 实矩阵，$\tilde{J}^{2}(v) = W \overline{W \bar v} = W^{2} v = -v$（因为 $w^{2} = -I_{2}$，故 $W^{2} = -I_{4}$）。故 $\tilde{J}$ 给出 $V$ 上一个 $\mathbb{H}$-模结构，从而 $V \cong \mathbb{H}^{2}$。
+
+$SL_{2}(\mathbb{H})$ 的定义 $g = W\bar{g}W^{-1}$ 等价于 $g \tilde{J} = \tilde{J} g$，即 $g$ 与 $\tilde{J}$ 交换，从而 $g$ 是 $\mathbb{H}$-线性的。故此群正是 $\mathbb{H}$-行列式（在恰当意义下实行列式）为 $1$ 的 $\mathbb{H}$-线性映射群，它连通且 $\dim_{\mathbb{R}} SL_2(\mathbb{H}) = 15$。
+
+\textbf{第二步：$\wedge^{2} V$ 上的实结构。} 设 $W := \wedge^{2} V$（此 $W$ 用符号复用，为六维复空间，下文所称 $W$ 一律指 $\wedge^2 V$；矩阵 $W$ 不再使用）。定义共轭线性映射 $J: \wedge^{2} V \to \wedge^{2} V$，$J(x \wedge y) = \tilde{J}(x) \wedge \tilde{J}(y)$。计算 $J^{2}$：
+\[
+J^{2}(x \wedge y) = \tilde{J}^{2}(x) \wedge \tilde{J}^{2}(y) = (-x) \wedge (-y) = x \wedge y.
+\]
+故 $J^{2} = \mathrm{id}$，$J$ 为实结构。记 $\wedge^{2} V$ 的 $J$-不动点为 $(\wedge^{2} V)_{\mathbb{R}}$，实六维。
+
+\textbf{第三步：$B$ 诱导 $(\wedge^{2} V)_{\mathbb{R}}$ 上的实对称非退化双线性型。} 仍取 $\Omega = e_1 \wedge e_2 \wedge e_3 \wedge e_4$，$B$ 由 $a \wedge b = B(a, b) \Omega$ 定义，$SL_4(\mathbb{C})$-不变。需验证 $B$ 限制在 $(\wedge^{2} V)_{\mathbb{R}}$ 上取实值。
+
+对 $\alpha \in (\wedge^{2} V)_{\mathbb{R}}$，$J(\alpha) = \alpha$。$B(\alpha, \alpha) \Omega = \alpha \wedge \alpha$。由 $J$ 定义与 $\tilde{J}$ 为反全纯自同构的性质（且 $W \in SL_4(\mathbb{C})$ 保持 $\Omega$：$\det W = \det w \cdot \det w = 1 \cdot 1 = 1$），可推出 $\overline{B(\alpha,\alpha)} = B(J\alpha, J\alpha) = B(\alpha, \alpha)$。因此 $B|_{(\wedge^2 V)_{\mathbb{R}}}$ 取实值，是 $6$ 维实对称非退化双线性型。
+
+\textbf{第四步：计算符号。} 在基 $\{e_{ij} := e_{i} \wedge e_{j}\}_{i<j}$ 下，$\tilde{J}(e_1) = -e_2$，$\tilde{J}(e_2) = e_1$，$\tilde{J}(e_3) = -e_4$，$\tilde{J}(e_4) = e_3$，由此算得：
+\[
+J(e_{12}) = e_{12},\ J(e_{34}) = e_{34},\ J(e_{13}) = e_{24},\ J(e_{24}) = e_{13},\ J(e_{14}) = -e_{23},\ J(e_{23}) = -e_{14}.
+\]
+$(\wedge^{2} V)_{\mathbb{R}}$ 的实基可取为
+\[
+\alpha_1 = e_{12},\ \alpha_2 = e_{34},\ \alpha_3 = e_{13} + e_{24},\ \alpha_4 = i(e_{13} - e_{24}),\ \alpha_5 = e_{14} - e_{23},\ \alpha_6 = i(e_{14} + e_{23}).
+\]
+$B$ 的非零配对（利用 $B(e_{12}, e_{34}) = 1$，$B(e_{13}, e_{24}) = -1$，$B(e_{14}, e_{23}) = 1$）：
+\[
+B(\alpha_1, \alpha_2) = 1,\ B(\alpha_3, \alpha_3) = -2,\ B(\alpha_4, \alpha_4) = -2,\ B(\alpha_5, \alpha_5) = -2,\ B(\alpha_6, \alpha_6) = -2.
+\]
+故在正交对 $\{(\alpha_1 + \alpha_2)/\sqrt{2}, (\alpha_1 - \alpha_2)/\sqrt{2}\}$ 上得 $(+1, -1)$，加上 $\alpha_3, \alpha_4, \alpha_5, \alpha_6$ 各贡献 $-$，得总符号 $(1, 5) = (5, 1)$。
+
+故 $(\wedge^{2} V)_{\mathbb{R}}$ 配 $B$ 即符号为 $(5, 1)$ 的实二次空间。
+
+\textbf{第五步：$SL_2(\mathbb{H}) \to SO(5,1)_{0}$。} 对 $g \in SL_2(\mathbb{H})$，$g$ 与 $\tilde{J}$ 交换，故 $\wedge^{2} g$ 与 $J$ 交换，保持 $(\wedge^{2} V)_{\mathbb{R}}$。又 $\wedge^{2} g$ 保 $B$（$SL_4$-不变性），故得同态
+\[
+\Phi: SL_{2}(\mathbb{H}) \longrightarrow O(5,1).
+\]
+$SL_{2}(\mathbb{H})$ 连通，$\Phi$ 连续，故 $\mathrm{Im}(\Phi) \subseteq SO(5,1)_{0}$。
+
+\textbf{第六步：核为 $\{\pm I\}$。} 同 Problem 2：$\wedge^{2} g = \mathrm{id} \Rightarrow g = \pm I$，且两者均在 $SL_{2}(\mathbb{H})$ 中（$\pm I = W \overline{\pm I} W^{-1}$，$\det(\pm I) = 1$）。故 $\ker \Phi = \{\pm I\}$。
+
+\textbf{第七步：维数与覆叠。} $\dim_{\mathbb{R}} SL_{2}(\mathbb{H}) = 15 = \dim_{\mathbb{R}} SO(5,1)$。结合 $\Phi$ 的核离散、连续、像连通、维数相等，得 $\Phi: SL_2(\mathbb{H}) \to SO(5,1)_{0}$ 是满二重覆叠。
+
+\vspace{1em}
+\textbf{简短必要的英文作答：}\\
+Let $V=\mathbb{C}^4$ with antilinear $\tilde{J}(v)=W\bar v$; then $\tilde{J}^2=-I$ gives a quaternionic structure, and $SL_2(\mathbb{H})=\{g\in SL_4(\mathbb{C}):g\tilde{J}=\tilde{J}g\}$ is connected of real dim $15$. On $\wedge^2 V$, define $J(x\wedge y)=\tilde{J}x\wedge\tilde{J}y$; then $J^2=\mathrm{id}$, so the fixed space $(\wedge^2 V)_{\mathbb{R}}$ is real $6$-dim. The $SL_4(\mathbb{C})$-invariant symmetric bilinear form $B$ (from $\alpha\wedge\beta=B(\alpha,\beta)\Omega$) restricts to $(\wedge^2 V)_{\mathbb{R}}$ as a real non-degenerate symmetric form. Direct computation in a $J$-real basis $\{e_{12},e_{34},e_{13}+e_{24},i(e_{13}-e_{24}),e_{14}-e_{23},i(e_{14}+e_{23})\}$ gives signature $(5,1)$. So $\Phi:SL_2(\mathbb{H})\to SO(5,1)_0$ is well-defined; kernel $\wedge^2 g=\mathrm{id}\Rightarrow g=\pm I\in SL_2(\mathbb{H})$. Matching dimensions and connectedness imply $\Phi$ is a double cover.
+
+\end{document}
